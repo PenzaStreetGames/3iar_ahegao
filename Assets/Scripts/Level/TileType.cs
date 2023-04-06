@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hello : MonoBehaviour
+public class TileType : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("aboba");
+        
     }
 
     // Update is called once per frame
