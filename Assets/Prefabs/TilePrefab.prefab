@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6582590678971218736}
   - component: {fileID: 2053232652647220420}
   - component: {fileID: 2120818960674154749}
-  - component: {fileID: 3329396706253274244}
+  - component: {fileID: 327686643152478179}
   m_Layer: 0
   m_Name: TilePrefab
   m_TagString: Untagged
@@ -101,9 +101,17 @@ MonoBehaviour:
   fieldController: {fileID: 0}
   tileColor: 0
   tileType: 0
+  tileViewState: 0
   position: {x: 0, y: 0}
   selected: 0
---- !u!61 &3329396706253274244
+  colors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 1, b: 0, a: 1}
+  chosenShadowSharpness: 0.8
+  chosenScale: 0.9
+--- !u!61 &327686643152478179
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
