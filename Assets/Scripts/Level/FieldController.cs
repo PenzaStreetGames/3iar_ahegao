@@ -14,10 +14,10 @@ namespace Level
         void Start()
         {
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
-            createTiles();
+            CreateTiles();
         }
 
-        void createTiles()
+        private void CreateTiles()
         {
             Vector2 leftTopCorner = new Vector2(
                 -(fieldSize.x / 2) * tileStep,
@@ -39,11 +39,26 @@ namespace Level
                 }
             }
         }
-
+        
         // Update is called once per frame
         void Update()
         {
-        
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePos2D = new Vector2(mousePosition.x, mousePosition.y);
+
+                RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+                if (hit.collider != null)
+                {
+                    var hitObject = hit.transform.gameObject;
+                    Tile tile = hit.transform.gameObject.GetComponent<Tile>();
+                    if (tile != null)
+                    {
+                        Debug.Log(hitObject.name);
+                    }
+                }
+            }
         }
     }
 }
