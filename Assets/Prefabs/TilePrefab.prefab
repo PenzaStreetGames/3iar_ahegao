@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2053232652647220420}
   - component: {fileID: 2120818960674154749}
   - component: {fileID: 327686643152478179}
+  - component: {fileID: 613711218510004370}
   m_Layer: 0
   m_Name: TilePrefab
   m_TagString: Untagged
@@ -95,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 730958517676389001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503a846e202340f6b1f23fb178e2ae71, type: 3}
+  m_Script: {fileID: 11500000, guid: 178f9e62f7f324321b0c96fcc3d4fdea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fieldController: {fileID: 0}
@@ -110,7 +111,7 @@ MonoBehaviour:
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
   chosenShadowSharpness: 0.8
-  chosenScale: 0.9
+  chosenScale: 0.8
 --- !u!61 &327686643152478179
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -137,3 +138,28 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &613711218510004370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730958517676389001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178f9e62f7f324321b0c96fcc3d4fdea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fieldController: {fileID: 0}
+  tileColor: 0
+  tileType: 0
+  tileViewState: 0
+  position: {x: 0, y: 0}
+  selected: 0
+  colors:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  chosenShadowSharpness: 0
+  chosenScale: 0

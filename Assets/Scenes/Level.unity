@@ -164,12 +164,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 117222790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
+  m_Script: {fileID: 11500000, guid: c2fba62ffc4d9495ab4591b35b643022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fieldSize: {x: 8, y: 8}
   tilePrefab: {fileID: 730958517676389001, guid: 9afe76e81d24aee42a4f6f55a233a245, type: 3}
   tileStep: 1.1
+  chosenTile: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
