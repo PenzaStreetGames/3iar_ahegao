@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldSize: {x: 8, y: 8}
-  tilePrefab: {fileID: 730958517676389001, guid: 9afe76e81d24aee42a4f6f55a233a245, type: 3}
+  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   tileStep: 1.1
   chosenTile: {fileID: 0}
 --- !u!1 &519420028
