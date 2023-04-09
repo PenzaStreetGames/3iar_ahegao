@@ -26,15 +26,15 @@ namespace Level
         {
             Vector2 leftTopCorner = new Vector2(
                 -(fieldSize.x / 2) * tileStep,
-                -(fieldSize.y / 2) * tileStep
+                (fieldSize.y / 2) * tileStep
             );
             for (var i = 0; i < fieldSize.x; i++)
             {
                 for (var j = 0; j < fieldSize.y; j++)
                 {
                     Vector3 point = new Vector3(
-                        leftTopCorner.x + (i + 0.5f) * tileStep,
-                        leftTopCorner.y + (j + 0.5f) * tileStep,
+                        leftTopCorner.x + (j + 0.5f) * tileStep,
+                        leftTopCorner.y - (i + 0.5f) * tileStep,
                         0
                     );
                     Tiles[i, j] = CreateTile(i, j, point);
@@ -49,6 +49,7 @@ namespace Level
             tileObject.name = $"Tile {i}-{j}";
             var tile = tileObject.GetComponent<Tile>();
             tile.fieldController = this;
+            tile.position = new Vector2(i, j);
             return tile;
         }
 
@@ -78,10 +79,23 @@ namespace Level
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null)
             {
+                if (chosenTile.CanSwapWith(tile))
+                {
+                    SwapTiles(chosenTile, tile);
+                    tile.SetViewState(TileViewState.Active);
+                    chosenTile.SetViewState(TileViewState.Active);
+                    chosenTile = null;
+                    return;
+                }
                 chosenTile.SetViewState(TileViewState.Active);
             }
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
+        }
+
+        public void SwapTiles(Tile tile1, Tile tile2)
+        {
+            (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
         }
 
         public void HandleTileMouseEnter(Tile tile)
