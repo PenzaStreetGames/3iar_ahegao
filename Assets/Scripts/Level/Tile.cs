@@ -66,6 +66,23 @@ namespace Level
             calculateEffects();
         }
 
+        public bool IsNeighbour(Tile other)
+        {
+            var l = position - other.position;
+            return Math.Abs(l.magnitude - 1f) < 0.001f;
+        }
+
+        public bool CanSwapWith(Tile other)
+        {
+            if (!IsNeighbour(other))
+                return false;
+            if (other.tileType != TileType.Open || tileType != TileType.Open)
+                return false;
+            if (tileColor == other.tileColor)
+                return false;
+            return true;
+        }
+
         private void calculateEffects()
         {
             Color baseColor = colors[(int)tileColor];
