@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +14,6 @@ namespace Level
         public GameObject tilePrefab;
         public float tileStep = 1f;
         public Tile chosenTile;
-        
         // Start is called before the first frame update
         void Start()
         {
@@ -50,28 +50,72 @@ namespace Level
             var tile = tileObject.GetComponent<Tile>();
             tile.fieldController = this;
             tile.position = new Vector2(i, j);
+            tile.SetColor(TileColor.None);
             return tile;
         }
 
         private void GenerateField()
         {
-            var colors = Enum.GetValues(typeof(TileColor));
+            // var colors = Enum.GetValues(typeof(TileColor));
+            var ccolors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (int i = 0; i < fieldSize.x; i++)
             {
                 for (int j = 0; j < fieldSize.y; j++)
                 {
                     var tile = Tiles[i, j];
                     tile.tileType = TileType.Open;
-                    TileColor color = (TileColor) colors.GetValue(Random.Range(0, colors.Length));
-                    tile.SetColor(color);
+                    // TileColor color = (TileColor) colors.GetValue(Random.Range(0, colors.Length));
+                    // tile.SetColor(color);
+                    // tile.SetColor(null);
+                    int colorIndex = (i + j + Random.Range(0, ccolors.Length)) % ccolors.Length;
+                    tile.SetColor(ccolors[colorIndex]);
+                    while (CheckCombination(Tiles))
+                    {
+                        colorIndex = (colorIndex + 1) % ccolors.Length;
+                        tile.SetColor(ccolors[colorIndex]);
+                    }
                 }
             }
+        }
+        
+        // Функция для проверки наличия комбинации из трех и более одинаковых тайлов
+        private bool CheckCombination(Tile[,] field)
+        {
+            int numRows = field.GetLength(0);
+            int numColumns = field.GetLength(1);
+
+            // Проверяем горизонтальные совпадения
+            for (int i = 0; i < numRows; i++)
+            {
+                for (int j = 0; j < numColumns - 2; j++)
+                {
+                    if (field[i, j].GetColor() != TileColor.None && field[i, j].GetColor() == field[i, j + 1].GetColor() && field[i, j].GetColor()== field[i, j + 2].GetColor())
+                    {
+                        Debug.Log($"hor {i} {j} {field[i, j].GetColor()}");
+                        return true;
+                    }
+                }
+            }
+
+            // Проверяем вертикальные совпадения
+            for (int i = 0; i < numRows - 2; i++)
+            {
+                for (int j = 0; j < numColumns; j++)
+                {
+                    if (field[i, j].GetColor() != TileColor.None && field[i, j].GetColor() == field[i + 1, j].GetColor() && field[i, j].GetColor() == field[i + 2, j].GetColor())
+                    {
+                        Debug.Log($"vert {i} {j} {field[i, j].GetColor()}");
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
         
         // Update is called once per frame
         void Update()
         {
-            
         }
 
         public void HandleTileClick(Tile tile)

@@ -9,10 +9,11 @@ namespace Level
 {
     public enum TileColor : int 
     {
-        Red = 0,
-        Blue = 1,
-        Green = 2,
-        Yellow = 3,
+        None = 0,
+        Red = 1,
+        Blue = 2,
+        Green = 3,
+        Yellow = 4,
     }
 
     public enum TileType : int
@@ -54,6 +55,11 @@ namespace Level
 
         }
 
+        public TileColor GetColor()
+        {
+            return tileColor;
+        }
+        
         public void SetColor(TileColor color)
         {
             tileColor = color;
