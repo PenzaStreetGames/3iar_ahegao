@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ondoxygenfinished_0',['OnDoxygenFinished',['../class_doxygen_window.html#a2809a93b756a6cfc371ee76a9d7168d7',1,'DoxygenWindow']]]
+  ['makenewdoxyfile_0',['MakeNewDoxyFile',['../class_doxygen_window.html#abf3c2a3c3a53e6691e58b865da8404de',1,'DoxygenWindow']]]
 ];

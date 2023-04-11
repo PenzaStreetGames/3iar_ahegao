@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['updateouputstring_0',['updateOuputString',['../class_doxy_runner.html#a4474ed980f895f97ac3517fe85834259',1,'DoxyRunner']]]
+  ['setcolor_0',['SetColor',['../class_level_1_1_tile.html#a2ab20a445f6011109fda7abe0a644b82',1,'Level::Tile']]],
+  ['setfinished_1',['SetFinished',['../class_doxy_thread_safe_output.html#a97e2149569e2bb5e749851daa2781423',1,'DoxyThreadSafeOutput']]],
+  ['setstarted_2',['SetStarted',['../class_doxy_thread_safe_output.html#ad08186c77f145bc3cb1ddb50259ef589',1,'DoxyThreadSafeOutput']]],
+  ['setviewstate_3',['SetViewState',['../class_level_1_1_tile.html#aa7d46e51c8b480ff3a606b4440ee0f29',1,'Level::Tile']]],
+  ['swaptiles_4',['SwapTiles',['../class_level_1_1_field_controller.html#aa09755f0c36ce0d8ab7c82d936d55ab4',1,'Level::FieldController']]]
 ];

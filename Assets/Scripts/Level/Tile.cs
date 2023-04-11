@@ -66,6 +66,9 @@ namespace Level
             calculateEffects();
         }
 
+        /**
+         * JavaDOC
+         */
         public bool IsNeighbour(Tile other)
         {
             var l = position - other.position;
@@ -120,6 +123,9 @@ namespace Level
             fieldController.HandleTileClick(this);
         }
 
+        /**
+         * JavaDOC
+         */
         private void OnMouseEnter()
         {
             fieldController.HandleTileMouseEnter(this);
