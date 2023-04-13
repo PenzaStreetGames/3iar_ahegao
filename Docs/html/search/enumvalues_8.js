@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['red_0',['Red',['../namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4aee38e4d5dd68c4e440825018d549cb47',1,'Level']]]
+  ['open_0',['Open',['../namespace_level.html#a07556dba25fd15d314b775c37d4fc40fac3bf447eabe632720a3aa1a7ce401274',1,'Level']]]
 ];

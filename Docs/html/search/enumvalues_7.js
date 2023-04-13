@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['open_0',['Open',['../namespace_level.html#a07556dba25fd15d314b775c37d4fc40fac3bf447eabe632720a3aa1a7ce401274',1,'Level']]]
+  ['none_0',['None',['../namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4a6adf97f83acf6453d4a6a4b1070f3754',1,'Level']]]
 ];

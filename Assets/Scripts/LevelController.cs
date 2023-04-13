@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using Level;
 using UnityEngine;
 
+/**
+ * Класс-контроллер управления уровнями
+ */
 public class LevelController : MonoBehaviour
 {
-    public GameController gameController;
+    public GameController gameController; /**< Игровой контроллер */
 
-    public FieldController fieldController;
+    public FieldController fieldController; /**< Контроллер поля */
+
     // Start is called before the first frame update
     void Start()
     {

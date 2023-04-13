@@ -3,6 +3,7 @@ var namespace_level =
     [ "FieldController", "class_level_1_1_field_controller.html", "class_level_1_1_field_controller" ],
     [ "Tile", "class_level_1_1_tile.html", "class_level_1_1_tile" ],
     [ "TileColor", "namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4", [
+      [ "None", "namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4a6adf97f83acf6453d4a6a4b1070f3754", null ],
       [ "Red", "namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4aee38e4d5dd68c4e440825018d549cb47", null ],
       [ "Blue", "namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4a9594eec95be70e7b1710f730fdda33d9", null ],
       [ "Green", "namespace_level.html#a0ebfc24715b7e67056aa5235ae4a96e4ad382816a3cbeed082c9e216e7392eed1", null ],
