@@ -135,7 +135,7 @@ namespace Level
          * Служит для реализации игровой механики по перестановке тайлов на поле
          * при наступлении события нажатия.
          */
-        public void HandleTileClick(Tile tile /**< [in] Объект нажатого тайла */)
+        public void HandleTileClick(Tile tile /**< Объект нажатого тайла */)
         {
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null)
@@ -157,7 +157,7 @@ namespace Level
         /**
          * Метод, меняющий местами два тайлла-аргумента
          */
-        public void SwapTiles(Tile tile1 /**< [in] Первый тайл для перемещения */, Tile tile2 /**< [in] Второй тайл для перемещения */)
+        public void SwapTiles(Tile tile1 /**< Первый тайл для перемещения */, Tile tile2 /**< Второй тайл для перемещения */)
         {
             (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
         }

@@ -75,7 +75,7 @@ namespace Level
         /**
          * Метод получения цвета тайла
          */
-        public TileColor /**< [out] Цвет тайла */ GetColor()
+        public TileColor /**< Цвет тайла */ GetColor()
         {
             return tileColor;
         }
@@ -83,7 +83,7 @@ namespace Level
         /**
          * Метод задания цвета тайла
          */
-        public void SetColor(TileColor color /**< [in] Цвет тайла */)
+        public void SetColor(TileColor color /**< Цвет тайла */)
         {
             tileColor = color;
             calculateEffects();
@@ -101,7 +101,7 @@ namespace Level
         /**
          * Метод проверки тайлов на соседство
          */
-        public bool IsNeighbour(Tile other /**< [in] Второй выбранный тайл */)
+        public bool IsNeighbour(Tile other /**< Второй выбранный тайл */)
         {
             var l = position - other.position;
             return Math.Abs(l.magnitude - 1f) < 0.001f;
@@ -110,7 +110,7 @@ namespace Level
         /**
          * Метод проверки тайлов на возможность перемещения
          */
-        public bool CanSwapWith(Tile other /**< [in] Второй выбранный тайл */)
+        public bool CanSwapWith(Tile other /**< Второй выбранный тайл */)
         {
             if (!IsNeighbour(other))
                 return false;
@@ -157,10 +157,7 @@ namespace Level
         {
             fieldController.HandleTileClick(this);
         }
-
-        /**
-         * JavaDOC
-         */
+        
         private void OnMouseEnter()
         {
             fieldController.HandleTileMouseEnter(this);
