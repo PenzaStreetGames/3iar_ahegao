@@ -26,6 +26,7 @@ namespace Level
         Selected = 2
     }
 
+    [Serializable]
     public class Tile : MonoBehaviour
     {
         public FieldController fieldController;
@@ -34,7 +35,6 @@ namespace Level
         public TileType tileType;
         public TileViewState tileViewState;
         public Vector2 position;
-        public bool selected;
         public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
         public float chosenShadowSharpness;
         public float chosenScale;
@@ -56,12 +56,12 @@ namespace Level
 
         void OnMouseEnter()
         {
-            fieldController.HandleTileMouseEnter(this);
+            FieldController.HandleTileMouseEnter(this);
         }
 
         void OnMouseExit()
         {
-            fieldController.HandleTileMouseExit(this);
+            FieldController.HandleTileMouseExit(this);
         }
 
         public TileColor GetColor()
@@ -72,16 +72,16 @@ namespace Level
         public void SetColor(TileColor color)
         {
             tileColor = color;
-            calculateEffects();
+            CalculateEffects();
         }
 
         public void SetViewState(TileViewState viewState)
         {
             tileViewState = viewState;
-            calculateEffects();
+            CalculateEffects();
         }
 
-        public bool IsNeighbour(Tile other)
+        bool IsNeighbour(Tile other)
         {
             var l = position - other.position;
             return Math.Abs(l.magnitude - 1f) < 0.001f;
@@ -99,15 +99,10 @@ namespace Level
                 return false;
             }
 
-            if (tileColor == other.tileColor)
-            {
-                return false;
-            }
-
-            return true;
+            return tileColor != other.tileColor;
         }
 
-        void calculateEffects()
+        void CalculateEffects()
         {
             var baseColor = colors[(int)tileColor];
             var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -134,6 +129,8 @@ namespace Level
                     );
                     localScale = new Vector3(chosenScale, chosenScale, chosenScale);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
             spriteRenderer.color = color;

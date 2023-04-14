@@ -1,3 +1,5 @@
+using Db;
+using Db.Entity;
 using UnityEngine;
 
 namespace Level
@@ -9,7 +11,7 @@ namespace Level
         public float tileStep = 1f;
 
         public Tile chosenTile;
-        public Tile[,] Tiles;
+        Tile[,] Tiles;
 
         // Start is called before the first frame update
         void Start()
@@ -17,6 +19,7 @@ namespace Level
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
             GenerateField();
+            SaveRepository.InitDb();
         }
 
         // Update is called once per frame
@@ -58,30 +61,26 @@ namespace Level
 
         void GenerateField()
         {
-            // var colors = Enum.GetValues(typeof(TileColor));
-            var ccolors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
+            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (var i = 0; i < fieldSize.x; i++)
             {
                 for (var j = 0; j < fieldSize.y; j++)
                 {
                     var tile = Tiles[i, j];
                     tile.tileType = TileType.Open;
-                    // TileColor color = (TileColor) colors.GetValue(Random.Range(0, colors.Length));
-                    // tile.SetColor(color);
-                    // tile.SetColor(null);
-                    var colorIndex = (i + j + Random.Range(0, ccolors.Length)) % ccolors.Length;
-                    tile.SetColor(ccolors[colorIndex]);
+                    var colorIndex = (i + j + Random.Range(0, colors.Length)) % colors.Length;
+                    tile.SetColor(colors[colorIndex]);
                     while (CheckCombination(Tiles))
                     {
-                        colorIndex = (colorIndex + 1) % ccolors.Length;
-                        tile.SetColor(ccolors[colorIndex]);
+                        colorIndex = (colorIndex + 1) % colors.Length;
+                        tile.SetColor(colors[colorIndex]);
                     }
                 }
             }
         }
 
         // Функция для проверки наличия комбинации из трех и более одинаковых тайлов
-        bool CheckCombination(Tile[,] field)
+        static bool CheckCombination(Tile[,] field)
         {
             var numRows = field.GetLength(0);
             var numColumns = field.GetLength(1);
@@ -91,13 +90,15 @@ namespace Level
             {
                 for (var j = 0; j < numColumns - 2; j++)
                 {
-                    if (field[i, j].GetColor() != TileColor.None &&
-                        field[i, j].GetColor() == field[i, j + 1].GetColor() &&
-                        field[i, j].GetColor() == field[i, j + 2].GetColor())
+                    if (field[i, j].GetColor() == TileColor.None ||
+                        field[i, j].GetColor() != field[i, j + 1].GetColor() ||
+                        field[i, j].GetColor() != field[i, j + 2].GetColor())
                     {
-                        Debug.Log($"hor {i} {j} {field[i, j].GetColor()}");
-                        return true;
+                        continue;
                     }
+
+                    Debug.Log($"hor {i} {j} {field[i, j].GetColor()}");
+                    return true;
                 }
             }
 
@@ -106,13 +107,15 @@ namespace Level
             {
                 for (var j = 0; j < numColumns; j++)
                 {
-                    if (field[i, j].GetColor() != TileColor.None &&
-                        field[i, j].GetColor() == field[i + 1, j].GetColor() &&
-                        field[i, j].GetColor() == field[i + 2, j].GetColor())
+                    if (field[i, j].GetColor() == TileColor.None ||
+                        field[i, j].GetColor() != field[i + 1, j].GetColor() ||
+                        field[i, j].GetColor() != field[i + 2, j].GetColor())
                     {
-                        Debug.Log($"vert {i} {j} {field[i, j].GetColor()}");
-                        return true;
+                        continue;
                     }
+
+                    Debug.Log($"vert {i} {j} {field[i, j].GetColor()}");
+                    return true;
                 }
             }
 
@@ -130,6 +133,8 @@ namespace Level
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
+                    var save = Save.MakeSaveFromData(Tiles);
+                    SaveRepository.PersistSave(save);
                     return;
                 }
 
@@ -140,12 +145,12 @@ namespace Level
             chosenTile = tile;
         }
 
-        public void SwapTiles(Tile tile1, Tile tile2)
+        static void SwapTiles(Tile tile1, Tile tile2)
         {
             (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
         }
 
-        public void HandleTileMouseEnter(Tile tile)
+        public static void HandleTileMouseEnter(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Active)
             {
@@ -155,7 +160,7 @@ namespace Level
             Debug.Log($"Cursor enter {tile.gameObject.name}");
         }
 
-        public void HandleTileMouseExit(Tile tile)
+        public static void HandleTileMouseExit(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Hover)
             {
