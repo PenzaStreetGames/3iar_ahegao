@@ -1,19 +1,16 @@
-using System;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Level
 {
     public class FieldController : MonoBehaviour
     {
-        public Tile[,] Tiles;
         public Vector2 fieldSize;
         public GameObject tilePrefab;
         public float tileStep = 1f;
+
         public Tile chosenTile;
+        public Tile[,] Tiles;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -22,17 +19,22 @@ namespace Level
             GenerateField();
         }
 
-        private void CreateTiles()
+        // Update is called once per frame
+        void Update()
         {
-            Vector2 leftTopCorner = new Vector2(
+        }
+
+        void CreateTiles()
+        {
+            var leftTopCorner = new Vector2(
                 -(fieldSize.x / 2) * tileStep,
-                (fieldSize.y / 2) * tileStep
+                fieldSize.y / 2 * tileStep
             );
             for (var i = 0; i < fieldSize.x; i++)
             {
                 for (var j = 0; j < fieldSize.y; j++)
                 {
-                    Vector3 point = new Vector3(
+                    var point = new Vector3(
                         leftTopCorner.x + (j + 0.5f) * tileStep,
                         leftTopCorner.y - (i + 0.5f) * tileStep,
                         0
@@ -42,7 +44,7 @@ namespace Level
             }
         }
 
-        private Tile CreateTile(int i, int j, Vector3 point)
+        Tile CreateTile(int i, int j, Vector3 point)
         {
             var tileObject = Instantiate(tilePrefab, point, Quaternion.identity);
             tileObject.transform.parent = gameObject.transform;
@@ -54,20 +56,20 @@ namespace Level
             return tile;
         }
 
-        private void GenerateField()
+        void GenerateField()
         {
             // var colors = Enum.GetValues(typeof(TileColor));
             var ccolors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
-            for (int i = 0; i < fieldSize.x; i++)
+            for (var i = 0; i < fieldSize.x; i++)
             {
-                for (int j = 0; j < fieldSize.y; j++)
+                for (var j = 0; j < fieldSize.y; j++)
                 {
                     var tile = Tiles[i, j];
                     tile.tileType = TileType.Open;
                     // TileColor color = (TileColor) colors.GetValue(Random.Range(0, colors.Length));
                     // tile.SetColor(color);
                     // tile.SetColor(null);
-                    int colorIndex = (i + j + Random.Range(0, ccolors.Length)) % ccolors.Length;
+                    var colorIndex = (i + j + Random.Range(0, ccolors.Length)) % ccolors.Length;
                     tile.SetColor(ccolors[colorIndex]);
                     while (CheckCombination(Tiles))
                     {
@@ -77,19 +79,21 @@ namespace Level
                 }
             }
         }
-        
+
         // Функция для проверки наличия комбинации из трех и более одинаковых тайлов
-        private bool CheckCombination(Tile[,] field)
+        bool CheckCombination(Tile[,] field)
         {
-            int numRows = field.GetLength(0);
-            int numColumns = field.GetLength(1);
+            var numRows = field.GetLength(0);
+            var numColumns = field.GetLength(1);
 
             // Проверяем горизонтальные совпадения
-            for (int i = 0; i < numRows; i++)
+            for (var i = 0; i < numRows; i++)
             {
-                for (int j = 0; j < numColumns - 2; j++)
+                for (var j = 0; j < numColumns - 2; j++)
                 {
-                    if (field[i, j].GetColor() != TileColor.None && field[i, j].GetColor() == field[i, j + 1].GetColor() && field[i, j].GetColor()== field[i, j + 2].GetColor())
+                    if (field[i, j].GetColor() != TileColor.None &&
+                        field[i, j].GetColor() == field[i, j + 1].GetColor() &&
+                        field[i, j].GetColor() == field[i, j + 2].GetColor())
                     {
                         Debug.Log($"hor {i} {j} {field[i, j].GetColor()}");
                         return true;
@@ -98,11 +102,13 @@ namespace Level
             }
 
             // Проверяем вертикальные совпадения
-            for (int i = 0; i < numRows - 2; i++)
+            for (var i = 0; i < numRows - 2; i++)
             {
-                for (int j = 0; j < numColumns; j++)
+                for (var j = 0; j < numColumns; j++)
                 {
-                    if (field[i, j].GetColor() != TileColor.None && field[i, j].GetColor() == field[i + 1, j].GetColor() && field[i, j].GetColor() == field[i + 2, j].GetColor())
+                    if (field[i, j].GetColor() != TileColor.None &&
+                        field[i, j].GetColor() == field[i + 1, j].GetColor() &&
+                        field[i, j].GetColor() == field[i + 2, j].GetColor())
                     {
                         Debug.Log($"vert {i} {j} {field[i, j].GetColor()}");
                         return true;
@@ -111,11 +117,6 @@ namespace Level
             }
 
             return false;
-        }
-        
-        // Update is called once per frame
-        void Update()
-        {
         }
 
         public void HandleTileClick(Tile tile)
@@ -131,8 +132,10 @@ namespace Level
                     chosenTile = null;
                     return;
                 }
+
                 chosenTile.SetViewState(TileViewState.Active);
             }
+
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
         }
@@ -145,14 +148,20 @@ namespace Level
         public void HandleTileMouseEnter(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Active)
+            {
                 tile.SetViewState(TileViewState.Hover);
+            }
+
             Debug.Log($"Cursor enter {tile.gameObject.name}");
         }
 
         public void HandleTileMouseExit(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Hover)
+            {
                 tile.SetViewState(TileViewState.Active);
+            }
+
             Debug.Log($"Cursor exit {tile.gameObject.name}");
         }
     }

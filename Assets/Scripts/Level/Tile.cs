@@ -1,33 +1,29 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace Level
 {
-    public enum TileColor : int 
+    public enum TileColor
     {
         None = 0,
         Red = 1,
         Blue = 2,
         Green = 3,
-        Yellow = 4,
+        Yellow = 4
     }
 
-    public enum TileType : int
+    public enum TileType
     {
         Border = 0,
         Open = 1,
-        Blocked = 2,
+        Blocked = 2
     }
 
-    public enum TileViewState : int
+    public enum TileViewState
     {
         Active = 0,
         Hover = 1,
-        Selected = 2,
+        Selected = 2
     }
 
     public class Tile : MonoBehaviour
@@ -46,20 +42,33 @@ namespace Level
         // Start is called before the first frame update
         void Start()
         {
-
         }
 
         // Update is called once per frame
         void Update()
         {
+        }
 
+        void OnMouseDown()
+        {
+            fieldController.HandleTileClick(this);
+        }
+
+        void OnMouseEnter()
+        {
+            fieldController.HandleTileMouseEnter(this);
+        }
+
+        void OnMouseExit()
+        {
+            fieldController.HandleTileMouseExit(this);
         }
 
         public TileColor GetColor()
         {
             return tileColor;
         }
-        
+
         public void SetColor(TileColor color)
         {
             tileColor = color;
@@ -72,9 +81,6 @@ namespace Level
             calculateEffects();
         }
 
-        /**
-         * JavaDOC
-         */
         public bool IsNeighbour(Tile other)
         {
             var l = position - other.position;
@@ -84,62 +90,54 @@ namespace Level
         public bool CanSwapWith(Tile other)
         {
             if (!IsNeighbour(other))
+            {
                 return false;
+            }
+
             if (other.tileType != TileType.Open || tileType != TileType.Open)
+            {
                 return false;
+            }
+
             if (tileColor == other.tileColor)
+            {
                 return false;
+            }
+
             return true;
         }
 
-        private void calculateEffects()
+        void calculateEffects()
         {
-            Color baseColor = colors[(int)tileColor];
+            var baseColor = colors[(int)tileColor];
             var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            Color color = baseColor;
-            Vector3 localScale = new Vector3(1, 1, 1);
+            var color = baseColor;
+            var localScale = new Vector3(1, 1, 1);
             switch (tileViewState)
             {
                 case TileViewState.Active:
                     break;
                 case TileViewState.Hover:
                     color = new Color(
-                        r: baseColor.r * chosenShadowSharpness,
-                        g: baseColor.g * chosenShadowSharpness,
-                        b: baseColor.b * chosenShadowSharpness,
-                        a: 1.0f
-                        );
+                        baseColor.r * chosenShadowSharpness,
+                        baseColor.g * chosenShadowSharpness,
+                        baseColor.b * chosenShadowSharpness,
+                        1.0f
+                    );
                     break;
                 case TileViewState.Selected:
                     color = new Color(
-                        r: baseColor.r * chosenShadowSharpness,
-                        g: baseColor.g * chosenShadowSharpness,
-                        b: baseColor.b * chosenShadowSharpness,
-                        a: 1.0f
+                        baseColor.r * chosenShadowSharpness,
+                        baseColor.g * chosenShadowSharpness,
+                        baseColor.b * chosenShadowSharpness,
+                        1.0f
                     );
                     localScale = new Vector3(chosenScale, chosenScale, chosenScale);
                     break;
             }
+
             spriteRenderer.color = color;
             transform.localScale = localScale;
-        }
-
-        private void OnMouseDown()
-        {
-            fieldController.HandleTileClick(this);
-        }
-
-        /**
-         * JavaDOC
-         */
-        private void OnMouseEnter()
-        {
-            fieldController.HandleTileMouseEnter(this);
-        }
-
-        private void OnMouseExit()
-        {
-            fieldController.HandleTileMouseExit(this);
         }
     }
 }
