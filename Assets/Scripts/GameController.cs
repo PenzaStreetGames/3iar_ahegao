@@ -3,23 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- * Класс, отображающий состояние сцены
- */
 public enum SceneType : int
 {
-    Menu = 0, /**< Меню */
-    Level = 1 /**< Уровень */
+    Menu = 0,
+    Level = 1
 }
-
-/**
- * Класс управления состоянием игры
- */
 public class GameController : MonoBehaviour
 {
-    public LevelController levelController; /**< Контроллер управления уровнями */
-    public MenuController menuController; /**< Контрллер управления меню */
-    public SceneType sceneType = SceneType.Level; /**< Тип сцены */
+    public LevelController levelController;
+    public MenuController menuController;
+    public SceneType sceneType = SceneType.Level;
 
     private void Awake()
     {

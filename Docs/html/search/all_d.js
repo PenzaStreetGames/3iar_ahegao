@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['oncompletecallback_0',['onCompleteCallBack',['../class_doxy_runner.html#ac1401822d6b3dea5626b786a94aa98d5',1,'DoxyRunner']]],
-  ['ondoxygenfinished_1',['OnDoxygenFinished',['../class_doxygen_window.html#a2809a93b756a6cfc371ee76a9d7168d7',1,'DoxygenWindow']]],
-  ['open_2',['Open',['../namespace_level.html#a07556dba25fd15d314b775c37d4fc40fac3bf447eabe632720a3aa1a7ce401274',1,'Level']]]
+  ['pathtodoxygen_0',['PathtoDoxygen',['../class_doxygen_config.html#ad308ed1d0bdb202587fba232b754929f',1,'DoxygenConfig']]],
+  ['position_1',['position',['../class_level_1_1_tile.html#a26933fc36d85b763fbeccfd6db15c8e7',1,'Level::Tile']]],
+  ['project_2',['Project',['../class_doxygen_config.html#ae69318495ba1db9f3a4d88e01764f9b4',1,'DoxygenConfig']]]
 ];

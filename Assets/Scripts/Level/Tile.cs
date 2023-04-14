@@ -7,58 +7,41 @@ using UnityEngine.Serialization;
 
 namespace Level
 {
-    /**
-     * Класс TileColor предназначен для
-     * хранения возможных цветов тайлов в виде перечисления
-     */
     public enum TileColor : int 
     {
-        None = 0, /**< Стандартный цвет */
-        Red = 1, /**< Красный цвет */
-        Blue = 2, /**< Синий цвет */
-        Green = 3, /**< Зеленый цвет */
-        Yellow = 4, /**< Желтый цвет */
+        None = 0,
+        Red = 1,
+        Blue = 2,
+        Green = 3,
+        Yellow = 4,
     }
 
-    /**
-     * Класс TileType предназначен для
-     * хранения возможных вариантов состояния тайла по доступности
-     */
     public enum TileType : int
     {
-        Border = 0, /**< Граничный тайл */
-        Open = 1, /**< Активный тайл */
-        Blocked = 2, /**< Заблокированный тайл */
+        Border = 0,
+        Open = 1,
+        Blocked = 2,
     }
 
-    /**
-     * Класс TileViewState предназначен для
-     * хранения возможных вариантов состояния тайла по графическому отображению
-     */
     public enum TileViewState : int
     {
-        Active = 0, /**< Активный для отображения */
-        Hover = 1, /**< Находящийся под курсором */
-        Selected = 2, /**< Выбранный */
+        Active = 0,
+        Hover = 1,
+        Selected = 2,
     }
 
-    /**
-     * Класс Tile.
-     * Основная сущность в игровом процессе.
-     * Представляет из себя место на игровом поле определенного цвета
-     */
     public class Tile : MonoBehaviour
     {
-        public FieldController fieldController; /**< Контроллер управления игровым полем */
+        public FieldController fieldController;
 
-        public TileColor tileColor; /**< Цвет тайла */
-        public TileType tileType; /**< Тип тайла по доступности */
-        public TileViewState tileViewState; /**< Тип тайла по отображению */
-        public Vector2 position; /**< Координаты тайла */
-        public bool selected; /**< Состояние выбранности тайла */
-        public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length]; /**< Возможные цвета тайла */
-        public float chosenShadowSharpness; /**< Затемнение тайла */
-        public float chosenScale; /**< Масштаб тайла */
+        public TileColor tileColor;
+        public TileType tileType;
+        public TileViewState tileViewState;
+        public Vector2 position;
+        public bool selected;
+        public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
+        public float chosenShadowSharpness;
+        public float chosenScale;
 
         // Start is called before the first frame update
         void Start()
@@ -72,45 +55,33 @@ namespace Level
 
         }
 
-        /**
-         * Метод получения цвета тайла
-         */
-        public TileColor /**< Цвет тайла */ GetColor()
+        public TileColor GetColor()
         {
             return tileColor;
         }
         
-        /**
-         * Метод задания цвета тайла
-         */
-        public void SetColor(TileColor color /**< Цвет тайла */)
+        public void SetColor(TileColor color)
         {
             tileColor = color;
             calculateEffects();
         }
 
-        /**
-         * Метод установления отображения тайла
-         */
-        public void SetViewState(TileViewState viewState /**< Состояние отображения тайла */)
+        public void SetViewState(TileViewState viewState)
         {
             tileViewState = viewState;
             calculateEffects();
         }
 
         /**
-         * Метод проверки тайлов на соседство
+         * JavaDOC
          */
-        public bool IsNeighbour(Tile other /**< Второй выбранный тайл */)
+        public bool IsNeighbour(Tile other)
         {
             var l = position - other.position;
             return Math.Abs(l.magnitude - 1f) < 0.001f;
         }
 
-        /**
-         * Метод проверки тайлов на возможность перемещения
-         */
-        public bool CanSwapWith(Tile other /**< Второй выбранный тайл */)
+        public bool CanSwapWith(Tile other)
         {
             if (!IsNeighbour(other))
                 return false;
@@ -157,7 +128,10 @@ namespace Level
         {
             fieldController.HandleTileClick(this);
         }
-        
+
+        /**
+         * JavaDOC
+         */
         private void OnMouseEnter()
         {
             fieldController.HandleTileMouseEnter(this);

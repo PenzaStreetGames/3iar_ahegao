@@ -5,7 +5,5 @@ var _field_controller_8cs =
     [ "[instance initializer]", "_field_controller_8cs.html#a5a8f388e332df5c822e1f0a0d47f983d", null ],
     [ "Click", "_field_controller_8cs.html#adba9f5eb349aa5c9fb866a2fbd0e2b60", null ],
     [ "Cursorenter", "_field_controller_8cs.html#a4266f96c851363bb5d7820e27879a6b7", null ],
-    [ "hor", "_field_controller_8cs.html#aac161c1d30fed8a0ff46344246b2b64c", null ],
-    [ "Tile", "_field_controller_8cs.html#ab433f9a28c5d9f94952a8edd8f34593a", null ],
-    [ "vert", "_field_controller_8cs.html#a6d262188940eccc23797b11147173dbd", null ]
+    [ "Tile", "_field_controller_8cs.html#ab433f9a28c5d9f94952a8edd8f34593a", null ]
 ];

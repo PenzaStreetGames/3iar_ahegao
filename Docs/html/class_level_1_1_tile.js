@@ -1,7 +1,6 @@
 var class_level_1_1_tile =
 [
     [ "CanSwapWith", "class_level_1_1_tile.html#aed4d36e6383c22170ff83d0f0f716646", null ],
-    [ "GetColor", "class_level_1_1_tile.html#a27afcf4000a5c82bd72e4e64103f8b67", null ],
     [ "IsNeighbour", "class_level_1_1_tile.html#a6391802292e2b39baf02e82e02bcd1ca", null ],
     [ "SetColor", "class_level_1_1_tile.html#a2ab20a445f6011109fda7abe0a644b82", null ],
     [ "SetViewState", "class_level_1_1_tile.html#aa7d46e51c8b480ff3a606b4440ee0f29", null ],

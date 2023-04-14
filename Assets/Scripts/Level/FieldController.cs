@@ -7,23 +7,14 @@ using Random = UnityEngine.Random;
 
 namespace Level
 {
-    /**
-     * Класс FieldController предназначен для управления
-     * игровым полем игры "три в ряд"
-     */
     public class FieldController : MonoBehaviour
     {
-        public Tile[,] Tiles; /**< Матрица тайлов игрового поля */
-        public Vector2 fieldSize; /**< Размерность игрового поля */
-        public GameObject tilePrefab; /**< Шаблон тайла игровго поля */
-        public float tileStep = 1f; /**< Шаг расстановки тайлов на игровом поле */
-        public Tile chosenTile; /**< Выбранный тайл */
+        public Tile[,] Tiles;
+        public Vector2 fieldSize;
+        public GameObject tilePrefab;
+        public float tileStep = 1f;
+        public Tile chosenTile;
         // Start is called before the first frame update
-        
-        /**
-         * Метод,вызываемый перед первым обновлением кадра.
-         * Генерирует и устанавливает тайлы на игровом поле
-         */
         void Start()
         {
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
@@ -123,19 +114,11 @@ namespace Level
         }
         
         // Update is called once per frame
-        /**
-         * Метод помощи в отрисовке. Вызывается один раз при отрисовке каждого кадра
-         */
         void Update()
         {
         }
 
-        /**
-         * Метод обработки нажатия на тайл.
-         * Служит для реализации игровой механики по перестановке тайлов на поле
-         * при наступлении события нажатия.
-         */
-        public void HandleTileClick(Tile tile /**< Объект нажатого тайла */)
+        public void HandleTileClick(Tile tile)
         {
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null)
@@ -154,30 +137,19 @@ namespace Level
             chosenTile = tile;
         }
 
-        /**
-         * Метод, меняющий местами два тайлла-аргумента
-         */
-        public void SwapTiles(Tile tile1 /**< Первый тайл для перемещения */, Tile tile2 /**< Второй тайл для перемещения */)
+        public void SwapTiles(Tile tile1, Tile tile2)
         {
             (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
         }
 
-        /**
-         * Метод обработки события наведения курсора на тайл.
-         * Служит для графического выделения заинтересовавшего пользователя тайла
-         */
-        public void HandleTileMouseEnter(Tile tile /**< Тайл, находящийся под курсором игрока */)
+        public void HandleTileMouseEnter(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Active)
                 tile.SetViewState(TileViewState.Hover);
             Debug.Log($"Cursor enter {tile.gameObject.name}");
         }
 
-        /**
-         * Метод обработки события выведения курсора за границы тайла.
-         * Служит для отмены граффических эффектов наведения курсора на тайл
-         */
-        public void HandleTileMouseExit(Tile tile /**< Тайл, вышедший из под наблюдения */)
+        public void HandleTileMouseExit(Tile tile)
         {
             if (tile.tileViewState == TileViewState.Hover)
                 tile.SetViewState(TileViewState.Active);
