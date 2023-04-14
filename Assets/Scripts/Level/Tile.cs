@@ -1,34 +1,32 @@
 using System;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 namespace Level
 {
-    public enum TileColor : int 
+    public enum TileColor
     {
-        Red = 0,
-        Blue = 1,
-        Green = 2,
-        Yellow = 3,
+        None = 0,
+        Red = 1,
+        Blue = 2,
+        Green = 3,
+        Yellow = 4
     }
 
-    public enum TileType : int
+    public enum TileType
     {
         Border = 0,
         Open = 1,
-        Blocked = 2,
+        Blocked = 2
     }
 
-    public enum TileViewState : int
+    public enum TileViewState
     {
         Active = 0,
         Hover = 1,
-        Selected = 2,
+        Selected = 2
     }
 
+    [Serializable]
     public class Tile : MonoBehaviour
     {
         public FieldController fieldController;
@@ -37,7 +35,6 @@ namespace Level
         public TileType tileType;
         public TileViewState tileViewState;
         public Vector2 position;
-        public bool selected;
         public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
         public float chosenShadowSharpness;
         public float chosenScale;
@@ -45,28 +42,46 @@ namespace Level
         // Start is called before the first frame update
         void Start()
         {
-
         }
 
         // Update is called once per frame
         void Update()
         {
+        }
 
+        void OnMouseDown()
+        {
+            fieldController.HandleTileClick(this);
+        }
+
+        void OnMouseEnter()
+        {
+            FieldController.HandleTileMouseEnter(this);
+        }
+
+        void OnMouseExit()
+        {
+            FieldController.HandleTileMouseExit(this);
+        }
+
+        public TileColor GetColor()
+        {
+            return tileColor;
         }
 
         public void SetColor(TileColor color)
         {
             tileColor = color;
-            calculateEffects();
+            CalculateEffects();
         }
 
         public void SetViewState(TileViewState viewState)
         {
             tileViewState = viewState;
-            calculateEffects();
+            CalculateEffects();
         }
 
-        public bool IsNeighbour(Tile other)
+        bool IsNeighbour(Tile other)
         {
             var l = position - other.position;
             return Math.Abs(l.magnitude - 1f) < 0.001f;
@@ -75,59 +90,51 @@ namespace Level
         public bool CanSwapWith(Tile other)
         {
             if (!IsNeighbour(other))
+            {
                 return false;
+            }
+
             if (other.tileType != TileType.Open || tileType != TileType.Open)
+            {
                 return false;
-            if (tileColor == other.tileColor)
-                return false;
-            return true;
+            }
+
+            return tileColor != other.tileColor;
         }
 
-        private void calculateEffects()
+        void CalculateEffects()
         {
-            Color baseColor = colors[(int)tileColor];
+            var baseColor = colors[(int)tileColor];
             var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            Color color = baseColor;
-            Vector3 localScale = new Vector3(1, 1, 1);
+            var color = baseColor;
+            var localScale = new Vector3(1, 1, 1);
             switch (tileViewState)
             {
                 case TileViewState.Active:
                     break;
                 case TileViewState.Hover:
                     color = new Color(
-                        r: baseColor.r * chosenShadowSharpness,
-                        g: baseColor.g * chosenShadowSharpness,
-                        b: baseColor.b * chosenShadowSharpness,
-                        a: 1.0f
-                        );
+                        baseColor.r * chosenShadowSharpness,
+                        baseColor.g * chosenShadowSharpness,
+                        baseColor.b * chosenShadowSharpness,
+                        1.0f
+                    );
                     break;
                 case TileViewState.Selected:
                     color = new Color(
-                        r: baseColor.r * chosenShadowSharpness,
-                        g: baseColor.g * chosenShadowSharpness,
-                        b: baseColor.b * chosenShadowSharpness,
-                        a: 1.0f
+                        baseColor.r * chosenShadowSharpness,
+                        baseColor.g * chosenShadowSharpness,
+                        baseColor.b * chosenShadowSharpness,
+                        1.0f
                     );
                     localScale = new Vector3(chosenScale, chosenScale, chosenScale);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
             spriteRenderer.color = color;
             transform.localScale = localScale;
-        }
-
-        private void OnMouseDown()
-        {
-            fieldController.HandleTileClick(this);
-        }
-
-        private void OnMouseEnter()
-        {
-            fieldController.HandleTileMouseEnter(this);
-        }
-
-        private void OnMouseExit()
-        {
-            fieldController.HandleTileMouseExit(this);
         }
     }
 }

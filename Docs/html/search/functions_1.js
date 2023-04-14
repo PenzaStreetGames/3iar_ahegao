@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['doxyrunner_0',['DoxyRunner',['../class_doxy_runner.html#aed7742f6732027e7427393d727898eba',1,'DoxyRunner']]]
+  ['canswapwith_0',['CanSwapWith',['../class_level_1_1_tile.html#aed4d36e6383c22170ff83d0f0f716646',1,'Level::Tile']]]
 ];
