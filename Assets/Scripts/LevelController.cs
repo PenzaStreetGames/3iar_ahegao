@@ -1,3 +1,4 @@
+using Db;
 using Level;
 using UnityEngine;
 
@@ -54,8 +55,10 @@ public class LevelController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        var save = SaveRepository.GetSave(-1, -1);
+
         fieldController.Init(
-            5, 5
+            5, 5, save
         );
     }
 
