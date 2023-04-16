@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Db;
 using Db.Entity;
 using Level.TileEntity;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Level {
@@ -66,7 +65,7 @@ namespace Level {
                 for (var j = 0; j < fieldSize.y; j++) {
                     var tile = Tiles[i, j];
                     tile.tileType = TileType.Open;
-                    var colorIndex = (i + j + Random.Range(0, colors.Length)) % colors.Length;
+                    var colorIndex = Random.Range(0, colors.Length);
                     tile.SetColor(colors[colorIndex]);
                     while (tile.HaveCombinations()) {
                         Debug.Log($"({i}, {j}): have combinations");
@@ -75,40 +74,6 @@ namespace Level {
                     }
                 }
             }
-        }
-
-        // Функция для проверки наличия комбинации из трех и более одинаковых тайлов
-        static bool CheckCombination(Tile[,] field) {
-            var numRows = field.GetLength(0);
-            var numColumns = field.GetLength(1);
-
-            // Проверяем горизонтальные совпадения
-            for (var i = 0; i < numRows; i++) {
-                for (var j = 0; j < numColumns - 2; j++) {
-                    if (field[i, j].GetColor() == TileColor.None ||
-                        field[i, j].GetColor() != field[i, j + 1].GetColor() ||
-                        field[i, j].GetColor() != field[i, j + 2].GetColor()) {
-                        continue;
-                    }
-
-                    return true;
-                }
-            }
-
-            // Проверяем вертикальные совпадения
-            for (var i = 0; i < numRows - 2; i++) {
-                for (var j = 0; j < numColumns; j++) {
-                    if (field[i, j].GetColor() == TileColor.None ||
-                        field[i, j].GetColor() != field[i + 1, j].GetColor() ||
-                        field[i, j].GetColor() != field[i + 2, j].GetColor()) {
-                        continue;
-                    }
-
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками после КАЖДОГО ХОДА
@@ -132,7 +97,11 @@ namespace Level {
                     SwapTileColors(chosenTile, tile);
                     var deletedTiles = DeletePossibleCombinationsWith(tile);
                     var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
-                    CascadeFall();
+
+                    while (HasEmptyTiles()) {
+                        CascadeFall();
+                        RandomFillTopEmptyTiles();
+                    }
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
@@ -148,6 +117,29 @@ namespace Level {
             }
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
+        }
+
+        public void RandomFillTopEmptyTiles() {
+            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
+            for (int j = 0; j < Tiles.GetLength(1); j++) {
+                var tile = Tiles[0, j];
+                if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
+                    var colorIndex = Random.Range(0, colors.Length);
+                    tile.SetColor(colors[colorIndex]);
+                }
+            }
+        }
+
+        public bool HasEmptyTiles() {
+            for (int i = 0; i < Tiles.GetLength(0); i++) {
+                for (int j = 0; j < Tiles.GetLength(1); j++) {
+                    var tile = Tiles[i, j];
+                    if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public HashSet<Tile> GetPossibleCombinationsWith(Tile tile) {
