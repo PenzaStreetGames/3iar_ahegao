@@ -21,12 +21,22 @@ namespace Level {
         void Update() {
         }
 
-        public void Init(int xSize, int ySize) {
+        public void Init(int xSize, int ySize, Save save) {
             fieldSize = new Vector2(xSize, ySize);
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
             GenerateField();
             SaveRepository.InitDb();
+            ColorizeFromSave(save);
+        }
+
+        void ColorizeFromSave(Save save) {
+            var tilePersistMatrix = save.GetDecodedFieldState();
+            for (var i = 0; i < Tiles.GetLength(0); i++) {
+                for (var j = 0; j < Tiles.GetLength(1); j++) {
+                    Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
+                }
+            }
         }
 
         void CreateTiles() {
@@ -63,7 +73,7 @@ namespace Level {
             for (var i = 0; i < fieldSize.x; i++) {
                 for (var j = 0; j < fieldSize.y; j++) {
                     var tile = Tiles[i, j];
-                    tile.tileType = TileType.Open;
+                    tile.SetTileType(TileType.Open);
                     var colorIndex = (i + j + Random.Range(0, colors.Length)) % colors.Length;
                     tile.SetColor(colors[colorIndex]);
                     while (tile.HaveCombinations()) {
