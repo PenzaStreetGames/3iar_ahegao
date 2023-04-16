@@ -76,6 +76,16 @@ namespace Level.TileEntity {
             return true;
         }
 
+        public bool CanFallDown() {
+            int x = (int)position.x, y = (int)position.y;
+            if (x >= (int)fieldController.fieldSize.x - 1)
+                return false;
+            var other = fieldController.Tiles[x + 1, y];
+            if (other.tileType != TileType.Open)
+                return false;
+            return other.tileColor == TileColor.None;
+        }
+
         public bool MakesCombinationWhenSwappedWith(Tile other) {
             var flag = false;
             fieldController.SwapTileColors(this, other);
