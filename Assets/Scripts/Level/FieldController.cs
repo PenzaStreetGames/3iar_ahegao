@@ -134,19 +134,23 @@ namespace Level {
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
                     SwapTileColors(chosenTile, tile);
-                    DeletePossibleCombinationsWith(tile);
-                    DeletePossibleCombinationsWith(chosenTile);
+                    var deletedTiles = DeletePossibleCombinationsWith(tile);
+                    var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
+
+                    levelController.IncreaseDestroyedTilesCounter(deletedTiles.Count + deletedTiles2.Count);
                     levelController.MakeTurn();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
                 }
+
                 chosenTile.SetViewState(TileViewState.Active);
             }
+
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
         }
