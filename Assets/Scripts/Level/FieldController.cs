@@ -31,6 +31,10 @@ namespace Level {
         }
 
         void ColorizeFromSave(Save save) {
+            if (save == default(Save)) {
+                return;
+            }
+
             var tilePersistMatrix = save.GetDecodedFieldState();
             for (var i = 0; i < Tiles.GetLength(0); i++) {
                 for (var j = 0; j < Tiles.GetLength(1); j++) {
