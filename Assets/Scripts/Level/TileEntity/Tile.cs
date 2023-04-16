@@ -1,41 +1,19 @@
 using System;
 using UnityEngine;
 
-namespace Level
+namespace Level.TileEntity
 {
-    public enum TileColor
-    {
-        None = 0,
-        Red = 1,
-        Blue = 2,
-        Green = 3,
-        Yellow = 4
-    }
 
-    public enum TileType
-    {
-        Border = 0,
-        Open = 1,
-        Blocked = 2
-    }
-
-    public enum TileViewState
-    {
-        Active = 0,
-        Hover = 1,
-        Selected = 2
-    }
-
-    [Serializable]
     public class Tile : MonoBehaviour
     {
         public FieldController fieldController;
 
         public TileColor tileColor;
         public TileType tileType;
-        public TileViewState tileViewState;
         public Vector2 position;
+
         public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
+        public TileViewState tileViewState;
         public float chosenShadowSharpness;
         public float chosenScale;
 
@@ -62,6 +40,19 @@ namespace Level
         void OnMouseExit()
         {
             FieldController.HandleTileMouseExit(this);
+        }
+
+        public TilePersistData GetTileData()
+        {
+            var tileData = new TilePersistData
+            {
+                X = (int)position.x,
+                Y = (int)position.y,
+                TileColor = tileColor,
+                TileType = tileType
+            };
+
+            return tileData;
         }
 
         public TileColor GetColor()

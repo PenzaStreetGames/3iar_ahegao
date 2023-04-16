@@ -51,3 +51,5 @@ UserSettings/
 *.dwlt
 
 .idea
+
+*.db

@@ -38,7 +38,7 @@ namespace Db
                     (
                         {save.GetLevelId()},
                         {save.GetUserId()},
-                        '{save.GetDecodedFieldState()}'
+                        '{save.GetEncodedFieldState()}'
                     );
             ";
         }
