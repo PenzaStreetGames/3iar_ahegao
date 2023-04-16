@@ -1,7 +1,5 @@
-namespace Level.TileEntity
-{
-    public class TilePersistData
-    {
+namespace Level.TileEntity {
+    public class TilePersistData {
         public int X { get; set; }
         public int Y { get; set; }
         public TileColor TileColor { get; set; }

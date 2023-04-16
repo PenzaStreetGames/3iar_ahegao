@@ -2,28 +2,22 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Db.Serialization
-{
-    public static class JsonArraySerializer
-    {
-        public static string SerializeArray<T>(T[] array)
-        {
+namespace Db.Serialization {
+    public static class JsonArraySerializer {
+        public static string SerializeArray<T>(T[] array) {
             return JsonConvert.SerializeObject(array, Formatting.Indented);
         }
 
-        public static string Serialize2DArray<T>(T[,] array)
-        {
+        public static string Serialize2DArray<T>(T[,] array) {
             var jArray = new JArray();
 
             var rows = array.GetLength(0);
             var columns = array.GetLength(1);
 
-            for (var i = 0; i < rows; i++)
-            {
+            for (var i = 0; i < rows; i++) {
                 var rowArray = new JArray();
 
-                for (var j = 0; j < columns; j++)
-                {
+                for (var j = 0; j < columns; j++) {
                     rowArray.Add(JToken.FromObject(array[i, j]));
                 }
 
@@ -33,13 +27,11 @@ namespace Db.Serialization
             return jArray.ToString(Formatting.Indented);
         }
 
-        public static T[] DeserializeArray<T>(string json)
-        {
+        public static T[] DeserializeArray<T>(string json) {
             return JsonConvert.DeserializeObject<T[]>(json);
         }
 
-        public static T[,] Deserialize2DArray<T>(string json)
-        {
+        public static T[,] Deserialize2DArray<T>(string json) {
             var jArray = JArray.Parse(json);
 
             var rows = jArray.Count;
@@ -47,16 +39,12 @@ namespace Db.Serialization
 
             var array = new T[rows, columns];
 
-            for (var i = 0; i < rows; i++)
-            {
-                for (var j = 0; j < columns; j++)
-                {
-                    if (jArray[i][j] == null)
-                    {
+            for (var i = 0; i < rows; i++) {
+                for (var j = 0; j < columns; j++) {
+                    if (jArray[i][j] == null) {
                         array[i, j] = default;
                     }
-                    else
-                    {
+                    else {
                         array[i, j] = jArray[i][j].ToObject<T>();
                     }
                 }

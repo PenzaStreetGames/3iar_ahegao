@@ -1,7 +1,5 @@
-namespace Level.TileEntity
-{
-    public enum TileColor
-    {
+namespace Level.TileEntity {
+    public enum TileColor {
         None = 0,
         Red = 1,
         Blue = 2,
