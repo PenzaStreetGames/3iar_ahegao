@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Db;
 using Db.Entity;
 using Level.TileEntity;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Level {
@@ -16,14 +17,18 @@ namespace Level {
 
         // Start is called before the first frame update
         void Start() {
-            Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
-            CreateTiles();
-            GenerateField();
-            SaveRepository.InitDb();
         }
 
         // Update is called once per frame
         void Update() {
+        }
+
+        public void Init(int xSize, int ySize) {
+            fieldSize = new Vector2(xSize, ySize);
+            Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
+            CreateTiles();
+            GenerateField();
+            SaveRepository.InitDb();
         }
 
         void CreateTiles() {
@@ -55,7 +60,7 @@ namespace Level {
         }
 
         void GenerateField() {
-            Random.InitState(42);
+            Random.InitState(42); // TODO: Delete random seed
             var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (var i = 0; i < fieldSize.x; i++) {
                 for (var j = 0; j < fieldSize.y; j++) {
@@ -112,16 +117,15 @@ namespace Level {
 
         //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками после КАЖДОГО ХОДА
         //TODO: прокинуть в проверку окончания игры
-        public bool CheckExistCombinations() {
+        public Tile FindTileWithCombinations() {
             for (var row = 0; row < Tiles.GetLength(0); row++)
             for (var column = 0; column < Tiles.GetLength(1); column++) {
                 var tile = Tiles[row, column];
                 if (tile.HaveCombinations()) {
-                    return true;
+                    return tile;
                 }
             }
-
-            return false;
+            return null;
         }
 
 
@@ -129,16 +133,17 @@ namespace Level {
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
-                    SwapTiles(chosenTile, tile);
+                    SwapTileColors(chosenTile, tile);
+                    DeletePossibleCombinationsWith(tile);
+                    DeletePossibleCombinationsWith(chosenTile);
+
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
 
-
                     levelController.MakeTurn();
 
-                    var save = Save.MakeSaveFromData(Tiles);
-                    SaveRepository.PersistSave(save);
+                    SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
                 }
 
@@ -149,7 +154,64 @@ namespace Level {
             chosenTile = tile;
         }
 
-        public void SwapTiles(Tile tile1, Tile tile2) {
+        public HashSet<Tile> GetPossibleCombinationsWith(Tile tile) {
+            if (!tile.HaveCombinations()) {
+                return new HashSet<Tile>();
+            }
+
+            var res = new HashSet<Tile>();
+            HashSet<Tile> horizontalCombination = new HashSet<Tile>(), verticalCombination = new HashSet<Tile>();
+            int x1 = (int)tile.position.x, y1 = (int)tile.position.y;
+            int x2 = x1, y2 = y1;
+            while (x2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add ver ({x2}, {y2})");
+                verticalCombination.Add(Tiles[x2, y2]);
+                x2--;
+            }
+
+            (x2, y2) = (x1 + 1, y1);
+            while (x2 < fieldSize.x && Tiles[x2, y2].tileType == TileType.Open &&
+                   tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add ver ({x2}, {y2})");
+                verticalCombination.Add(Tiles[x2, y2]);
+                x2++;
+            }
+
+            if (verticalCombination.Count >= 3) {
+                res.UnionWith(verticalCombination);
+            }
+
+            (x2, y2) = (x1, y1);
+            while (y2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add hor ({x2}, {y2})");
+                horizontalCombination.Add(Tiles[x2, y2]);
+                y2--;
+            }
+
+            (x2, y2) = (x1, y1);
+            while (y2 < fieldSize.y && Tiles[x2, y2].tileType == TileType.Open &&
+                   tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add hor ({x2}, {y2})");
+                horizontalCombination.Add(Tiles[x2, y2]);
+                y2++;
+            }
+
+            if (horizontalCombination.Count >= 3) {
+                res.UnionWith(horizontalCombination);
+            }
+
+            return res;
+        }
+        public HashSet<Tile> DeletePossibleCombinationsWith(Tile tile) {
+            var affectedTiles = GetPossibleCombinationsWith(tile);
+            foreach (var affectedTile in affectedTiles) {
+                affectedTile.SetColor(TileColor.None);
+            }
+
+            return affectedTiles;
+        }
+
+        public void SwapTileColors(Tile tile1, Tile tile2) {
             (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
         }
 
