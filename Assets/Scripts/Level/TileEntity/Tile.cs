@@ -90,8 +90,34 @@ namespace Level.TileEntity
                 return false;
             }
 
-            return tileColor != other.tileColor;
+            if (tileColor == other.tileColor)
+            {
+                return false;
+            }
+
+            if (!MakesCombinationWhenSwappedWith(other))
+            {
+                return false;
+            }
+
+            return true;
         }
+
+        public bool MakesCombinationWhenSwappedWith(Tile other)
+        {
+            var flag = false;
+            fieldController.SwapTiles(this, other);
+            if (HaveCombinations() || other.HaveCombinations())
+            {
+                flag = true;
+
+            }
+            fieldController.SwapTiles(this, other);
+            return flag;
+        }
+
+
+
 
         public bool HaveCombinations()
         {
