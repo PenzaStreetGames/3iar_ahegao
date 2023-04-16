@@ -1,3 +1,4 @@
+using System.Data;
 using Db.Entity;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -6,14 +7,20 @@ namespace Db {
     public static class SaveRepository {
         const string DBName = "URI=file:SaveRepository.db";
 
-        const string CreateDbCommand = @"
-            create table if not exists save
-            (
-                level_id bigint,
-                user_id bigint,
-                field_state text
-            );
-        ";
+        const string LevelIdDbFiled = "level_id";
+        const string UserIdDbField = "user_id";
+        const string FieldSateDbField = "field_state";
+
+        static string GetCreateDbCommand() {
+            return $@"
+                create table if not exists save
+                (
+                    {LevelIdDbFiled} bigint,
+                    {UserIdDbField} bigint,
+                    {FieldSateDbField} text
+                );
+            ";
+        }
 
         static string GetDeletePreviousSaveCommand(Save save) {
             return $@"
@@ -39,11 +46,20 @@ namespace Db {
             ";
         }
 
+        static string GetSelectSaveCommand(long levelId, long userId) {
+            return $@"
+                select * from save
+                where
+                    level_id = {levelId} and
+                    user_id = {userId}
+            ";
+        }
+
         public static void InitDb() {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();
-            command.CommandText = CreateDbCommand;
+            command.CommandText = GetCreateDbCommand();
             command.ExecuteNonQuery();
 
             Debug.Log($"Db {DBName} initialized");
@@ -57,6 +73,31 @@ namespace Db {
             command.ExecuteNonQuery();
             command.CommandText = GetPersistSaveCommand(save);
             command.ExecuteNonQuery();
+        }
+
+        public static Save GetSave(long levelId = -1, long userId = -1) {
+            using var connection = new SqliteConnection(DBName);
+            connection.Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = GetSelectSaveCommand(levelId, userId);
+            using var reader = command.ExecuteReader();
+            var result = default(Save);
+            if (reader.Read()) {
+                result = SaveParser(reader);
+            }
+            if (reader.Read()) {
+                throw new DataException("Multiple rows returned from query");
+            }
+
+            return result;
+        }
+
+        static Save SaveParser(IDataRecord reader) {
+            return Save.MakeSaveFromData(
+                levelId: (long)reader[LevelIdDbFiled],
+                userId: (long)reader[UserIdDbField],
+                fieldState: (string)reader[FieldSateDbField]
+            );
         }
     }
 }

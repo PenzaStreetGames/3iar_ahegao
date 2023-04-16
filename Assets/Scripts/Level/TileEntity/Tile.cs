@@ -23,14 +23,26 @@ namespace Level.TileEntity {
         }
 
         void OnMouseDown() {
+            if (tileType != TileType.Open) {
+                return;
+            }
+
             fieldController.HandleTileClick(this);
         }
 
         void OnMouseEnter() {
+            if (tileType != TileType.Open) {
+                return;
+            }
+
             FieldController.HandleTileMouseEnter(this);
         }
 
         void OnMouseExit() {
+            if (tileType != TileType.Open) {
+                return;
+            }
+
             FieldController.HandleTileMouseExit(this);
         }
 
@@ -51,6 +63,11 @@ namespace Level.TileEntity {
 
         public void SetColor(TileColor color) {
             tileColor = color;
+            CalculateEffects();
+        }
+
+        public void SetTileType(TileType type) {
+            tileType = type;
             CalculateEffects();
         }
 
@@ -188,8 +205,17 @@ namespace Level.TileEntity {
                     throw new ArgumentOutOfRangeException();
             }
 
+            if (tileType == TileType.Border) {
+                color = new Color(0, 0, 0, 0);
+            }
+
             spriteRenderer.color = color;
             transform.localScale = localScale;
+        }
+
+        public void SetFromTilePersistData(TilePersistData data) {
+            SetColor(data.TileColor);
+            SetTileType(data.TileType);
         }
     }
 }
