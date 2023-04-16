@@ -73,8 +73,6 @@ namespace Level {
                         colorIndex = (colorIndex + 1) % colors.Length;
                         tile.SetColor(colors[colorIndex]);
                     }
-
-                    Debug.Log($"({i}, {j}): have not combinations");
                 }
             }
         }
@@ -93,7 +91,6 @@ namespace Level {
                         continue;
                     }
 
-                    Debug.Log($"hor {i} {j} {field[i, j].GetColor()}");
                     return true;
                 }
             }
@@ -107,7 +104,6 @@ namespace Level {
                         continue;
                     }
 
-                    Debug.Log($"vert {i} {j} {field[i, j].GetColor()}");
                     return true;
                 }
             }
@@ -136,6 +132,7 @@ namespace Level {
                     SwapTileColors(chosenTile, tile);
                     var deletedTiles = DeletePossibleCombinationsWith(tile);
                     var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
+                    CascadeFall();
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
@@ -147,10 +144,8 @@ namespace Level {
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
                 }
-
                 chosenTile.SetViewState(TileViewState.Active);
             }
-
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
         }
@@ -213,23 +208,55 @@ namespace Level {
         }
 
         public void SwapTileColors(Tile tile1, Tile tile2) {
-            (tile1.tileColor, tile2.tileColor) = (tile2.tileColor, tile1.tileColor);
+            var color1 = tile1.tileColor;
+            var color2 = tile2.tileColor;
+            tile1.SetColor(color2);
+            tile2.SetColor(color1);
         }
 
         public static void HandleTileMouseEnter(Tile tile) {
             if (tile.tileViewState == TileViewState.Active) {
                 tile.SetViewState(TileViewState.Hover);
             }
-
-            // Debug.Log($"Cursor enter {tile.gameObject.name}");
         }
 
         public static void HandleTileMouseExit(Tile tile) {
             if (tile.tileViewState == TileViewState.Hover) {
                 tile.SetViewState(TileViewState.Active);
             }
+        }
 
-            // Debug.Log($"Cursor exit {tile.gameObject.name}");
+        public void CascadeFall() {
+            for (int i = 0; i < Tiles.GetLength(0); i++) {
+                if (!IsFallOver()) {
+                    ShiftFieldDown();
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        public bool IsFallOver() {
+            bool res = true;
+            for (int i = 0; i < Tiles.GetLength(0); i++) {
+                for (int j = 0; j < Tiles.GetLength(1); j++) {
+                    if (Tiles[i, j].CanFallDown())
+                        res = false;
+                }
+            }
+            return res;
+        }
+        public void ShiftFieldDown() {
+            for (int i = Tiles.GetLength(0) - 1; i >= 0; i--) {
+                for (int j = 0; j < Tiles.GetLength(1); j++) {
+                    var tile = Tiles[i, j];
+                    if (tile.CanFallDown()) {
+                        var underTile = Tiles[i + 1, j];
+                        SwapTileColors(tile, underTile);
+                    }
+                }
+            }
         }
     }
 }
