@@ -63,6 +63,7 @@ namespace Level
 
         void GenerateField()
         {
+            Random.InitState(42);
             var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (var i = 0; i < fieldSize.x; i++)
             {
@@ -74,9 +75,11 @@ namespace Level
                     tile.SetColor(colors[colorIndex]);
                     while (tile.HaveCombinations())
                     {
+                        Debug.Log($"({i}, {j}): have combinations");
                         colorIndex = (colorIndex + 1) % colors.Length;
                         tile.SetColor(colors[colorIndex]);
                     }
+                    Debug.Log($"({i}, {j}): have not combinations");
                 }
             }
         }
@@ -179,7 +182,7 @@ namespace Level
                 tile.SetViewState(TileViewState.Hover);
             }
 
-            Debug.Log($"Cursor enter {tile.gameObject.name}");
+            // Debug.Log($"Cursor enter {tile.gameObject.name}");
         }
 
         public static void HandleTileMouseExit(Tile tile)
@@ -189,7 +192,7 @@ namespace Level
                 tile.SetViewState(TileViewState.Active);
             }
 
-            Debug.Log($"Cursor exit {tile.gameObject.name}");
+            // Debug.Log($"Cursor exit {tile.gameObject.name}");
         }
     }
 }
