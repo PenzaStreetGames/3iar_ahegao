@@ -130,13 +130,15 @@ namespace Level {
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
                     SwapTileColors(chosenTile, tile);
-                    DeletePossibleCombinationsWith(tile);
-                    DeletePossibleCombinationsWith(chosenTile);
+                    var deletedTiles = DeletePossibleCombinationsWith(tile);
+                    var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
                     CascadeFall();
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
+
+                    levelController.IncreaseDestroyedTilesCounter(deletedTiles.Count + deletedTiles2.Count);
                     levelController.MakeTurn();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
@@ -158,6 +160,7 @@ namespace Level {
             int x1 = (int)tile.position.x, y1 = (int)tile.position.y;
             int x2 = x1, y2 = y1;
             while (x2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add ver ({x2}, {y2})");
                 verticalCombination.Add(Tiles[x2, y2]);
                 x2--;
             }
@@ -165,6 +168,7 @@ namespace Level {
             (x2, y2) = (x1 + 1, y1);
             while (x2 < fieldSize.x && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add ver ({x2}, {y2})");
                 verticalCombination.Add(Tiles[x2, y2]);
                 x2++;
             }
@@ -175,6 +179,7 @@ namespace Level {
 
             (x2, y2) = (x1, y1);
             while (y2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add hor ({x2}, {y2})");
                 horizontalCombination.Add(Tiles[x2, y2]);
                 y2--;
             }
@@ -182,6 +187,7 @@ namespace Level {
             (x2, y2) = (x1, y1);
             while (y2 < fieldSize.y && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
+                Debug.Log($"Add hor ({x2}, {y2})");
                 horizontalCombination.Add(Tiles[x2, y2]);
                 y2++;
             }
@@ -195,7 +201,6 @@ namespace Level {
         public HashSet<Tile> DeletePossibleCombinationsWith(Tile tile) {
             var affectedTiles = GetPossibleCombinationsWith(tile);
             foreach (var affectedTile in affectedTiles) {
-                Debug.Log($"Delete Tile ({affectedTile.position.x}, {affectedTile.position.y})");
                 affectedTile.SetColor(TileColor.None);
             }
 
