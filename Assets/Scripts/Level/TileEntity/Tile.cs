@@ -93,6 +93,73 @@ namespace Level.TileEntity
             return tileColor != other.tileColor;
         }
 
+        public bool HaveCombinations()
+        {
+            if (tileType != TileType.Open)
+                return false;
+            if (tileColor == TileColor.None)
+                return false;
+            int vertical = 1, horizontal = 1;
+            bool top = true, bottom = true, left = true, right = true;
+            int x1 = (int)position.x, y1 = (int)position.y;
+            for (int i = 1; i < 3; i++)
+            {
+                if (top && x1 - i >= 0)
+                {
+                    int x2 = x1 - i, y2 = y1;
+                    var other = fieldController.Tiles[x2, y2];
+                    if (other.tileType != TileType.Open || other.tileColor != tileColor)
+                        top = false;
+                    else
+                    {
+                        vertical++;
+                        if (vertical >= 3)
+                            return true;
+                    }
+                }
+                else if (bottom && x1 + i < fieldController.fieldSize.x)
+                {
+                    int x2 = x1 + i, y2 = y1;
+                    var other = fieldController.Tiles[x2, y2];
+                    if (other.tileType != TileType.Open || other.tileColor != tileColor)
+                        bottom = false;
+                    else
+                    {
+                        vertical++;
+                        if (vertical >= 3)
+                            return true;
+                    }
+                }
+                else if (left && y1 - i >= 0)
+                {
+                    int x2 = x1, y2 = y1 - i;
+                    var other = fieldController.Tiles[x2, y2];
+                    if (other.tileType != TileType.Open || other.tileColor != tileColor)
+                        left = false;
+                    else
+                    {
+                        horizontal++;
+                        if (horizontal >= 3)
+                            return true;
+                    }
+                }
+                else if (right && y1 + i < fieldController.fieldSize.y)
+                {
+                    int x2 = x1, y2 = y1 + i;
+                    var other = fieldController.Tiles[x2, y2];
+                    if (other.tileType != TileType.Open || other.tileColor != tileColor)
+                        right = false;
+                    else
+                    {
+                        horizontal++;
+                        if (horizontal >= 3)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         void CalculateEffects()
         {
             var baseColor = colors[(int)tileColor];
