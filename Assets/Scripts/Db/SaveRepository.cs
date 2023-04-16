@@ -2,10 +2,8 @@ using Db.Entity;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
-namespace Db
-{
-    public static class SaveRepository
-    {
+namespace Db {
+    public static class SaveRepository {
         const string DBName = "URI=file:SaveRepository.db";
 
         const string CreateDbCommand = @"
@@ -17,16 +15,14 @@ namespace Db
             );
         ";
 
-        static string GetDeletePreviousSaveCommand(Save save)
-        {
+        static string GetDeletePreviousSaveCommand(Save save) {
             return $@"
                 delete from save
                 where level_id = {save.GetLevelId()};
             ";
         }
 
-        static string GetPersistSaveCommand(Save save)
-        {
+        static string GetPersistSaveCommand(Save save) {
             return $@"
                 insert into save
                     (
@@ -43,8 +39,7 @@ namespace Db
             ";
         }
 
-        public static void InitDb()
-        {
+        public static void InitDb() {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();
@@ -54,8 +49,7 @@ namespace Db
             Debug.Log($"Db {DBName} initialized");
         }
 
-        public static void PersistSave(Save save)
-        {
+        public static void PersistSave(Save save) {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();

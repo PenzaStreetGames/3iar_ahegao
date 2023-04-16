@@ -1,29 +1,24 @@
 using UnityEngine;
 
-public enum SceneType
-{
+public enum SceneType {
     Menu = 0,
     Level = 1
 }
 
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
     public LevelController levelController;
     public MenuController menuController;
     public SceneType sceneType = SceneType.Level;
 
-    void Awake()
-    {
+    void Awake() {
         DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
     }
 }
