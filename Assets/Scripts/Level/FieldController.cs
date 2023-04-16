@@ -11,6 +11,7 @@ namespace Level
         public GameObject tilePrefab;
         public float tileStep = 1f;
 
+        public LevelController levelController;
         public Tile chosenTile;
         Tile[,] Tiles;
 
@@ -123,6 +124,23 @@ namespace Level
             return false;
         }
 
+        //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками
+        // for for ... tile.CheckCombinations()
+        public bool CheckExistCombinations()
+        {
+            for (var row = 0; row < Tiles.GetLength(0); row++)
+            for (var column = 0; column < Tiles.GetLength(1); column++)
+            {
+                var tile = Tiles[row, column];
+                if (tile.CheckCombination())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         public void HandleTileClick(Tile tile)
         {
             Debug.Log($"Click {tile.gameObject.name}");
@@ -130,6 +148,8 @@ namespace Level
             {
                 if (chosenTile.CanSwapWith(tile))
                 {
+                    //TODO: уменьшить число ходов, если образовалась комбинация
+                    levelController.DecreaseTurnCounter();
                     SwapTiles(chosenTile, tile);
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);

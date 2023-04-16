@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Level.TileEntity
@@ -91,6 +92,26 @@ namespace Level.TileEntity
             }
 
             return tileColor != other.tileColor;
+        }
+
+        //TODO: сделать проверку на комбинации с соседями
+        public bool CheckCombination()
+        {
+            if (tileType == TileType.Open)
+            {
+                //смотрим соседние клетки справа
+                if (position.x < fieldController.fieldSize.x - 2)
+                {
+
+                }
+
+                if (position.y < fieldController.fieldSize.y - 2)
+                {
+
+                }
+
+            }
+            return false;
         }
 
         void CalculateEffects()
