@@ -64,6 +64,19 @@ namespace Level
             FieldController.HandleTileMouseExit(this);
         }
 
+        public TileData GetTileData()
+        {
+            var tileData = new TileData
+            {
+                X = (int)position.x,
+                Y = (int)position.y,
+                TileColor = tileColor,
+                TileType = tileType
+            };
+
+            return tileData;
+        }
+
         public TileColor GetColor()
         {
             return tileColor;
