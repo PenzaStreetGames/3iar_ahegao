@@ -31,7 +31,8 @@ public class LevelController : MonoBehaviour {
     }
 
     public void IncreaseDestroyedTilesCounter(int count) {
-        targetDestroyedTilesCount += count;
+        destroyedTilesCounter += count;
+        Debug.Log($"Уничтожено всего: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
