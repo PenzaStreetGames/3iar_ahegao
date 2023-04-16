@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Db;
 using Db.Entity;
 using Level.TileEntity;
@@ -132,6 +133,7 @@ namespace Level {
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
+
 
                     levelController.MakeTurn();
 

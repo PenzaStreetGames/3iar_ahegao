@@ -30,6 +30,10 @@ public class LevelController : MonoBehaviour {
         }
     }
 
+    public void IncreaseDestroyedTilesCounter(int count) {
+        targetDestroyedTilesCount += count;
+    }
+
     public bool CheckLevelEnd() {
         if (turnCounter > 0) {
             return false;
