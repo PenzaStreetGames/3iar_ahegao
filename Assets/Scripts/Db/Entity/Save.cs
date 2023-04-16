@@ -1,5 +1,5 @@
 using Db.Serialization;
-using Level;
+using Level.TileEntity;
 
 namespace Db.Entity
 {
@@ -25,7 +25,7 @@ namespace Db.Entity
 
         static string EncodeTilesMatrix(Tile[,] tiles)
         {
-            var tileDataMatrix = new TileData[tiles.GetLength(0), tiles.GetLength(1)];
+            var tileDataMatrix = new TilePersistData[tiles.GetLength(0), tiles.GetLength(1)];
             for (var i = 0; i < tileDataMatrix.GetLength(0); i++)
             {
                 for (var j = 0; j < tileDataMatrix.GetLength(1); j++)
@@ -37,9 +37,9 @@ namespace Db.Entity
             return JsonArraySerializer.Serialize2DArray(tileDataMatrix);
         }
 
-        static TileData[,] DecodeTilesMatrix(string encodedString)
+        static TilePersistData[,] DecodeTilesMatrix(string encodedString)
         {
-            return JsonArraySerializer.Deserialize2DArray<TileData>(encodedString);
+            return JsonArraySerializer.Deserialize2DArray<TilePersistData>(encodedString);
         }
 
         public static Save MakeSaveFromData(long levelId, long userId, Tile[,] tiles)
@@ -57,7 +57,7 @@ namespace Db.Entity
             return FieldState;
         }
 
-        public TileData[,] GetDecodedFieldState()
+        public TilePersistData[,] GetDecodedFieldState()
         {
             return DecodeTilesMatrix(FieldState);
         }
