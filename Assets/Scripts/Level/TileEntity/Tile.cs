@@ -90,28 +90,34 @@ namespace Level.TileEntity
                 return false;
             }
 
-            return tileColor != other.tileColor;
+            if (tileColor == other.tileColor)
+            {
+                return false;
+            }
+
+            if (!MakesCombinationWhenSwappedWith(other))
+            {
+                return false;
+            }
+
+            return true;
         }
 
-        //TODO: сделать проверку на комбинации с соседями
-        public bool CheckCombination()
+        public bool MakesCombinationWhenSwappedWith(Tile other)
         {
-            if (tileType == TileType.Open)
+            var flag = false;
+            fieldController.SwapTiles(this, other);
+            if (HaveCombinations() || other.HaveCombinations())
             {
-                //смотрим соседние клетки справа
-                if (position.x < fieldController.fieldSize.x - 2)
-                {
-
-                }
-
-                if (position.y < fieldController.fieldSize.y - 2)
-                {
-
-                }
+                flag = true;
 
             }
-            return false;
+            fieldController.SwapTiles(this, other);
+            return flag;
         }
+
+
+
 
         public bool HaveCombinations()
         {
