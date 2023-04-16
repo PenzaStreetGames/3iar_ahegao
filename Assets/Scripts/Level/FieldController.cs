@@ -13,7 +13,7 @@ namespace Level
 
         public LevelController levelController;
         public Tile chosenTile;
-        Tile[,] Tiles;
+        public Tile[,] Tiles;
 
         // Start is called before the first frame update
         void Start()
@@ -72,7 +72,7 @@ namespace Level
                     tile.tileType = TileType.Open;
                     var colorIndex = (i + j + Random.Range(0, colors.Length)) % colors.Length;
                     tile.SetColor(colors[colorIndex]);
-                    while (CheckCombination(Tiles))
+                    while (tile.HaveCombinations())
                     {
                         colorIndex = (colorIndex + 1) % colors.Length;
                         tile.SetColor(colors[colorIndex]);
