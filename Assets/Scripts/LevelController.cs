@@ -49,6 +49,9 @@ public class LevelController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        fieldController.Init(
+            5, 5
+        );
     }
 
     // Update is called once per frame

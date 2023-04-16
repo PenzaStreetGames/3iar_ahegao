@@ -15,14 +15,18 @@ namespace Level {
 
         // Start is called before the first frame update
         void Start() {
-            Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
-            CreateTiles();
-            GenerateField();
-            SaveRepository.InitDb();
         }
 
         // Update is called once per frame
         void Update() {
+        }
+
+        public void Init(int xSize, int ySize) {
+            fieldSize = new Vector2(xSize, ySize);
+            Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
+            CreateTiles();
+            GenerateField();
+            SaveRepository.InitDb();
         }
 
         void CreateTiles() {
