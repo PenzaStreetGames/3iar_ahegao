@@ -78,12 +78,12 @@ namespace Level.TileEntity {
 
         public bool MakesCombinationWhenSwappedWith(Tile other) {
             var flag = false;
-            fieldController.SwapTiles(this, other);
+            fieldController.SwapTileColors(this, other);
             if (HaveCombinations() || other.HaveCombinations()) {
                 flag = true;
             }
 
-            fieldController.SwapTiles(this, other);
+            fieldController.SwapTileColors(this, other);
             return flag;
         }
 
