@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using Db;
 using Db.Entity;
+using JetBrains.Annotations;
 using Level.TileEntity;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,6 +30,7 @@ namespace Level {
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
             GenerateField();
+            GetAllPossibleTurns(); //TODO: убрать
             SaveRepository.InitDb();
         }
 
@@ -124,6 +127,24 @@ namespace Level {
             return null;
         }
 
+        [ItemCanBeNull]
+        public HashSet<HashSet<List<int>>> GetAllPossibleTurns() {
+            var res = new HashSet<HashSet<List<int>>>();
+
+            foreach (var tile in Tiles) {
+                res.UnionWith(tile.GetTurns());
+            }
+
+            Debug.Log("All turns");
+            foreach (var turn in res) {
+                foreach (var position in turn) {
+                    Debug.Log($"pos: {position[0]},{position[1]}");
+                }
+
+            }
+            return res;
+        }
+
 
         public void HandleTileClick(Tile tile) {
             Debug.Log($"Click {tile.gameObject.name}");
@@ -139,7 +160,9 @@ namespace Level {
                     chosenTile = null;
 
                     levelController.IncreaseDestroyedTilesCounter(deletedTiles.Count + deletedTiles2.Count);
-                    levelController.MakeTurn();
+                    levelController.DecrementTurnCounter();
+                    levelController.CheckLevelState();
+                    GetAllPossibleTurns();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;

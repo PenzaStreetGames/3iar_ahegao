@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Level.TileEntity {
@@ -95,6 +96,23 @@ namespace Level.TileEntity {
 
             fieldController.SwapTileColors(this, other);
             return flag;
+        }
+
+        public HashSet<HashSet<List<int>>> GetTurns() {
+            var res = new HashSet<HashSet<List<int>>>();
+            var turns = new Vector2[]{new (-1,0),new (1,0),new (0,-1),new (0,1)};
+            foreach (var turn in turns) {
+                var anotherTilePosition = turn + position;
+                var x1 = (int) anotherTilePosition.x;
+                var y1 = (int) anotherTilePosition.y;
+                if (x1 >= 0 && x1 < (int) fieldController.fieldSize.x &&
+                    y1 >= 0 && y1 < (int) fieldController.fieldSize.y &&
+                    MakesCombinationWhenSwappedWith(fieldController.Tiles[x1, y1])) {
+
+                    res.Add(new HashSet<List<int>> {new List<int>{(int)position.x, (int)position.y}, new List<int>{x1,y1}});
+                }
+            }
+            return res;
         }
 
         public bool HaveCombinations() {

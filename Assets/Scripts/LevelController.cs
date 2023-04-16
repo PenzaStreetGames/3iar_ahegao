@@ -14,8 +14,10 @@ public class LevelController : MonoBehaviour {
     public int targetDestroyedTilesCount;
     //TODO: метод уменьшения кол-ва ходов
 
-    public void MakeTurn() {
-        DecreaseTurnCounter();
+    public void CheckLevelState() {
+        if (CheckIfTurnsExists()) {
+            Debug.Log("Ходов нема");
+        }
         if (CheckSuccessLevelEnd()) {
             Debug.Log("Вы победили");
         }
@@ -24,7 +26,11 @@ public class LevelController : MonoBehaviour {
         }
     }
 
-    public void DecreaseTurnCounter() {
+    public bool CheckIfTurnsExists() {
+        return fieldController.GetAllPossibleTurns().Count > 0;
+    }
+
+    public void DecrementTurnCounter() {
         if (turnCounter > 0) {
             turnCounter--;
         }

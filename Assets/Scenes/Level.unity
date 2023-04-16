@@ -306,7 +306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
   fieldController: {fileID: 117222792}
-  turnCounter: 10
+  turnCounter: 1
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 10
 --- !u!114 &866402121
