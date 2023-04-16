@@ -170,7 +170,7 @@ MonoBehaviour:
   fieldSize: {x: 8, y: 8}
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   tileStep: 1.1
-  levelController: {fileID: 0}
+  levelController: {fileID: 866402120}
   chosenTile: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
@@ -308,7 +308,7 @@ MonoBehaviour:
   fieldController: {fileID: 117222792}
   turnCounter: 10
   destroyedTilesCounter: 0
-  targetDestroyedTilesCount: 0
+  targetDestroyedTilesCount: 10
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0
