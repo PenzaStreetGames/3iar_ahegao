@@ -1,5 +1,6 @@
 using Db;
 using Level;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour {
@@ -7,13 +8,13 @@ public class LevelController : MonoBehaviour {
 
     public FieldController fieldController;
 
-    //TODO: сделать счётчик ходов
     public int turnCounter;
 
     public int destroyedTilesCounter;
 
     public int targetDestroyedTilesCount;
-    //TODO: метод уменьшения кол-ва ходов
+    public int score;
+
 
     public void MakeTurn() {
         DecreaseTurnCounter();
@@ -50,6 +51,22 @@ public class LevelController : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public void IncreaseScoreForCombination(int combinationLength) {
+        var delta = 0;
+        if (combinationLength <= 2) {
+            Debug.LogError("Combination less than 3");
+            return;
+        }
+        delta = combinationLength switch {
+            3 => 10,
+            4 => 30,
+            5 => 90,
+            6 => 270,
+            _ => 500
+        };
+        score += delta;
     }
 
 

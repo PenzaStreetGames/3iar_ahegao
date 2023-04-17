@@ -214,6 +214,7 @@ namespace Level {
                 affectedTile.SetColor(TileColor.None);
             }
             levelController.IncreaseDestroyedTilesCounter(affectedTiles.Count);
+            levelController.IncreaseScoreForCombination(affectedTiles.Count);
             return affectedTiles;
         }
 
