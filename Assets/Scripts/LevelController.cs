@@ -6,23 +6,53 @@ public class LevelController : MonoBehaviour {
 
     public FieldController fieldController;
 
-    //TODO: сделать счётчик ходов
     public int turnCounter;
 
     public int destroyedTilesCounter;
 
     public int targetDestroyedTilesCount;
-    //TODO: метод уменьшения кол-ва ходов
 
-    public void CheckLevelState() {
+
+    public LevelStatusEnum CheckLevelState() {
         if (CheckIfTurnsExists()) {
-            Debug.Log("Ходов нема");
+            Debug.Log("Не осталось комбинаций на поле. Вы проиграли!");
+            return LevelStatusEnum.NoCombinationsLeftLose;
         }
         if (CheckSuccessLevelEnd()) {
             Debug.Log("Вы победили");
+            return LevelStatusEnum.Win;
         }
-        else if (CheckLevelEnd()) {
-            Debug.Log("Ходы закончились");
+        if (CheckLevelEnd()) {
+            Debug.Log("Закончились ходы. Вы проиграли!");
+            return LevelStatusEnum.NoTurnsLeftLose;
+        }
+        return LevelStatusEnum.StillPlaying;
+    }
+
+    //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
+    //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
+    public void RestartLevel(string message) {
+        fieldController.Init(5,5);
+        Debug.Log(message);
+    }
+
+    //Функция, выполняющая всю логику после хода игрока
+    public void UpdateAfterPlayerTurn(int destroyedTiles) {
+        IncreaseDestroyedTilesCounter(destroyedTiles);
+        DecrementTurnCounter();
+        switch (CheckLevelState()) {
+            case LevelStatusEnum.Win:
+                RestartLevel("Поздравляем! Вы прошли уровень!");
+                break;
+            case LevelStatusEnum.NoCombinationsLeftLose:
+                RestartLevel("Вы проиграли! У вас не осталось ходов.");
+                break;
+            case LevelStatusEnum.NoTurnsLeftLose:
+                RestartLevel("Вы проиграли! На поле закончились комбинации.");
+                break;
+            case LevelStatusEnum.StillPlaying:
+            default:
+                break;
         }
     }
 

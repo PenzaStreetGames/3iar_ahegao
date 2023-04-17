@@ -29,8 +29,19 @@ namespace Level {
             fieldSize = new Vector2(xSize, ySize);
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
-            GenerateField();
-            GetAllPossibleTurns(); //TODO: убрать
+            var tryGenerateCounter = 0;
+            do {
+                GenerateField();
+                tryGenerateCounter++;
+                if (tryGenerateCounter == 3)
+                {
+                    Debug.LogError("Достигнут лимит перегенерации поля.");
+                    break;
+                }
+
+            } while (GetAllPossibleTurns().Count == 0);
+
+
             SaveRepository.InitDb();
         }
 
@@ -80,53 +91,6 @@ namespace Level {
             }
         }
 
-        // Функция для проверки наличия комбинации из трех и более одинаковых тайлов
-        static bool CheckCombination(Tile[,] field) {
-            var numRows = field.GetLength(0);
-            var numColumns = field.GetLength(1);
-
-            // Проверяем горизонтальные совпадения
-            for (var i = 0; i < numRows; i++) {
-                for (var j = 0; j < numColumns - 2; j++) {
-                    if (field[i, j].GetColor() == TileColor.None ||
-                        field[i, j].GetColor() != field[i, j + 1].GetColor() ||
-                        field[i, j].GetColor() != field[i, j + 2].GetColor()) {
-                        continue;
-                    }
-
-                    return true;
-                }
-            }
-
-            // Проверяем вертикальные совпадения
-            for (var i = 0; i < numRows - 2; i++) {
-                for (var j = 0; j < numColumns; j++) {
-                    if (field[i, j].GetColor() == TileColor.None ||
-                        field[i, j].GetColor() != field[i + 1, j].GetColor() ||
-                        field[i, j].GetColor() != field[i + 2, j].GetColor()) {
-                        continue;
-                    }
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками после КАЖДОГО ХОДА
-        //TODO: прокинуть в проверку окончания игры
-        public Tile FindTileWithCombinations() {
-            for (var row = 0; row < Tiles.GetLength(0); row++)
-            for (var column = 0; column < Tiles.GetLength(1); column++) {
-                var tile = Tiles[row, column];
-                if (tile.HaveCombinations()) {
-                    return tile;
-                }
-            }
-            return null;
-        }
-
         [ItemCanBeNull]
         public HashSet<HashSet<List<int>>> GetAllPossibleTurns() {
             var res = new HashSet<HashSet<List<int>>>();
@@ -159,10 +123,7 @@ namespace Level {
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
 
-                    levelController.IncreaseDestroyedTilesCounter(deletedTiles.Count + deletedTiles2.Count);
-                    levelController.DecrementTurnCounter();
-                    levelController.CheckLevelState();
-                    GetAllPossibleTurns();
+                    levelController.UpdateAfterPlayerTurn(deletedTiles.Count + deletedTiles2.Count);
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
