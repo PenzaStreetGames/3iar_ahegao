@@ -1,6 +1,5 @@
 using Db;
 using Level;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour {
@@ -13,7 +12,8 @@ public class LevelController : MonoBehaviour {
     public int destroyedTilesCounter;
 
     public int targetDestroyedTilesCount;
-    public int score;
+
+    public int score = 0;
 
 
 

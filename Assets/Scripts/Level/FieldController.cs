@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Db;
 using Db.Entity;
 using JetBrains.Annotations;
@@ -157,7 +156,7 @@ namespace Level {
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
 
-                    levelController.UpdateAfterPlayerTurn(deletedTiles.Count + deletedTiles2.Count);
+                    levelController.UpdateAfterPlayerTurn();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
