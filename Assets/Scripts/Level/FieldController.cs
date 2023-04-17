@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Db;
 using Db.Entity;
+using JetBrains.Annotations;
 using Level.TileEntity;
 using UnityEngine;
 
@@ -22,11 +23,28 @@ namespace Level {
         void Update() {
         }
 
+        public void GenerateFieldWithGuaranteedCombination() {
+            var tryGenerateCounter = 0;
+            do {
+                Debug.Log("Regenerating field");
+                GenerateField();
+                tryGenerateCounter++;
+                if (tryGenerateCounter == 3)
+                {
+                    Debug.LogError("Достигнут лимит перегенерации поля.");
+                    break;
+                }
+
+            } while (GetAllPossibleTurns().Count == 0);
+        }
+
         public void Init(int xSize, int ySize, Save save) {
             fieldSize = new Vector2(xSize, ySize);
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
-            GenerateField();
+            GenerateFieldWithGuaranteedCombination();
+
+
             SaveRepository.InitDb();
             ColorizeFromSave(save);
         }
@@ -72,8 +90,7 @@ namespace Level {
             return tile;
         }
 
-        void GenerateField() {
-            Random.InitState(42); // TODO: Delete random seed
+        public void GenerateField() {
             var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (var i = 0; i < fieldSize.x; i++) {
                 for (var j = 0; j < fieldSize.y; j++) {
@@ -82,7 +99,6 @@ namespace Level {
                     var colorIndex = Random.Range(0, colors.Length);
                     tile.SetColor(colors[colorIndex]);
                     while (tile.HaveCombinations()) {
-                        Debug.Log($"({i}, {j}): have combinations");
                         colorIndex = (colorIndex + 1) % colors.Length;
                         tile.SetColor(colors[colorIndex]);
                     }
@@ -90,8 +106,24 @@ namespace Level {
             }
         }
 
-        //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками после КАЖДОГО ХОДА
-        //TODO: прокинуть в проверку окончания игры
+        [ItemCanBeNull]
+        public HashSet<HashSet<List<int>>> GetAllPossibleTurns() {
+            var res = new HashSet<HashSet<List<int>>>();
+
+            foreach (var tile in Tiles) {
+                res.UnionWith(tile.GetTurns());
+            }
+
+            // Debug.Log("All possible turns");
+            // foreach (var turn in res) {
+            //     foreach (var position in turn) {
+            //         Debug.Log($"pos: {position[0]},{position[1]}");
+            //     }
+            //
+            // }
+            return res;
+        }
+
         public Tile FindTileWithCombinations() {
             for (var row = 0; row < Tiles.GetLength(0); row++)
             for (var column = 0; column < Tiles.GetLength(1); column++) {
@@ -126,7 +158,7 @@ namespace Level {
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
 
-                    levelController.MakeTurn();
+                    levelController.UpdateAfterPlayerTurn();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
                     return;
@@ -170,7 +202,6 @@ namespace Level {
             int x1 = (int)tile.position.x, y1 = (int)tile.position.y;
             int x2 = x1, y2 = y1;
             while (x2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
-                Debug.Log($"Add ver ({x2}, {y2})");
                 verticalCombination.Add(Tiles[x2, y2]);
                 x2--;
             }
@@ -178,7 +209,6 @@ namespace Level {
             (x2, y2) = (x1 + 1, y1);
             while (x2 < fieldSize.x && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
-                Debug.Log($"Add ver ({x2}, {y2})");
                 verticalCombination.Add(Tiles[x2, y2]);
                 x2++;
             }
@@ -189,7 +219,6 @@ namespace Level {
 
             (x2, y2) = (x1, y1);
             while (y2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
-                Debug.Log($"Add hor ({x2}, {y2})");
                 horizontalCombination.Add(Tiles[x2, y2]);
                 y2--;
             }
@@ -197,7 +226,6 @@ namespace Level {
             (x2, y2) = (x1, y1);
             while (y2 < fieldSize.y && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
-                Debug.Log($"Add hor ({x2}, {y2})");
                 horizontalCombination.Add(Tiles[x2, y2]);
                 y2++;
             }

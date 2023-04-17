@@ -1,6 +1,5 @@
 using Db;
 using Level;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour {
@@ -8,25 +7,68 @@ public class LevelController : MonoBehaviour {
 
     public FieldController fieldController;
 
+    public int startTurnCount;
+
     public int turnCounter;
 
     public int destroyedTilesCounter;
 
     public int targetDestroyedTilesCount;
-    public int score;
+
+    public int score = 0;
 
 
-    public void MakeTurn() {
-        DecreaseTurnCounter();
-        if (CheckSuccessLevelEnd()) {
-            Debug.Log("Вы победили");
+
+    public LevelStatusEnum CheckLevelState() {
+        var state = LevelStatusEnum.StillPlaying;
+        if (!CheckIfTurnsExists()) {
+            state = LevelStatusEnum.NoCombinationsLeftLose;
+        } else if (CheckSuccessLevelEnd()) {
+            state = LevelStatusEnum.Win;
+        } else if (CheckLevelEnd()) {
+            state = LevelStatusEnum.NoTurnsLeftLose;
         }
-        else if (CheckLevelEnd()) {
-            Debug.Log("Ходы закончились");
+        return state;
+    }
+
+    //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
+    //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
+    public void RestartLevel(string message) {
+        ResetState();
+        fieldController.GenerateFieldWithGuaranteedCombination();
+        Debug.Log(message);
+    }
+
+    void ResetState() {
+        turnCounter = startTurnCount;
+        destroyedTilesCounter = 0;
+        score = 0;
+    }
+
+    //Функция, выполняющая всю логику после хода игрока
+    public void UpdateAfterPlayerTurn() {
+        DecrementTurnCounter();
+        switch (CheckLevelState()) {
+            case LevelStatusEnum.Win:
+                RestartLevel("Поздравляем! Вы прошли уровень!");
+                break;
+            case LevelStatusEnum.NoCombinationsLeftLose:
+                RestartLevel("Вы проиграли! У вас не осталось ходов.");
+                break;
+            case LevelStatusEnum.NoTurnsLeftLose:
+                RestartLevel("Вы проиграли! На поле закончились комбинации.");
+                break;
+            case LevelStatusEnum.StillPlaying:
+            default:
+                break;
         }
     }
 
-    public void DecreaseTurnCounter() {
+    public bool CheckIfTurnsExists() {
+        return fieldController.GetAllPossibleTurns().Count > 0;
+    }
+
+    public void DecrementTurnCounter() {
         if (turnCounter > 0) {
             turnCounter--;
         }
@@ -34,7 +76,7 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        Debug.Log($"Уничтожено всего: {destroyedTilesCounter}");
+        Debug.Log($"Уничтожено: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
@@ -56,7 +98,6 @@ public class LevelController : MonoBehaviour {
     public void IncreaseScoreForCombination(int combinationLength) {
         var delta = 0;
         if (combinationLength <= 2) {
-            Debug.LogError("Combination less than 3");
             return;
         }
         delta = combinationLength switch {
@@ -75,7 +116,7 @@ public class LevelController : MonoBehaviour {
         var save = SaveRepository.GetSave(-1, -1);
 
         fieldController.Init(
-            8, 8, save
+            4, 4, save
         );
     }
 
