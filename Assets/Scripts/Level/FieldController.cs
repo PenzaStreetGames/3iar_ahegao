@@ -109,19 +109,23 @@ namespace Level {
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
                     SwapTileColors(chosenTile, tile);
-                    var deletedTiles = DeletePossibleCombinationsWith(tile);
-                    var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
+                    DeletePossibleCombinationsWith(tile);
+                    DeletePossibleCombinationsWith(chosenTile);
 
-                    while (HasEmptyTiles()) {
+                    CascadeFall();
+                    while (FindTileWithCombinations() != null) {
+                        var tileWithCombination = FindTileWithCombinations();
+                        while (tileWithCombination != null) {
+                            DeletePossibleCombinationsWith(tileWithCombination);
+                            tileWithCombination = FindTileWithCombinations();
+                        }
                         CascadeFall();
-                        RandomFillTopEmptyTiles();
                     }
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
 
-                    levelController.IncreaseDestroyedTilesCounter(deletedTiles.Count + deletedTiles2.Count);
                     levelController.MakeTurn();
 
                     SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
@@ -209,7 +213,7 @@ namespace Level {
             foreach (var affectedTile in affectedTiles) {
                 affectedTile.SetColor(TileColor.None);
             }
-
+            levelController.IncreaseDestroyedTilesCounter(affectedTiles.Count);
             return affectedTiles;
         }
 
@@ -233,6 +237,13 @@ namespace Level {
         }
 
         public void CascadeFall() {
+            while (HasEmptyTiles()) {
+                CascadeFallIteration();
+                RandomFillTopEmptyTiles();
+            }
+        }
+
+        public void CascadeFallIteration() {
             for (int i = 0; i < Tiles.GetLength(0); i++) {
                 if (!IsFallOver()) {
                     ShiftFieldDown();

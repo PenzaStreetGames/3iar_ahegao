@@ -58,7 +58,7 @@ public class LevelController : MonoBehaviour {
         var save = SaveRepository.GetSave(-1, -1);
 
         fieldController.Init(
-            5, 5, save
+            8, 8, save
         );
     }
 
