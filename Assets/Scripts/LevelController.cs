@@ -17,16 +17,18 @@ public class LevelController : MonoBehaviour {
 
     public int score = 0;
 
+    public LevelStatus levelStatus;
 
 
-    public LevelStatusEnum CheckLevelState() {
-        var state = LevelStatusEnum.StillPlaying;
+
+    public LevelStatus CheckLevelState() {
+        var state = LevelStatus.StillPlaying;
         if (!CheckIfTurnsExists()) {
-            state = LevelStatusEnum.NoCombinationsLeftLose;
+            state = LevelStatus.NoCombinationsLeftLose;
         } else if (CheckSuccessLevelEnd()) {
-            state = LevelStatusEnum.Win;
+            state = LevelStatus.Win;
         } else if (CheckLevelEnd()) {
-            state = LevelStatusEnum.NoTurnsLeftLose;
+            state = LevelStatus.NoTurnsLeftLose;
         }
         return state;
     }
@@ -49,16 +51,16 @@ public class LevelController : MonoBehaviour {
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
         switch (CheckLevelState()) {
-            case LevelStatusEnum.Win:
+            case LevelStatus.Win:
                 RestartLevel("Поздравляем! Вы прошли уровень!");
                 break;
-            case LevelStatusEnum.NoCombinationsLeftLose:
+            case LevelStatus.NoCombinationsLeftLose:
                 RestartLevel("Вы проиграли! У вас не осталось ходов.");
                 break;
-            case LevelStatusEnum.NoTurnsLeftLose:
+            case LevelStatus.NoTurnsLeftLose:
                 RestartLevel("Вы проиграли! На поле закончились комбинации.");
                 break;
-            case LevelStatusEnum.StillPlaying:
+            case LevelStatus.StillPlaying:
             default:
                 break;
         }

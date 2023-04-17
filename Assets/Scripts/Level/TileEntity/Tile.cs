@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Level.TileEntity {
     public class Tile : MonoBehaviour {
@@ -8,7 +9,7 @@ namespace Level.TileEntity {
 
         public TileColor tileColor;
         public TileType tileType;
-        public Vector2 position;
+        public IntPair position;
 
         public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
         public TileViewState tileViewState;
@@ -49,8 +50,8 @@ namespace Level.TileEntity {
 
         public TilePersistData GetTileData() {
             var tileData = new TilePersistData {
-                X = (int)position.x,
-                Y = (int)position.y,
+                X = position.X,
+                Y = position.Y,
                 TileColor = tileColor,
                 TileType = tileType
             };
@@ -78,8 +79,7 @@ namespace Level.TileEntity {
         }
 
         bool IsNeighbour(Tile other) {
-            var l = position - other.position;
-            return Math.Abs(l.magnitude - 1f) < 0.001f;
+            return position.ManhattanDistance(other.position) == 1;
         }
 
         public bool CanSwapWith(Tile other) {
@@ -95,8 +95,8 @@ namespace Level.TileEntity {
         }
 
         public bool CanFallDown() {
-            int x = (int)position.x, y = (int)position.y;
-            if (x >= (int)fieldController.fieldSize.x - 1)
+            int x = position.X, y = position.Y;
+            if (x >= (int)fieldController.FieldSize.X - 1)
                 return false;
             var other = fieldController.Tiles[x + 1, y];
             if (other.tileType != TileType.Open)
@@ -115,18 +115,17 @@ namespace Level.TileEntity {
             return flag;
         }
 
-        public HashSet<HashSet<List<int>>> GetTurns() {
-            var res = new HashSet<HashSet<List<int>>>();
-            var turns = new Vector2[]{new (-1,0),new (1,0),new (0,-1),new (0,1)};
+        public HashSet<HashSet<IntPair>> GetTurns() {
+            var res = new HashSet<HashSet<IntPair>>();
+            var turns = new IntPair[]{new (-1,0),new (1,0),new (0,-1),new (0,1)};
             foreach (var turn in turns) {
                 var anotherTilePosition = turn + position;
-                var x1 = (int) anotherTilePosition.x;
-                var y1 = (int) anotherTilePosition.y;
-                if (x1 >= 0 && x1 < (int) fieldController.fieldSize.x &&
-                    y1 >= 0 && y1 < (int) fieldController.fieldSize.y &&
+                var x1 = anotherTilePosition.X;
+                var y1 = anotherTilePosition.Y;
+                if (x1 >= 0 && x1 < fieldController.FieldSize.X &&
+                    y1 >= 0 && y1 < fieldController.FieldSize.Y &&
                     MakesCombinationWhenSwappedWith(fieldController.Tiles[x1, y1])) {
-
-                    res.Add(new HashSet<List<int>> {new List<int>{(int)position.x, (int)position.y}, new List<int>{x1,y1}});
+                    res.Add(new HashSet<IntPair> {new(position.X, position.Y), new(x1, y1)});
                 }
             }
             return res;
@@ -140,7 +139,7 @@ namespace Level.TileEntity {
 
             int vertical = 1, horizontal = 1;
             bool top = true, bottom = true, left = true, right = true;
-            int x1 = (int)position.x, y1 = (int)position.y;
+            int x1 = position.X, y1 = position.Y;
             for (int i = 1; i < 3; i++) {
                 if (top && x1 - i >= 0) {
                     int x2 = x1 - i, y2 = y1;
@@ -155,7 +154,7 @@ namespace Level.TileEntity {
                     }
                 }
 
-                if (bottom && x1 + i < fieldController.fieldSize.x) {
+                if (bottom && x1 + i < fieldController.FieldSize.X) {
                     int x2 = x1 + i, y2 = y1;
                     var other = fieldController.Tiles[x2, y2];
                     if (other.tileType != TileType.Open || other.tileColor != tileColor)
@@ -179,7 +178,7 @@ namespace Level.TileEntity {
                     }
                 }
 
-                if (right && y1 + i < fieldController.fieldSize.y) {
+                if (right && y1 + i < fieldController.FieldSize.Y) {
                     int x2 = x1, y2 = y1 + i;
                     var other = fieldController.Tiles[x2, y2];
                     if (other.tileType != TileType.Open || other.tileColor != tileColor)

@@ -4,10 +4,11 @@ using Db.Entity;
 using JetBrains.Annotations;
 using Level.TileEntity;
 using UnityEngine;
+using Utils;
 
 namespace Level {
     public class FieldController : MonoBehaviour {
-        public Vector2 fieldSize;
+        public IntPair FieldSize;
         public GameObject tilePrefab;
         public float tileStep = 1f;
 
@@ -39,8 +40,8 @@ namespace Level {
         }
 
         public void Init(int xSize, int ySize, Save save) {
-            fieldSize = new Vector2(xSize, ySize);
-            Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
+            FieldSize = new IntPair(xSize, ySize);
+            Tiles = new Tile[FieldSize.X, FieldSize.Y];
             CreateTiles();
             GenerateFieldWithGuaranteedCombination();
 
@@ -64,11 +65,11 @@ namespace Level {
 
         void CreateTiles() {
             var leftTopCorner = new Vector2(
-                -(fieldSize.x / 2) * tileStep,
-                fieldSize.y / 2 * tileStep
+                -(FieldSize.X / 2f) * tileStep,
+                FieldSize.Y / 2f * tileStep
             );
-            for (var i = 0; i < fieldSize.x; i++) {
-                for (var j = 0; j < fieldSize.y; j++) {
+            for (var i = 0; i < FieldSize.X; i++) {
+                for (var j = 0; j < FieldSize.Y; j++) {
                     var point = new Vector3(
                         leftTopCorner.x + (j + 0.5f) * tileStep,
                         leftTopCorner.y - (i + 0.5f) * tileStep,
@@ -85,15 +86,15 @@ namespace Level {
             tileObject.name = $"Tile {i}-{j}";
             var tile = tileObject.GetComponent<Tile>();
             tile.fieldController = this;
-            tile.position = new Vector2(i, j);
+            tile.position = new IntPair(i, j);
             tile.SetColor(TileColor.None);
             return tile;
         }
 
         public void GenerateField() {
             var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
-            for (var i = 0; i < fieldSize.x; i++) {
-                for (var j = 0; j < fieldSize.y; j++) {
+            for (var i = 0; i < FieldSize.X; i++) {
+                for (var j = 0; j < FieldSize.Y; j++) {
                     var tile = Tiles[i, j];
                     tile.SetTileType(TileType.Open);
                     var colorIndex = Random.Range(0, colors.Length);
@@ -107,8 +108,8 @@ namespace Level {
         }
 
         [ItemCanBeNull]
-        public HashSet<HashSet<List<int>>> GetAllPossibleTurns() {
-            var res = new HashSet<HashSet<List<int>>>();
+        public HashSet<HashSet<IntPair>> GetAllPossibleTurns() {
+            var res = new HashSet<HashSet<IntPair>>();
 
             foreach (var tile in Tiles) {
                 res.UnionWith(tile.GetTurns());
@@ -198,8 +199,8 @@ namespace Level {
             }
 
             var res = new HashSet<Tile>();
-            HashSet<Tile> horizontalCombination = new HashSet<Tile>(), verticalCombination = new HashSet<Tile>();
-            int x1 = (int)tile.position.x, y1 = (int)tile.position.y;
+            HashSet<Tile> horizontalCombination = new(), verticalCombination = new();
+            int x1 = tile.position.X, y1 = tile.position.Y;
             int x2 = x1, y2 = y1;
             while (x2 >= 0 && Tiles[x2, y2].tileType == TileType.Open && tile.tileColor == Tiles[x2, y2].tileColor) {
                 verticalCombination.Add(Tiles[x2, y2]);
@@ -207,7 +208,7 @@ namespace Level {
             }
 
             (x2, y2) = (x1 + 1, y1);
-            while (x2 < fieldSize.x && Tiles[x2, y2].tileType == TileType.Open &&
+            while (x2 < FieldSize.X && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
                 verticalCombination.Add(Tiles[x2, y2]);
                 x2++;
@@ -224,7 +225,7 @@ namespace Level {
             }
 
             (x2, y2) = (x1, y1);
-            while (y2 < fieldSize.y && Tiles[x2, y2].tileType == TileType.Open &&
+            while (y2 < FieldSize.Y && Tiles[x2, y2].tileType == TileType.Open &&
                    tile.tileColor == Tiles[x2, y2].tileColor) {
                 horizontalCombination.Add(Tiles[x2, y2]);
                 y2++;

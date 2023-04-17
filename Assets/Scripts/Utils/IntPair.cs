@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Utils {
     public class IntPair : IComparable<IntPair>, IEquatable<IntPair> {
-        int X { get; }
-        int Y { get; }
+        public readonly int X;
+        public readonly int Y;
 
         public IntPair(int x = 0, int y = 0) {
             X = x;
@@ -74,6 +74,10 @@ namespace Utils {
 
         public static IntPair operator -(IntPair left, IntPair right) {
             return new IntPair(left.X - right.X, left.Y - right.Y);
+        }
+
+        public int ManhattanDistance() {
+            return Math.Abs(X) + Math.Abs(Y);
         }
 
         public int ManhattanDistance(IntPair other) {
