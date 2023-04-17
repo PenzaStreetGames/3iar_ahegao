@@ -7,6 +7,8 @@ public class LevelController : MonoBehaviour {
 
     public FieldController fieldController;
 
+    public int startTurnCount;
+
     public int turnCounter;
 
     public int destroyedTilesCounter;
@@ -18,26 +20,29 @@ public class LevelController : MonoBehaviour {
 
 
     public LevelStatusEnum CheckLevelState() {
-        if (CheckIfTurnsExists()) {
-            Debug.Log("Не осталось комбинаций на поле. Вы проиграли!");
-            return LevelStatusEnum.NoCombinationsLeftLose;
+        var state = LevelStatusEnum.StillPlaying;
+        if (!CheckIfTurnsExists()) {
+            state = LevelStatusEnum.NoCombinationsLeftLose;
+        } else if (CheckSuccessLevelEnd()) {
+            state = LevelStatusEnum.Win;
+        } else if (CheckLevelEnd()) {
+            state = LevelStatusEnum.NoTurnsLeftLose;
         }
-        if (CheckSuccessLevelEnd()) {
-            Debug.Log("Вы победили");
-            return LevelStatusEnum.Win;
-        }
-        if (CheckLevelEnd()) {
-            Debug.Log("Закончились ходы. Вы проиграли!");
-            return LevelStatusEnum.NoTurnsLeftLose;
-        }
-        return LevelStatusEnum.StillPlaying;
+        return state;
     }
 
     //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
     //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
     public void RestartLevel(string message) {
-        fieldController.Init(5,5, null); //TODO: Проверить save-null
+        ResetState();
+        fieldController.GenerateFieldWithGuaranteedCombination();
         Debug.Log(message);
+    }
+
+    void ResetState() {
+        turnCounter = startTurnCount;
+        destroyedTilesCounter = 0;
+        score = 0;
     }
 
     //Функция, выполняющая всю логику после хода игрока
@@ -71,7 +76,7 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        Debug.Log($"Уничтожено всего: {destroyedTilesCounter}");
+        Debug.Log($"Уничтожено: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
@@ -93,7 +98,6 @@ public class LevelController : MonoBehaviour {
     public void IncreaseScoreForCombination(int combinationLength) {
         var delta = 0;
         if (combinationLength <= 2) {
-            Debug.LogError("Combination less than 3");
             return;
         }
         delta = combinationLength switch {
@@ -112,7 +116,7 @@ public class LevelController : MonoBehaviour {
         var save = SaveRepository.GetSave(-1, -1);
 
         fieldController.Init(
-            8, 8, save
+            4, 4, save
         );
     }
 

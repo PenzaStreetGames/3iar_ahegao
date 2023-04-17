@@ -144,6 +144,7 @@ namespace Level.TileEntity {
             for (int i = 1; i < 3; i++) {
                 if (top && x1 - i >= 0) {
                     int x2 = x1 - i, y2 = y1;
+                    //Debug.Log($"{fieldController.Tiles[x2,y2]}");
                     var other = fieldController.Tiles[x2, y2];
                     if (other.tileType != TileType.Open || other.tileColor != tileColor)
                         top = false;
