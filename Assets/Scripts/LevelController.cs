@@ -21,7 +21,7 @@ public class LevelController : MonoBehaviour {
 
 
 
-    public LevelStatus CheckLevelState() {
+    public LevelStatus GetLevelStatus() {
         var state = LevelStatus.StillPlaying;
         if (!CheckIfTurnsExists()) {
             state = LevelStatus.NoCombinationsLeftLose;
@@ -50,7 +50,8 @@ public class LevelController : MonoBehaviour {
     //Функция, выполняющая всю логику после хода игрока
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
-        switch (CheckLevelState()) {
+        levelStatus = GetLevelStatus();
+        switch (levelStatus) {
             case LevelStatus.Win:
                 RestartLevel("Поздравляем! Вы прошли уровень!");
                 break;
