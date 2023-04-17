@@ -4,7 +4,6 @@ using Db;
 using Db.Entity;
 using JetBrains.Annotations;
 using Level.TileEntity;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Level {
@@ -25,7 +24,7 @@ namespace Level {
         void Update() {
         }
 
-        public void Init(int xSize, int ySize) {
+        public void Init(int xSize, int ySize, Save save) {
             fieldSize = new Vector2(xSize, ySize);
             Tiles = new Tile[(int)fieldSize.x, (int)fieldSize.y];
             CreateTiles();
@@ -43,6 +42,20 @@ namespace Level {
 
 
             SaveRepository.InitDb();
+            ColorizeFromSave(save);
+        }
+
+        void ColorizeFromSave(Save save) {
+            if (save == default(Save)) {
+                return;
+            }
+
+            var tilePersistMatrix = save.GetDecodedFieldState();
+            for (var i = 0; i < Tiles.GetLength(0); i++) {
+                for (var j = 0; j < Tiles.GetLength(1); j++) {
+                    Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
+                }
+            }
         }
 
         void CreateTiles() {
@@ -79,8 +92,8 @@ namespace Level {
             for (var i = 0; i < fieldSize.x; i++) {
                 for (var j = 0; j < fieldSize.y; j++) {
                     var tile = Tiles[i, j];
-                    tile.tileType = TileType.Open;
-                    var colorIndex = (i + j + Random.Range(0, colors.Length)) % colors.Length;
+                    tile.SetTileType(TileType.Open);
+                    var colorIndex = Random.Range(0, colors.Length);
                     tile.SetColor(colors[colorIndex]);
                     while (tile.HaveCombinations()) {
                         Debug.Log($"({i}, {j}): have combinations");
@@ -108,6 +121,18 @@ namespace Level {
             }
             return res;
         }
+        //TODO: Проверка, что может сделать комбинацию у ячейки с соседними ячейками после КАЖДОГО ХОДА
+        //TODO: прокинуть в проверку окончания игры
+        public Tile FindTileWithCombinations() {
+            for (var row = 0; row < Tiles.GetLength(0); row++)
+            for (var column = 0; column < Tiles.GetLength(1); column++) {
+                var tile = Tiles[row, column];
+                if (tile.HaveCombinations()) {
+                    return tile;
+                }
+            }
+            return null;
+        }
 
 
         public void HandleTileClick(Tile tile) {
@@ -115,9 +140,18 @@ namespace Level {
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
                     SwapTileColors(chosenTile, tile);
-                    var deletedTiles = DeletePossibleCombinationsWith(tile);
-                    var deletedTiles2 = DeletePossibleCombinationsWith(chosenTile);
+                    DeletePossibleCombinationsWith(tile);
+                    DeletePossibleCombinationsWith(chosenTile);
+
                     CascadeFall();
+                    while (FindTileWithCombinations() != null) {
+                        var tileWithCombination = FindTileWithCombinations();
+                        while (tileWithCombination != null) {
+                            DeletePossibleCombinationsWith(tileWithCombination);
+                            tileWithCombination = FindTileWithCombinations();
+                        }
+                        CascadeFall();
+                    }
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
@@ -132,6 +166,29 @@ namespace Level {
             }
             tile.SetViewState(TileViewState.Selected);
             chosenTile = tile;
+        }
+
+        public void RandomFillTopEmptyTiles() {
+            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
+            for (int j = 0; j < Tiles.GetLength(1); j++) {
+                var tile = Tiles[0, j];
+                if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
+                    var colorIndex = Random.Range(0, colors.Length);
+                    tile.SetColor(colors[colorIndex]);
+                }
+            }
+        }
+
+        public bool HasEmptyTiles() {
+            for (int i = 0; i < Tiles.GetLength(0); i++) {
+                for (int j = 0; j < Tiles.GetLength(1); j++) {
+                    var tile = Tiles[i, j];
+                    if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public HashSet<Tile> GetPossibleCombinationsWith(Tile tile) {
@@ -187,7 +244,8 @@ namespace Level {
             foreach (var affectedTile in affectedTiles) {
                 affectedTile.SetColor(TileColor.None);
             }
-
+            levelController.IncreaseDestroyedTilesCounter(affectedTiles.Count);
+            levelController.IncreaseScoreForCombination(affectedTiles.Count);
             return affectedTiles;
         }
 
@@ -211,6 +269,13 @@ namespace Level {
         }
 
         public void CascadeFall() {
+            while (HasEmptyTiles()) {
+                CascadeFallIteration();
+                RandomFillTopEmptyTiles();
+            }
+        }
+
+        public void CascadeFallIteration() {
             for (int i = 0; i < Tiles.GetLength(0); i++) {
                 if (!IsFallOver()) {
                     ShiftFieldDown();

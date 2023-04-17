@@ -1,4 +1,6 @@
+using Db;
 using Level;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class LevelController : MonoBehaviour {
@@ -11,6 +13,8 @@ public class LevelController : MonoBehaviour {
     public int destroyedTilesCounter;
 
     public int targetDestroyedTilesCount;
+    public int score;
+
 
 
     public LevelStatusEnum CheckLevelState() {
@@ -32,13 +36,12 @@ public class LevelController : MonoBehaviour {
     //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
     //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
     public void RestartLevel(string message) {
-        fieldController.Init(5,5);
+        fieldController.Init(5,5, null); //TODO: Проверить save-null
         Debug.Log(message);
     }
 
     //Функция, выполняющая всю логику после хода игрока
-    public void UpdateAfterPlayerTurn(int destroyedTiles) {
-        IncreaseDestroyedTilesCounter(destroyedTiles);
+    public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
         switch (CheckLevelState()) {
             case LevelStatusEnum.Win:
@@ -87,11 +90,29 @@ public class LevelController : MonoBehaviour {
         return false;
     }
 
+    public void IncreaseScoreForCombination(int combinationLength) {
+        var delta = 0;
+        if (combinationLength <= 2) {
+            Debug.LogError("Combination less than 3");
+            return;
+        }
+        delta = combinationLength switch {
+            3 => 10,
+            4 => 30,
+            5 => 90,
+            6 => 270,
+            _ => 500
+        };
+        score += delta;
+    }
+
 
     // Start is called before the first frame update
     void Start() {
+        var save = SaveRepository.GetSave(-1, -1);
+
         fieldController.Init(
-            5, 5
+            8, 8, save
         );
     }
 
