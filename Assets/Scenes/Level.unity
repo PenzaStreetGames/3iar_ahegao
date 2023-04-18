@@ -167,7 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldSize: {x: 8, y: 8}
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   tileStep: 1.1
   levelController: {fileID: 866402120}
@@ -306,10 +305,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
   fieldController: {fileID: 117222792}
-  turnCounter: 2
+  startTurnCount: 10
+  turnCounter: 10
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 10
   score: 0
+  levelStatus: 0
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0

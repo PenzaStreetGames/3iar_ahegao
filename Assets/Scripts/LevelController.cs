@@ -1,4 +1,5 @@
 using Db;
+using Db.Entity;
 using Level;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ public class LevelController : MonoBehaviour {
 
     public LevelStatus GetLevelStatus() {
         var state = LevelStatus.StillPlaying;
+
         if (!CheckIfTurnsExists()) {
             state = LevelStatus.NoCombinationsLeftLose;
         } else if (CheckSuccessLevelEnd()) {
@@ -30,15 +32,21 @@ public class LevelController : MonoBehaviour {
         } else if (CheckLevelEnd()) {
             state = LevelStatus.NoTurnsLeftLose;
         }
+
         return state;
     }
 
     //Level restart function (in theory, in the future it should launch a dialog box with the Restart - Exit menu option).
     //Message - a message that will be displayed to the player at the end of the game in the future
     public void RestartLevel(string message) {
-        ResetState();
-        fieldController.GenerateFieldWithGuaranteedCombination();
         Debug.Log(message);
+
+        fieldController.GenerateFieldWithGuaranteedCombination();
+        Debug.Log("Reload Level. Resetting game state");
+        ResetState();
+
+        Debug.Log("Making new save");
+        SaveRepository.PersistSave(Save.MakeSaveFromData(fieldController.Tiles));
     }
 
     void ResetState() {
@@ -50,16 +58,17 @@ public class LevelController : MonoBehaviour {
     //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
+        Debug.Log($"Turns left:{turnCounter}");
         levelStatus = GetLevelStatus();
         switch (levelStatus) {
             case LevelStatus.Win:
                 RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelStatus.NoCombinationsLeftLose:
-                RestartLevel("You've lost! You have no turns left.");
+                RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelStatus.NoTurnsLeftLose:
-                RestartLevel("You've lost! Combinations have run out on the field.");
+                RestartLevel("You've lost! You don't have turns left.");
                 break;
             case LevelStatus.StillPlaying:
             default:
