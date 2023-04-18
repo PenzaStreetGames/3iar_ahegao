@@ -1,4 +1,5 @@
 using Db;
+using Db.Entity;
 using Level;
 using UnityEngine;
 
@@ -36,8 +37,11 @@ public class LevelController : MonoBehaviour {
     //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
     //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
     public void RestartLevel(string message) {
-        ResetState();
         fieldController.GenerateFieldWithGuaranteedCombination();
+        Debug.Log("Reload Level. Resetting game state");
+        ResetState();
+        Debug.Log("Making new save");
+        SaveRepository.PersistSave(Save.MakeSaveFromData(fieldController.Tiles));
         Debug.Log(message);
     }
 
