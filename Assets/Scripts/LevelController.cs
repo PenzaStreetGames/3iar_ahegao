@@ -20,8 +20,6 @@ public class LevelController : MonoBehaviour {
 
     public LevelStatus levelStatus;
 
-
-
     public LevelStatus GetLevelStatus() {
         var state = LevelStatus.StillPlaying;
 
@@ -122,10 +120,11 @@ public class LevelController : MonoBehaviour {
         score += delta;
     }
 
-
     // Start is called before the first frame update
     void Start() {
-        var save = SaveRepository.GetSave(-1, -1);
+        var level = LevelRepository.GetLevel();
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        SaveRepository.PersistSave(save);
 
         fieldController.Init(
             4, 4, save

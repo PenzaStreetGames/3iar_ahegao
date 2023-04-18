@@ -24,11 +24,11 @@ namespace Level {
         void Update() {
         }
 
-        public void GenerateFieldWithGuaranteedCombination() {
+        public void GenerateFieldWithGuaranteedCombination(SaveEntity saveEntity) {
             var tryGenerateCounter = 0;
             do {
                 Debug.Log("Regenerating field");
-                GenerateField();
+                ColorizeFromSave(saveEntity);
                 tryGenerateCounter++;
                 if (tryGenerateCounter == 3)
                 {
@@ -39,26 +39,33 @@ namespace Level {
             } while (GetAllPossibleTurns().Count == 0);
         }
 
-        public void Init(int xSize, int ySize, Save save) {
+        public void Init(int xSize, int ySize, SaveEntity saveEntity) {
             FieldSize = new IntPair(xSize, ySize);
             Tiles = new Tile[FieldSize.X, FieldSize.Y];
             CreateTiles();
-            GenerateFieldWithGuaranteedCombination();
-
-
-            SaveRepository.InitDb();
-            ColorizeFromSave(save);
+            GenerateFieldWithGuaranteedCombination(saveEntity);
         }
 
-        void ColorizeFromSave(Save save) {
-            if (save == default(Save)) {
-                return;
-            }
+        void ColorizeFromSave(SaveEntity saveEntity) {
+            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
 
-            var tilePersistMatrix = save.GetDecodedFieldState();
+            TilePersistData[,] tilePersistMatrix = null;
+            if (saveEntity != default(SaveEntity)) {
+                tilePersistMatrix = saveEntity.GetDecodedFieldState();
+            }
             for (var i = 0; i < Tiles.GetLength(0); i++) {
                 for (var j = 0; j < Tiles.GetLength(1); j++) {
-                    Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
+                    if (saveEntity == default(SaveEntity) || tilePersistMatrix[i, j].TileColor == TileColor.None) {
+                        var colorIndex = Random.Range(0, colors.Length);
+                        Tiles[i, j].SetColor(colors[colorIndex]);
+                        while (Tiles[i, j].HaveCombinations()) {
+                            colorIndex = (colorIndex + 1) % colors.Length;
+                            Tiles[i, j].SetColor(colors[colorIndex]);
+                        }
+                    }
+                    else {
+                        Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
+                    }
                 }
             }
         }
@@ -89,22 +96,6 @@ namespace Level {
             tile.position = new IntPair(i, j);
             tile.SetColor(TileColor.None);
             return tile;
-        }
-
-        public void GenerateField() {
-            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
-            for (var i = 0; i < FieldSize.X; i++) {
-                for (var j = 0; j < FieldSize.Y; j++) {
-                    var tile = Tiles[i, j];
-                    tile.SetTileType(TileType.Open);
-                    var colorIndex = Random.Range(0, colors.Length);
-                    tile.SetColor(colors[colorIndex]);
-                    while (tile.HaveCombinations()) {
-                        colorIndex = (colorIndex + 1) % colors.Length;
-                        tile.SetColor(colors[colorIndex]);
-                    }
-                }
-            }
         }
 
         [ItemCanBeNull]
@@ -154,7 +145,7 @@ namespace Level {
 
                     levelController.UpdateAfterPlayerTurn();
 
-                    SaveRepository.PersistSave(Save.MakeSaveFromData(Tiles));
+                    SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(Tiles));
                     return;
                 }
                 chosenTile.SetViewState(TileViewState.Active);
