@@ -307,8 +307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
   fieldController: {fileID: 117222792}
-  startTurnCount: 0
-  turnCounter: 2
+  startTurnCount: 10
+  turnCounter: 10
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 10
   score: 0

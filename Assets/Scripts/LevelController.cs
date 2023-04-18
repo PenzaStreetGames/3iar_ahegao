@@ -1,4 +1,5 @@
 using Db;
+using Db.Entity;
 using Level;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -42,12 +43,17 @@ public class LevelController : MonoBehaviour {
         return state;
     }
 
-    //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
-    //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
+    //Level restart function (in theory, in the future it should launch a dialog box with the Restart - Exit menu option).
+    //Message - a message that will be displayed to the player at the end of the game in the future
     public void RestartLevel(string message) {
-        ResetState();
-        fieldController.GenerateFieldWithGuaranteedCombination();
         Debug.Log(message);
+
+        fieldController.GenerateFieldWithGuaranteedCombination();
+        Debug.Log("Reload Level. Resetting game state");
+        ResetState();
+
+        Debug.Log("Making new save");
+        SaveRepository.PersistSave(Save.MakeSaveFromData(fieldController.Tiles));
     }
 
     void ResetState() {
@@ -56,19 +62,19 @@ public class LevelController : MonoBehaviour {
         score = 0;
     }
 
-    //Функция, выполняющая всю логику после хода игрока
+    //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
-                RestartLevel("Поздравляем! Вы прошли уровень!");
+                RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelProgressStage.NoCombinationsLeftLose:
-                RestartLevel("Вы проиграли! У вас не осталось ходов.");
+                RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelProgressStage.NoTurnsLeftLose:
-                RestartLevel("Вы проиграли! На поле закончились комбинации.");
+                RestartLevel("You've lost! You don't have turns left.");
                 break;
             case LevelProgressStage.StillPlaying:
             default:
@@ -88,7 +94,7 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        // Debug.Log($"Уничтожено: {destroyedTilesCounter}");
+        Debug.Log($"Destroyed: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
@@ -120,5 +126,20 @@ public class LevelController : MonoBehaviour {
             _ => 500
         };
         score += delta;
+    }
+
+    // Start is called before the first frame update
+    void Start() {
+        var level = LevelRepository.GetLevel();
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        SaveRepository.PersistSave(save);
+
+        fieldController.Init(
+            4, 4, save
+        );
+    }
+
+    // Update is called once per frame
+    void Update() {
     }
 }
