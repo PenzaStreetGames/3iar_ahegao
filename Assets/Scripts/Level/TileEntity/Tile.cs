@@ -15,9 +15,11 @@ namespace Level.TileEntity {
         public TileViewState tileViewState;
         public float chosenShadowSharpness;
         public float chosenScale;
+        public SpriteRenderer spriteRenderer;
 
         // Start is called before the first frame update
         void Start() {
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
         // Update is called once per frame
@@ -196,7 +198,6 @@ namespace Level.TileEntity {
 
         void CalculateEffects() {
             var baseColor = colors[(int)tileColor];
-            var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             var color = baseColor;
             var localScale = new Vector3(1, 1, 1);
             switch (tileViewState) {

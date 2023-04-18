@@ -167,10 +167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldSize: {x: 8, y: 8}
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   tileStep: 1.1
   levelController: {fileID: 866402120}
+  levelEventQueue: {fileID: 866402124}
   chosenTile: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
@@ -285,6 +285,7 @@ GameObject:
   - component: {fileID: 866402122}
   - component: {fileID: 866402121}
   - component: {fileID: 866402120}
+  - component: {fileID: 866402124}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -306,10 +307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
   fieldController: {fileID: 117222792}
+  startTurnCount: 0
   turnCounter: 2
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 10
   score: 0
+  levelProgressStage: 0
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,3 +356,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &866402124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866402119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2abfc043b50a4fae9dd3e2895772a7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

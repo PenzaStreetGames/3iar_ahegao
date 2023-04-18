@@ -1,34 +1,43 @@
 using Db;
 using Level;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelController : MonoBehaviour {
     public GameController gameController;
-
     public FieldController fieldController;
-
     public int startTurnCount;
-
     public int turnCounter;
-
     public int destroyedTilesCounter;
-
     public int targetDestroyedTilesCount;
-
     public int score = 0;
+    [FormerlySerializedAs("levelStatus")] public LevelProgressStage levelProgressStage;
+    public static LevelController Instance;
 
-    public LevelStatus levelStatus;
 
+    // Start is called before the first frame update
+    void Start() {
+        if (Instance == null) {
+            Instance = this;
+        }
+        var save = SaveRepository.GetSave(-1, -1);
+        fieldController.Init(
+            4, 4, save
+        );
+    }
 
+    // Update is called once per frame
+    void Update() {
+    }
 
-    public LevelStatus GetLevelStatus() {
-        var state = LevelStatus.StillPlaying;
+    public LevelProgressStage GetLevelStatus() {
+        var state = LevelProgressStage.StillPlaying;
         if (!CheckIfTurnsExists()) {
-            state = LevelStatus.NoCombinationsLeftLose;
+            state = LevelProgressStage.NoCombinationsLeftLose;
         } else if (CheckSuccessLevelEnd()) {
-            state = LevelStatus.Win;
+            state = LevelProgressStage.Win;
         } else if (CheckLevelEnd()) {
-            state = LevelStatus.NoTurnsLeftLose;
+            state = LevelProgressStage.NoTurnsLeftLose;
         }
         return state;
     }
@@ -50,18 +59,18 @@ public class LevelController : MonoBehaviour {
     //Функция, выполняющая всю логику после хода игрока
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
-        levelStatus = GetLevelStatus();
-        switch (levelStatus) {
-            case LevelStatus.Win:
+        levelProgressStage = GetLevelStatus();
+        switch (levelProgressStage) {
+            case LevelProgressStage.Win:
                 RestartLevel("Поздравляем! Вы прошли уровень!");
                 break;
-            case LevelStatus.NoCombinationsLeftLose:
+            case LevelProgressStage.NoCombinationsLeftLose:
                 RestartLevel("Вы проиграли! У вас не осталось ходов.");
                 break;
-            case LevelStatus.NoTurnsLeftLose:
+            case LevelProgressStage.NoTurnsLeftLose:
                 RestartLevel("Вы проиграли! На поле закончились комбинации.");
                 break;
-            case LevelStatus.StillPlaying:
+            case LevelProgressStage.StillPlaying:
             default:
                 break;
         }
@@ -79,7 +88,7 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        Debug.Log($"Уничтожено: {destroyedTilesCounter}");
+        // Debug.Log($"Уничтожено: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
@@ -111,19 +120,5 @@ public class LevelController : MonoBehaviour {
             _ => 500
         };
         score += delta;
-    }
-
-
-    // Start is called before the first frame update
-    void Start() {
-        var save = SaveRepository.GetSave(-1, -1);
-
-        fieldController.Init(
-            4, 4, save
-        );
-    }
-
-    // Update is called once per frame
-    void Update() {
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Db;
 using Db.Entity;
 using JetBrains.Annotations;
+using Level.EventQueue;
 using Level.TileEntity;
 using UnityEngine;
 using Utils;
@@ -13,15 +14,27 @@ namespace Level {
         public float tileStep = 1f;
 
         public LevelController levelController;
+        public LevelEventQueue levelEventQueue;
         public Tile chosenTile;
         public Tile[,] Tiles;
 
+        public static FieldController Instance;
+
         // Start is called before the first frame update
         void Start() {
+            if (Instance == null)
+                Instance = this;
         }
 
         // Update is called once per frame
         void Update() {
+            if (levelEventQueue.IsFieldStable()) {
+                var tileWithCombination = FindTileWithCombinations();
+                if (tileWithCombination != null) {
+                    DeletePossibleCombinationsWith(tileWithCombination);
+                }
+            }
+            ShiftFieldDown();
         }
 
         public void GenerateFieldWithGuaranteedCombination() {
@@ -30,12 +43,10 @@ namespace Level {
                 Debug.Log("Regenerating field");
                 GenerateField();
                 tryGenerateCounter++;
-                if (tryGenerateCounter == 3)
-                {
+                if (tryGenerateCounter == 3) {
                     Debug.LogError("Достигнут лимит перегенерации поля.");
                     break;
                 }
-
             } while (GetAllPossibleTurns().Count == 0);
         }
 
@@ -44,7 +55,6 @@ namespace Level {
             Tiles = new Tile[FieldSize.X, FieldSize.Y];
             CreateTiles();
             GenerateFieldWithGuaranteedCombination();
-
 
             SaveRepository.InitDb();
             ColorizeFromSave(save);
@@ -136,8 +146,9 @@ namespace Level {
             return null;
         }
 
-
         public void HandleTileClick(Tile tile) {
+            if (!levelEventQueue.IsFieldStable())
+                return;
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(tile)) {
@@ -145,15 +156,15 @@ namespace Level {
                     DeletePossibleCombinationsWith(tile);
                     DeletePossibleCombinationsWith(chosenTile);
 
-                    CascadeFall();
-                    while (FindTileWithCombinations() != null) {
-                        var tileWithCombination = FindTileWithCombinations();
-                        while (tileWithCombination != null) {
-                            DeletePossibleCombinationsWith(tileWithCombination);
-                            tileWithCombination = FindTileWithCombinations();
-                        }
-                        CascadeFall();
-                    }
+                    // CascadeFall();
+                    // while (FindTileWithCombinations() != null) {
+                    //     var tileWithCombination = FindTileWithCombinations();
+                    //     while (tileWithCombination != null) {
+                    //         DeletePossibleCombinationsWith(tileWithCombination);
+                    //         tileWithCombination = FindTileWithCombinations();
+                    //     }
+                    //     CascadeFall();
+                    // }
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
@@ -171,13 +182,17 @@ namespace Level {
         }
 
         public void RandomFillTopEmptyTiles() {
-            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
             for (int j = 0; j < Tiles.GetLength(1); j++) {
                 var tile = Tiles[0, j];
-                if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
-                    var colorIndex = Random.Range(0, colors.Length);
-                    tile.SetColor(colors[colorIndex]);
-                }
+                RandomFillEmptyTile(tile);
+            }
+        }
+
+        public void RandomFillEmptyTile(Tile tile) {
+            var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
+            if (tile.tileType == TileType.Open && tile.tileColor == TileColor.None) {
+                var colorIndex = Random.Range(0, colors.Length);
+                tile.SetColor(colors[colorIndex]);
             }
         }
 
@@ -237,14 +252,13 @@ namespace Level {
 
             return res;
         }
-        public HashSet<Tile> DeletePossibleCombinationsWith(Tile tile) {
-            var affectedTiles = GetPossibleCombinationsWith(tile);
-            foreach (var affectedTile in affectedTiles) {
-                affectedTile.SetColor(TileColor.None);
+
+        public void DeletePossibleCombinationsWith(Tile tile) {
+            var combination = GetPossibleCombinationsWith(tile);
+            if (combination.Count > 0) {
+                var squashingEvent = new CombinationSquashingEvent(combination);
+                levelEventQueue.Enqueue(squashingEvent, squashingEvent.Delay);
             }
-            levelController.IncreaseDestroyedTilesCounter(affectedTiles.Count);
-            levelController.IncreaseScoreForCombination(affectedTiles.Count);
-            return affectedTiles;
         }
 
         public void SwapTileColors(Tile tile1, Tile tile2) {
@@ -294,15 +308,21 @@ namespace Level {
             }
             return res;
         }
+
         public void ShiftFieldDown() {
             for (int i = Tiles.GetLength(0) - 1; i >= 0; i--) {
                 for (int j = 0; j < Tiles.GetLength(1); j++) {
                     var tile = Tiles[i, j];
-                    if (tile.CanFallDown()) {
-                        var underTile = Tiles[i + 1, j];
-                        SwapTileColors(tile, underTile);
-                    }
+                    ShiftTileDown(tile);
                 }
+            }
+        }
+
+        public void ShiftTileDown(Tile tile) {
+            var (x, y) = (tile.position.X, tile.position.Y);
+            if (tile.CanFallDown()) {
+                var tileFallingEvent = new TileFallingEvent(tile);
+                levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
             }
         }
     }
