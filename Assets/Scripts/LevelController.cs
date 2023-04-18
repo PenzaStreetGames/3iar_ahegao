@@ -2,35 +2,47 @@ using Db;
 using Db.Entity;
 using Level;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelController : MonoBehaviour {
     public GameController gameController;
-
     public FieldController fieldController;
-
     public int startTurnCount;
-
     public int turnCounter;
-
     public int destroyedTilesCounter;
-
     public int targetDestroyedTilesCount;
-
     public int score = 0;
+    [FormerlySerializedAs("levelStatus")] public LevelProgressStage levelProgressStage;
+    public static LevelController Instance;
 
-    public LevelStatus levelStatus;
-
-    public LevelStatus GetLevelStatus() {
-        var state = LevelStatus.StillPlaying;
-
-        if (!CheckIfTurnsExists()) {
-            state = LevelStatus.NoCombinationsLeftLose;
-        } else if (CheckSuccessLevelEnd()) {
-            state = LevelStatus.Win;
-        } else if (CheckLevelEnd()) {
-            state = LevelStatus.NoTurnsLeftLose;
+    // Start is called before the first frame update
+    void Start() {
+        if (Instance == null) {
+            Instance = this;
         }
 
+        var level = LevelRepository.GetLevel();
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        SaveRepository.PersistSave(save);
+
+        fieldController.Init(save);
+    }
+
+    // Update is called once per frame
+    void Update() {
+    }
+
+    public LevelProgressStage GetLevelStatus() {
+        var state = LevelProgressStage.StillPlaying;
+        if (!CheckIfTurnsExists()) {
+            state = LevelProgressStage.NoCombinationsLeftLose;
+        }
+        else if (CheckSuccessLevelEnd()) {
+            state = LevelProgressStage.Win;
+        }
+        else if (CheckLevelEnd()) {
+            state = LevelProgressStage.NoTurnsLeftLose;
+        }
         return state;
     }
 
@@ -39,12 +51,12 @@ public class LevelController : MonoBehaviour {
     public void RestartLevel(string message) {
         Debug.Log(message);
 
-        fieldController.GenerateFieldWithGuaranteedCombination();
+        fieldController.GenerateFieldWithGuaranteedCombination(default);
         Debug.Log("Reload Level. Resetting game state");
         ResetState();
 
         Debug.Log("Making new save");
-        SaveRepository.PersistSave(Save.MakeSaveFromData(fieldController.Tiles));
+        SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(fieldController.Tiles));
     }
 
     void ResetState() {
@@ -56,19 +68,18 @@ public class LevelController : MonoBehaviour {
     //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
-        Debug.Log($"Turns left:{turnCounter}");
-        levelStatus = GetLevelStatus();
-        switch (levelStatus) {
-            case LevelStatus.Win:
+        levelProgressStage = GetLevelStatus();
+        switch (levelProgressStage) {
+            case LevelProgressStage.Win:
                 RestartLevel("Congratulations! You have passed the level!");
                 break;
-            case LevelStatus.NoCombinationsLeftLose:
+            case LevelProgressStage.NoCombinationsLeftLose:
                 RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
-            case LevelStatus.NoTurnsLeftLose:
+            case LevelProgressStage.NoTurnsLeftLose:
                 RestartLevel("You've lost! You don't have turns left.");
                 break;
-            case LevelStatus.StillPlaying:
+            case LevelProgressStage.StillPlaying:
             default:
                 break;
         }
@@ -118,20 +129,5 @@ public class LevelController : MonoBehaviour {
             _ => 500
         };
         score += delta;
-    }
-
-    // Start is called before the first frame update
-    void Start() {
-        var level = LevelRepository.GetLevel();
-        var save = SaveEntity.MakeSaveFromLevel(level);
-        SaveRepository.PersistSave(save);
-
-        fieldController.Init(
-            4, 4, save
-        );
-    }
-
-    // Update is called once per frame
-    void Update() {
     }
 }

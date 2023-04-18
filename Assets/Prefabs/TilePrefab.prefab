@@ -127,14 +127,13 @@ MonoBehaviour:
   fieldController: {fileID: 0}
   tileColor: 0
   tileType: 0
-  tileViewState: 0
-  position: {x: 0, y: 0}
-  selected: 0
   colors:
   - {r: 0.45817018, g: 0.5455085, b: 0.6792453, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 0, b: 1, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
   - {r: 1, g: 1, b: 0, a: 1}
+  tileViewState: 0
   chosenShadowSharpness: 0.8
   chosenScale: 0.8
+  spriteRenderer: {fileID: 3479161811006478610}
