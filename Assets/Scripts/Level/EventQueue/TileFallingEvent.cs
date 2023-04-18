@@ -16,12 +16,12 @@ namespace Level.EventQueue {
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];
             fieldController.ShiftTileDown(tile);
-            if (x > 0) {
+            if (!Tile.InTopLayer()) {
                 var tileAbove = fieldController.Tiles[x - 1, y];
                 var nextFallingEvent = new TileFallingEvent(tileAbove);
                 levelEventQueue.Enqueue(nextFallingEvent, Delay);
             }
-            else if (x == 0) {
+            else {
                 var tileFillingEvent = new TileFillingEvent(tile);
                 levelEventQueue.Enqueue(tileFillingEvent, tileFillingEvent.Delay);
             }

@@ -312,7 +312,7 @@ MonoBehaviour:
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 1000
   score: 0
-  levelProgressStage: 0
+  levelProgressStage: 3
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0

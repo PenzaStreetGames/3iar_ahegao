@@ -98,12 +98,23 @@ namespace Level.TileEntity {
 
         public bool CanFallDown() {
             int x = position.X, y = position.Y;
-            if (x >= (int)fieldController.FieldSize.X - 1)
+            if (x >= fieldController.FieldSize.X - 1)
                 return false;
             var other = fieldController.Tiles[x + 1, y];
             if (other.tileType != TileType.Open)
                 return false;
             return other.tileColor == TileColor.None;
+        }
+
+        public bool InTopLayer() {
+            var (x, y) = (position.X, position.Y);
+            for (int i = x; i > 0; i--) {
+                var tileAbove = fieldController.Tiles[i - 1, y];
+                if (tileAbove.tileType is TileType.Open or TileType.Blocked) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool MakesCombinationWhenSwappedWith(Tile other) {
