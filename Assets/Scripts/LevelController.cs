@@ -33,8 +33,8 @@ public class LevelController : MonoBehaviour {
         return state;
     }
 
-    //Функция перезапуска уровня (по идее в будущем должно запускать диалоговое окно с выбором Перезапустить - Выйти в меню).
-    //Message - сообщение, которое будет в будущем выводиться игроку при завершении игры
+    //Level restart function (in theory, in the future it should launch a dialog box with the Restart - Exit menu option).
+    //Message - a message that will be displayed to the player at the end of the game in the future
     public void RestartLevel(string message) {
         ResetState();
         fieldController.GenerateFieldWithGuaranteedCombination();
@@ -47,19 +47,19 @@ public class LevelController : MonoBehaviour {
         score = 0;
     }
 
-    //Функция, выполняющая всю логику после хода игрока
+    //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
         DecrementTurnCounter();
         levelStatus = GetLevelStatus();
         switch (levelStatus) {
             case LevelStatus.Win:
-                RestartLevel("Поздравляем! Вы прошли уровень!");
+                RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelStatus.NoCombinationsLeftLose:
-                RestartLevel("Вы проиграли! У вас не осталось ходов.");
+                RestartLevel("You've lost! You have no turns left.");
                 break;
             case LevelStatus.NoTurnsLeftLose:
-                RestartLevel("Вы проиграли! На поле закончились комбинации.");
+                RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelStatus.StillPlaying:
             default:
@@ -79,7 +79,7 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        Debug.Log($"Уничтожено: {destroyedTilesCounter}");
+        Debug.Log($"Destroyed: {destroyedTilesCounter}");
     }
 
     public bool CheckLevelEnd() {
