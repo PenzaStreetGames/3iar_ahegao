@@ -115,13 +115,6 @@ namespace Level {
                 res.UnionWith(tile.GetTurns());
             }
 
-            // Debug.Log("All possible turns");
-            // foreach (var turn in res) {
-            //     foreach (var position in turn) {
-            //         Debug.Log($"pos: {position[0]},{position[1]}");
-            //     }
-            //
-            // }
             return res;
         }
 
