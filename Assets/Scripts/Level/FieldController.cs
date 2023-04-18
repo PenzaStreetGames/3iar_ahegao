@@ -32,7 +32,7 @@ namespace Level {
                 tryGenerateCounter++;
                 if (tryGenerateCounter == 3)
                 {
-                    Debug.LogError("Достигнут лимит перегенерации поля.");
+                    Debug.LogError("The field regeneration limit has been reached.");
                     break;
                 }
 
