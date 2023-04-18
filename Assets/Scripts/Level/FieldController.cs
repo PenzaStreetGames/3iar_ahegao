@@ -34,7 +34,6 @@ namespace Level {
                     DeletePossibleCombinationsWith(tileWithCombination);
                 }
             }
-            ShiftFieldDown();
         }
 
         public void GenerateFieldWithGuaranteedCombination(SaveEntity saveEntity) {
@@ -47,11 +46,13 @@ namespace Level {
                     Debug.LogError("The field regeneration limit has been reached.");
                     break;
                 }
+                Debug.Log(GetAllPossibleTurns().Count);
             } while (GetAllPossibleTurns().Count == 0);
         }
 
-        public void Init(int xSize, int ySize, SaveEntity saveEntity) {
-            FieldSize = new IntPair(xSize, ySize);
+        public void Init(SaveEntity saveEntity) {
+            var decodedLevel = saveEntity.GetDecodedFieldState();
+            FieldSize = new IntPair(decodedLevel.GetLength(0), decodedLevel.GetLength(1));
             Tiles = new Tile[FieldSize.X, FieldSize.Y];
             CreateTiles();
             GenerateFieldWithGuaranteedCombination(saveEntity);
@@ -60,19 +61,20 @@ namespace Level {
         void ColorizeFromSave(SaveEntity saveEntity) {
             var colors = new[] { TileColor.Red, TileColor.Blue, TileColor.Green, TileColor.Yellow };
 
-            TilePersistData[,] tilePersistMatrix = null;
-            if (saveEntity != default(SaveEntity)) {
-                tilePersistMatrix = saveEntity.GetDecodedFieldState();
-            }
+            var tilePersistMatrix = saveEntity.GetDecodedFieldState();
+            Debug.Log($"{tilePersistMatrix.GetLength(0)} {tilePersistMatrix.GetLength(1)}");
             for (var i = 0; i < Tiles.GetLength(0); i++) {
                 for (var j = 0; j < Tiles.GetLength(1); j++) {
-                    if (saveEntity == default(SaveEntity) || tilePersistMatrix[i, j].TileColor == TileColor.None) {
+                    Tiles[i, j].SetTileType(tilePersistMatrix[i, j].TileType);
+                    if (tilePersistMatrix[i, j].TileColor == TileColor.None) {
                         var colorIndex = Random.Range(0, colors.Length);
                         Tiles[i, j].SetColor(colors[colorIndex]);
                         while (Tiles[i, j].HaveCombinations()) {
                             colorIndex = (colorIndex + 1) % colors.Length;
                             Tiles[i, j].SetColor(colors[colorIndex]);
+                            Debug.Log($"{Tiles[i, j].HaveCombinations()}");
                         }
+                        Debug.Log($"{Tiles[i, j].HaveCombinations()}");
                     }
                     else {
                         Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
@@ -265,23 +267,23 @@ namespace Level {
             }
         }
 
-        public void CascadeFall() {
-            while (HasEmptyTiles()) {
-                CascadeFallIteration();
-                RandomFillTopEmptyTiles();
-            }
-        }
+        // public void CascadeFall() {
+        //     while (HasEmptyTiles()) {
+        //         CascadeFallIteration();
+        //         RandomFillTopEmptyTiles();
+        //     }
+        // }
 
-        public void CascadeFallIteration() {
-            for (int i = 0; i < Tiles.GetLength(0); i++) {
-                if (!IsFallOver()) {
-                    ShiftFieldDown();
-                }
-                else {
-                    break;
-                }
-            }
-        }
+        // public void CascadeFallIteration() {
+        //     for (int i = 0; i < Tiles.GetLength(0); i++) {
+        //         if (!IsFallOver()) {
+        //             ShiftFieldDown();
+        //         }
+        //         else {
+        //             break;
+        //         }
+        //     }
+        // }
 
         public bool IsFallOver() {
             bool res = true;
@@ -294,20 +296,20 @@ namespace Level {
             return res;
         }
 
-        public void ShiftFieldDown() {
-            for (int i = Tiles.GetLength(0) - 1; i >= 0; i--) {
-                for (int j = 0; j < Tiles.GetLength(1); j++) {
-                    var tile = Tiles[i, j];
-                    ShiftTileDown(tile);
-                }
-            }
-        }
+        // public void ShiftFieldDown() {
+        //     for (int i = Tiles.GetLength(0) - 1; i >= 0; i--) {
+        //         for (int j = 0; j < Tiles.GetLength(1); j++) {
+        //             var tile = Tiles[i, j];
+        //             ShiftTileDown(tile);
+        //         }
+        //     }
+        // }
 
         public void ShiftTileDown(Tile tile) {
             var (x, y) = (tile.position.X, tile.position.Y);
             if (tile.CanFallDown()) {
-                var tileFallingEvent = new TileFallingEvent(tile);
-                levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
+                var tileUnder = Tiles[x + 1, y];
+                SwapTileColors(tile, tileUnder);
             }
         }
     }

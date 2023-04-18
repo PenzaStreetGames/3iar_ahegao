@@ -6,7 +6,7 @@ using Utils;
 namespace Level.EventQueue {
     public class CombinationSquashingEvent : LevelEvent, IGameEvent {
         public HashSet<Tile> Tiles;
-        public float Delay = 0.5f;
+        public float Delay = 0.2f;
 
         public CombinationSquashingEvent(HashSet<Tile> tiles) {
             Tiles = tiles;
@@ -26,8 +26,11 @@ namespace Level.EventQueue {
                 }
                 if (x > 0) {
                     var tileAbove = fieldController.Tiles[x - 1, y];
-                    var tileFallingEvent = new TileFallingEvent(tileAbove);
-                    levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
+                    if (tileAbove.tileType == TileType.Open && tileAbove.tileColor != TileColor.None) {
+                        var tileFallingEvent = new TileFallingEvent(tileAbove);
+                        levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
+                    }
+
                 }
                 else if (x == 0) {
                     var tileFillingEvent = new TileFillingEvent(tile);

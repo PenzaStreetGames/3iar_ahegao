@@ -15,16 +15,17 @@ public class LevelController : MonoBehaviour {
     [FormerlySerializedAs("levelStatus")] public LevelProgressStage levelProgressStage;
     public static LevelController Instance;
 
-
     // Start is called before the first frame update
     void Start() {
         if (Instance == null) {
             Instance = this;
         }
-        var save = SaveRepository.GetSave(-1, -1);
-        fieldController.Init(
-            4, 4, save
-        );
+
+        var level = LevelRepository.GetLevel();
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        SaveRepository.PersistSave(save);
+
+        fieldController.Init(save);
     }
 
     // Update is called once per frame
@@ -35,9 +36,11 @@ public class LevelController : MonoBehaviour {
         var state = LevelProgressStage.StillPlaying;
         if (!CheckIfTurnsExists()) {
             state = LevelProgressStage.NoCombinationsLeftLose;
-        } else if (CheckSuccessLevelEnd()) {
+        }
+        else if (CheckSuccessLevelEnd()) {
             state = LevelProgressStage.Win;
-        } else if (CheckLevelEnd()) {
+        }
+        else if (CheckLevelEnd()) {
             state = LevelProgressStage.NoTurnsLeftLose;
         }
         return state;
@@ -48,12 +51,12 @@ public class LevelController : MonoBehaviour {
     public void RestartLevel(string message) {
         Debug.Log(message);
 
-        fieldController.GenerateFieldWithGuaranteedCombination();
+        fieldController.GenerateFieldWithGuaranteedCombination(default);
         Debug.Log("Reload Level. Resetting game state");
         ResetState();
 
         Debug.Log("Making new save");
-        SaveRepository.PersistSave(Save.MakeSaveFromData(fieldController.Tiles));
+        SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(fieldController.Tiles));
     }
 
     void ResetState() {
@@ -126,20 +129,5 @@ public class LevelController : MonoBehaviour {
             _ => 500
         };
         score += delta;
-    }
-
-    // Start is called before the first frame update
-    void Start() {
-        var level = LevelRepository.GetLevel();
-        var save = SaveEntity.MakeSaveFromLevel(level);
-        SaveRepository.PersistSave(save);
-
-        fieldController.Init(
-            4, 4, save
-        );
-    }
-
-    // Update is called once per frame
-    void Update() {
     }
 }

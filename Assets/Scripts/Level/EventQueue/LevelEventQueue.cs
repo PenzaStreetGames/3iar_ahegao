@@ -29,7 +29,7 @@ namespace Level.EventQueue {
         }
 
         public void Enqueue(IGameEvent levelEvent, float delay) {
-            Debug.Log("Enqueue call");
+            Debug.Log($"Enqueue call {levelEvent.GetType()}");
             levelEvent.Enqueue(delay);
             PlannedEvents.Add(levelEvent);
         }
