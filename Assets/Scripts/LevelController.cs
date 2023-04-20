@@ -43,15 +43,20 @@ public class LevelController : MonoBehaviour {
         else if (CheckLevelEnd()) {
             state = LevelProgressStage.NoTurnsLeftLose;
         }
+        Debug.Log(state);
         return state;
     }
 
     //Level restart function (in theory, in the future it should launch a dialog box with the Restart - Exit menu option).
     //Message - a message that will be displayed to the player at the end of the game in the future
     public void RestartLevel(string message) {
-        Debug.Log(message);
+        Debug.LogWarning(message);
 
-        fieldController.GenerateFieldWithGuaranteedCombination(default);
+        fieldController.GenerateFieldWithGuaranteedCombination(
+            SaveEntity.MakeSaveFromLevel(
+                LevelRepository.GetLevel()
+            )
+        );
         Debug.Log("Reload Level. Resetting game state");
         ResetState();
 
@@ -67,7 +72,7 @@ public class LevelController : MonoBehaviour {
 
     //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
-        DecrementTurnCounter();
+        // DecrementTurnCounter();
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
@@ -97,14 +102,13 @@ public class LevelController : MonoBehaviour {
 
     public void IncreaseDestroyedTilesCounter(int count) {
         destroyedTilesCounter += count;
-        Debug.Log($"Destroyed: {destroyedTilesCounter}");
+        Debug.Log($"Destroyed: {count}");
     }
 
     public bool CheckLevelEnd() {
         if (turnCounter > 0) {
             return false;
         }
-
         return true;
     }
 
