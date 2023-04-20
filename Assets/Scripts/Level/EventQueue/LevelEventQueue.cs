@@ -29,7 +29,7 @@ namespace Level.EventQueue {
         }
 
         public void Enqueue(IGameEvent levelEvent, float delay) {
-            Debug.Log($"Enqueue call {levelEvent.GetType()}");
+            // Debug.Log($"Enqueue call {levelEvent.GetType()}");
             levelEvent.Enqueue(delay);
             PlannedEvents.Add(levelEvent);
         }
@@ -40,6 +40,8 @@ namespace Level.EventQueue {
                     case GameEventType.TileFalling:
                         return false;
                     case GameEventType.TileFilling:
+                        return false;
+                    case GameEventType.CombinationSquashing:
                         return false;
                 }
             }

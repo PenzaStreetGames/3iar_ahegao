@@ -34,6 +34,7 @@ namespace Level {
                     DeletePossibleCombinationsWith(tileWithCombination);
                 }
             }
+            levelController.UpdateAfterPlayerTurn();
         }
 
         public void GenerateFieldWithGuaranteedCombination(SaveEntity saveEntity) {
@@ -72,9 +73,9 @@ namespace Level {
                         while (Tiles[i, j].HaveCombinations()) {
                             colorIndex = (colorIndex + 1) % colors.Length;
                             Tiles[i, j].SetColor(colors[colorIndex]);
-                            Debug.Log($"{Tiles[i, j].HaveCombinations()}");
+                            //Debug.Log($"{Tiles[i, j].HaveCombinations()}");
                         }
-                        Debug.Log($"{Tiles[i, j].HaveCombinations()}");
+                        //Debug.Log($"{Tiles[i, j].HaveCombinations()}");
                     }
                     else {
                         Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
@@ -124,12 +125,12 @@ namespace Level {
 
         public Tile FindTileWithCombinations() {
             for (var row = 0; row < Tiles.GetLength(0); row++)
-            for (var column = 0; column < Tiles.GetLength(1); column++) {
-                var tile = Tiles[row, column];
-                if (tile.HaveCombinations()) {
-                    return tile;
+                for (var column = 0; column < Tiles.GetLength(1); column++) {
+                    var tile = Tiles[row, column];
+                    if (tile.HaveCombinations()) {
+                        return tile;
+                    }
                 }
-            }
             return null;
         }
 
@@ -142,22 +143,11 @@ namespace Level {
                     SwapTileColors(chosenTile, tile);
                     DeletePossibleCombinationsWith(tile);
                     DeletePossibleCombinationsWith(chosenTile);
-
-                    // CascadeFall();
-                    // while (FindTileWithCombinations() != null) {
-                    //     var tileWithCombination = FindTileWithCombinations();
-                    //     while (tileWithCombination != null) {
-                    //         DeletePossibleCombinationsWith(tileWithCombination);
-                    //         tileWithCombination = FindTileWithCombinations();
-                    //     }
-                    //     CascadeFall();
-                    // }
+                    levelController.DecrementTurnCounter();
 
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
-
-                    levelController.UpdateAfterPlayerTurn();
 
                     SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(Tiles));
                     return;
