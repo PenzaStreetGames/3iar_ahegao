@@ -17,8 +17,6 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        LevelRepository.InitDb();
-        SaveRepository.InitDb();
     }
 
     // Update is called once per frame
