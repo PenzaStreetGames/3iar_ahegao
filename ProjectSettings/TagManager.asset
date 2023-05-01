@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background_UI
+    uniqueID: 3561388067
+    locked: 0
+  - name: Background
+    uniqueID: 2075453157
+    locked: 0
+  - name: Tiles
+    uniqueID: 3767278443
+    locked: 0
+  - name: DialogWindows
+    uniqueID: 3981373569
+    locked: 0
