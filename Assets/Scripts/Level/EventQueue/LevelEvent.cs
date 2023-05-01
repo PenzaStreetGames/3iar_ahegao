@@ -5,10 +5,12 @@ namespace Level.EventQueue {
     public abstract class LevelEvent : IGameEvent {
         public float QueuingTime;
         public float ReleaseTime;
+        public float Delay;
 
         public void Enqueue(float delay) {
             QueuingTime = Time.time;
             ReleaseTime = QueuingTime + delay;
+            Delay = delay;
         }
 
         public bool CanReleased() {
@@ -23,6 +25,10 @@ namespace Level.EventQueue {
 
         public new GameEventType GetType() {
             throw new NotImplementedException();
+        }
+
+        public float GetDelay() {
+            return Delay;
         }
     }
 }

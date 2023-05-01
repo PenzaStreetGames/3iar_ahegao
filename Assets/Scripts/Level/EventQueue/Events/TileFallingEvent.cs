@@ -4,9 +4,10 @@ using Utils;
 namespace Level.EventQueue {
     public class TileFallingEvent : LevelEvent, IGameEvent{
         public Tile Tile;
-        public float Delay = 0.2f;
+        public new float Delay = 0.2f;
 
         public TileFallingEvent(Tile tile) {
+            base.Delay = Delay;
             Tile = tile;
         }
 
@@ -16,7 +17,7 @@ namespace Level.EventQueue {
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];
             fieldController.ShiftTileDown(tile);
-            if (!Tile.InTopLayer()) {
+            if (!Tile.InTopLayer(fieldController.Tiles)) {
                 var tileAbove = fieldController.Tiles[x - 1, y];
                 var nextFallingEvent = new TileFallingEvent(tileAbove);
                 levelEventQueue.Enqueue(nextFallingEvent, Delay);

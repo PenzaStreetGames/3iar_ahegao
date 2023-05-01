@@ -1,12 +1,15 @@
 using Db;
 using Db.Entity;
 using Level;
+using Level.EventQueue;
+using Level.TileEntity;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class LevelController : MonoBehaviour {
     public GameController gameController;
     public FieldController fieldController;
+    public LevelEventQueue levelEventQueue;
     public int startTurnCount;
     public int turnCounter;
     public int destroyedTilesCounter;
@@ -30,18 +33,24 @@ public class LevelController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        CheckLevelStatus();
     }
 
     public LevelProgressStage GetLevelStatus() {
         var state = LevelProgressStage.StillPlaying;
-        if (!CheckIfTurnsExists()) {
-            state = LevelProgressStage.NoCombinationsLeftLose;
+        if (levelEventQueue.IsFieldStable()) {
+            if (!CheckIfTurnsExists()) {
+                state = LevelProgressStage.NoCombinationsLeftLose;
+            }
+            else if (CheckSuccessLevelEnd()) {
+                state = LevelProgressStage.Win;
+            }
+            else if (CheckLevelEnd()) {
+                state = LevelProgressStage.NoTurnsLeftLose;
+            }
         }
-        else if (CheckSuccessLevelEnd()) {
-            state = LevelProgressStage.Win;
-        }
-        else if (CheckLevelEnd()) {
-            state = LevelProgressStage.NoTurnsLeftLose;
+        else {
+            state = LevelProgressStage.UnstableField;
         }
         return state;
     }
@@ -67,10 +76,11 @@ public class LevelController : MonoBehaviour {
         turnCounter = startTurnCount;
         destroyedTilesCounter = 0;
         score = 0;
+        fieldController.ResetField(SaveEntity.MakeSaveFromLevel(LevelRepository.GetLevel()));
     }
 
     //A function that performs all the logic after the player's turn
-    public void UpdateAfterPlayerTurn() {
+    public void CheckLevelStatus() {
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
@@ -83,6 +93,7 @@ public class LevelController : MonoBehaviour {
                 RestartLevel("You've lost! You don't have turns left.");
                 break;
             case LevelProgressStage.StillPlaying:
+            case LevelProgressStage.UnstableField:
             default:
                 break;
         }
