@@ -43,7 +43,6 @@ public class LevelController : MonoBehaviour {
         else if (CheckLevelEnd()) {
             state = LevelProgressStage.NoTurnsLeftLose;
         }
-        Debug.Log(state);
         return state;
     }
 
@@ -72,7 +71,6 @@ public class LevelController : MonoBehaviour {
 
     //A function that performs all the logic after the player's turn
     public void UpdateAfterPlayerTurn() {
-        // DecrementTurnCounter();
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:

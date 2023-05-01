@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using Db.Entity;
 using Mono.Data.Sqlite;

@@ -29,9 +29,9 @@ namespace Level {
         // Update is called once per frame
         void Update() {
             if (levelEventQueue.IsFieldStable()) {
-                var tileWithCombination = FindTileWithCombinations();
-                if (tileWithCombination != null) {
-                    DeletePossibleCombinationsWith(tileWithCombination);
+                var combinations = FindAllCombinations();
+                foreach (var combination in combinations) {
+                    DeleteCombination(combination);
                 }
             }
             levelController.UpdateAfterPlayerTurn();
@@ -134,6 +134,24 @@ namespace Level {
             return null;
         }
 
+        public HashSet<HashSet<Tile>> FindAllCombinations() {
+            var res = new HashSet<HashSet<Tile>>();
+            var affectedTiles = new HashSet<Tile>();
+            for (var row = 0; row < Tiles.GetLength(0); row++) {
+                for (var column = 0; column < Tiles.GetLength(1); column++) {
+                    var tile = Tiles[row, column];
+                    if (affectedTiles.Contains(tile))
+                        continue;
+                    if (tile.HaveCombinations()) {
+                        var combination = GetMaxCombinationWith(tile);
+                        res.Add(combination);
+                        affectedTiles.UnionWith(combination);
+                    }
+                }
+            }
+            return res;
+        }
+
         public void HandleTileClick(Tile tile) {
             if (!levelEventQueue.IsFieldStable())
                 return;
@@ -230,8 +248,30 @@ namespace Level {
             return res;
         }
 
+        public HashSet<Tile> GetMaxCombinationWith(Tile tile) {
+            var initCombination = GetPossibleCombinationsWith(tile);
+            var res = initCombination;
+            if (initCombination.Count == 0) {
+                return new HashSet<Tile>();
+            }
+            foreach (var tileInInitCombination in initCombination) {
+                var combination = GetPossibleCombinationsWith(tileInInitCombination);
+                if (combination.Count > res.Count) {
+                    res = combination;
+                }
+            }
+            return res;
+        }
+
         public void DeletePossibleCombinationsWith(Tile tile) {
             var combination = GetPossibleCombinationsWith(tile);
+            if (combination.Count > 0) {
+                var squashingEvent = new CombinationSquashingEvent(combination);
+                levelEventQueue.Enqueue(squashingEvent, squashingEvent.Delay);
+            }
+        }
+
+        public void DeleteCombination(HashSet<Tile> combination) {
             if (combination.Count > 0) {
                 var squashingEvent = new CombinationSquashingEvent(combination);
                 levelEventQueue.Enqueue(squashingEvent, squashingEvent.Delay);
@@ -257,24 +297,6 @@ namespace Level {
             }
         }
 
-        // public void CascadeFall() {
-        //     while (HasEmptyTiles()) {
-        //         CascadeFallIteration();
-        //         RandomFillTopEmptyTiles();
-        //     }
-        // }
-
-        // public void CascadeFallIteration() {
-        //     for (int i = 0; i < Tiles.GetLength(0); i++) {
-        //         if (!IsFallOver()) {
-        //             ShiftFieldDown();
-        //         }
-        //         else {
-        //             break;
-        //         }
-        //     }
-        // }
-
         public bool IsFallOver() {
             bool res = true;
             for (int i = 0; i < Tiles.GetLength(0); i++) {
@@ -285,15 +307,6 @@ namespace Level {
             }
             return res;
         }
-
-        // public void ShiftFieldDown() {
-        //     for (int i = Tiles.GetLength(0) - 1; i >= 0; i--) {
-        //         for (int j = 0; j < Tiles.GetLength(1); j++) {
-        //             var tile = Tiles[i, j];
-        //             ShiftTileDown(tile);
-        //         }
-        //     }
-        // }
 
         public void ShiftTileDown(Tile tile) {
             var (x, y) = (tile.position.X, tile.position.Y);
