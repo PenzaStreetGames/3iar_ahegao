@@ -13,6 +13,7 @@ namespace Level {
         public AudioSource audioSource;
         public AudioClip clickSound;
         public AudioClip swapSound;
+        public AudioClip backgroundSong;
 
         public IntPair FieldSize;
         public GameObject tilePrefab;
@@ -29,6 +30,8 @@ namespace Level {
         void Start() {
             if (Instance == null)
                 Instance = this;
+
+            audioSource.Play();
         }
 
         // Update is called once per frame
