@@ -10,6 +10,10 @@ using Utils;
 
 namespace Level {
     public class FieldController : MonoBehaviour {
+        public AudioSource audioSource;
+        public AudioClip clickSound;
+        public AudioClip swapSound;
+
         public IntPair FieldSize;
         public GameObject tilePrefab;
         public float tileStep = 1f;
@@ -150,11 +154,14 @@ namespace Level {
         }
 
         public void HandleTileClick(Tile tile) {
+            audioSource.PlayOneShot(clickSound);
+
             if (!levelEventQueue.IsFieldStable())
                 return;
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(Tiles, tile)) {
+                    audioSource.PlayOneShot(swapSound);
                     SwapTileColors(chosenTile, tile);
                     DeletePossibleCombinationsWith(tile);
                     DeletePossibleCombinationsWith(chosenTile);
