@@ -310,7 +310,7 @@ MonoBehaviour:
   startTurnCount: 10
   turnCounter: 10
   destroyedTilesCounter: 0
-  targetDestroyedTilesCount: 10
+  targetDestroyedTilesCount: 50
   score: 0
   levelProgressStage: 3
 --- !u!114 &866402121
