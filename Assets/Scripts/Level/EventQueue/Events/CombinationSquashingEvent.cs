@@ -6,9 +6,10 @@ using Utils;
 namespace Level.EventQueue {
     public class CombinationSquashingEvent : LevelEvent, IGameEvent {
         public HashSet<Tile> Tiles;
-        public float Delay = 0.2f;
+        public new float Delay = 0.2f;
 
         public CombinationSquashingEvent(HashSet<Tile> tiles) {
+            base.Delay = Delay;
             Tiles = tiles;
         }
 

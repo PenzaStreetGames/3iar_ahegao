@@ -3,6 +3,7 @@ using Db;
 using Db.Entity;
 using JetBrains.Annotations;
 using Level.EventQueue;
+using Level.EventQueue.Events;
 using Level.TileEntity;
 using UnityEngine;
 using Utils;
@@ -66,20 +67,11 @@ namespace Level {
             Debug.Log($"{tilePersistMatrix.GetLength(0)} {tilePersistMatrix.GetLength(1)}");
             for (var i = 0; i < Tiles.GetLength(0); i++) {
                 for (var j = 0; j < Tiles.GetLength(1); j++) {
-                    Tiles[i, j].SetTileType(tilePersistMatrix[i, j].TileType);
-                    if (tilePersistMatrix[i, j].TileColor == TileColor.None) {
-                        var colorIndex = Random.Range(0, colors.Length);
-                        Tiles[i, j].SetColor(colors[colorIndex]);
-                        while (Tiles[i, j].HaveCombinations()) {
-                            colorIndex = (colorIndex + 1) % colors.Length;
-                            Tiles[i, j].SetColor(colors[colorIndex]);
-                            //Debug.Log($"{Tiles[i, j].HaveCombinations()}");
-                        }
-                        //Debug.Log($"{Tiles[i, j].HaveCombinations()}");
-                    }
-                    else {
-                        Tiles[i, j].SetFromTilePersistData(tilePersistMatrix[i, j]);
-                    }
+                    var tileData = tilePersistMatrix[i, j];
+                    var tile = Tiles[i, j];
+                    var tileCreatingEvent = new TileCreatingEvent(tile, tileData);
+                    var delay = tileCreatingEvent.GetDelay() * (i * Tiles.GetLength(0) + j + 1);
+                    levelEventQueue.Enqueue(tileCreatingEvent, delay);
                 }
             }
         }
