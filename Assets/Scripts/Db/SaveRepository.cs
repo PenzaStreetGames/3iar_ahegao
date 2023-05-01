@@ -1,15 +1,65 @@
 using System.Data;
+using System.IO;
 using Db.Entity;
+using Db.Serialization;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
 namespace Db {
     public static class SaveRepository {
-        const string DBName = "URI=file:SaveRepository.db";
+        static readonly string DBName;
 
+        const string DBFile = "SaveRepository.bytes";
         const string LevelIdDbFiled = "level_id";
         const string UserIdDbField = "user_id";
         const string FieldSateDbField = "field_state";
+
+        static SaveRepository() {
+            DBName = "URI=file:" + GetDatabasePath();
+            // InitDb();
+        }
+
+        static string GetDatabasePath() {
+#if UNITY_EDITOR
+            return Path.Combine(Application.streamingAssetsPath, DBFile);
+#elif UNITY_STANDALONE_WIN
+            var filePath = Path.Combine(Application.dataPath, DBFile);
+            if (!File.Exists(filePath)) {
+                UnpackDatabase(filePath, false);
+            }
+            return filePath;
+#elif UNITY_STANDALONE_OSX
+            var filePath = Path.Combine(Application.dataPath, DBFile);
+            if (!File.Exists(filePath)) {
+                UnpackDatabase(filePath, true);
+            }
+            return filePath;
+#elif UNITY_STANDALONE_LINUX
+            var filePath = Path.Combine(Application.dataPath, DBFile);
+            if (!File.Exists(filePath)) {
+                UnpackDatabase(filePath, true);
+            }
+            return filePath;
+#elif UNITY_ANDROID
+            string filePath = Path.Combine(Application.persistentDataPath, DBFile);
+            if (!File.Exists(filePath)) {
+                UnpackDatabase(filePath, true);
+            }
+            return filePath;
+#endif
+        }
+
+        static void UnpackDatabase(string toPath, bool nix) {
+            var fromPath = Path.Combine(Application.streamingAssetsPath, DBFile);
+            if (nix) {
+                fromPath = "file://" + fromPath;
+            }
+
+            WWW reader = new WWW(fromPath);
+            while (!reader.isDone) { }
+
+            File.WriteAllBytes(toPath, reader.bytes);
+        }
 
         static string GetCreateDbCommand() {
             return $@"
@@ -55,7 +105,7 @@ namespace Db {
             ";
         }
 
-        public static void InitDb() {
+        private static void InitDb() {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();

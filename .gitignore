@@ -53,3 +53,5 @@ UserSettings/
 .idea
 
 SaveRepository.db
+
+.DS_Store
