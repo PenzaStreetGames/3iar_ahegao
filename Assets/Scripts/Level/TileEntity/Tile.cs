@@ -15,9 +15,11 @@ namespace Level.TileEntity {
         public TileViewState tileViewState;
         public float chosenShadowSharpness;
         public float chosenScale;
+        public SpriteRenderer spriteRenderer;
 
         // Start is called before the first frame update
         void Start() {
+            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
         // Update is called once per frame
@@ -96,12 +98,23 @@ namespace Level.TileEntity {
 
         public bool CanFallDown() {
             int x = position.X, y = position.Y;
-            if (x >= (int)fieldController.FieldSize.X - 1)
+            if (x >= fieldController.FieldSize.X - 1)
                 return false;
             var other = fieldController.Tiles[x + 1, y];
             if (other.tileType != TileType.Open)
                 return false;
             return other.tileColor == TileColor.None;
+        }
+
+        public bool InTopLayer() {
+            var (x, y) = (position.X, position.Y);
+            for (int i = x; i > 0; i--) {
+                var tileAbove = fieldController.Tiles[i - 1, y];
+                if (tileAbove.tileType is TileType.Open or TileType.Blocked) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public bool MakesCombinationWhenSwappedWith(Tile other) {
@@ -196,7 +209,6 @@ namespace Level.TileEntity {
 
         void CalculateEffects() {
             var baseColor = colors[(int)tileColor];
-            var spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             var color = baseColor;
             var localScale = new Vector3(1, 1, 1);
             switch (tileViewState) {

@@ -1,5 +1,5 @@
 ﻿namespace Level {
-    public enum LevelStatus {
+    public enum LevelProgressStage {
         Win = 0,
         NoCombinationsLeftLose = 1,
         NoTurnsLeftLose = 2,

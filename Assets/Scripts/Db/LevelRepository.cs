@@ -1,35 +1,27 @@
+using System;
 using System.Data;
 using Db.Entity;
 using Mono.Data.Sqlite;
 using UnityEngine;
 
 namespace Db {
-    public static class SaveRepository {
-        const string DBName = "URI=file:SaveRepository.db";
+    public static class LevelRepository {
+        const string DBName = "URI=file:LevelRepository.db";
 
         const string LevelIdDbFiled = "level_id";
-        const string UserIdDbField = "user_id";
-        const string FieldSateDbField = "field_state";
+        const string LevelDbField = "level";
 
         static string GetCreateDbCommand() {
             return $@"
-                create table if not exists save
+                create table if not exists level
                 (
                     {LevelIdDbFiled} bigint,
-                    {UserIdDbField} bigint,
-                    {FieldSateDbField} text
+                    {LevelDbField} text
                 );
             ";
         }
 
-        static string GetDeletePreviousSaveCommand(SaveEntity saveEntity) {
-            return $@"
-                delete from save
-                where level_id = {saveEntity.GetLevelId()};
-            ";
-        }
-
-        static string GetPersistSaveCommand(SaveEntity saveEntity) {
+        static string GetPersistLevelCommand(LevelEntity level) {
             return $@"
                 insert into save
                     (
@@ -39,19 +31,17 @@ namespace Db {
                     )
                 values
                     (
-                        {saveEntity.GetLevelId()},
-                        {saveEntity.GetUserId()},
-                        '{saveEntity.GetEncodedFieldState()}'
+                        {level.GetLevelId()},
+                        '{level.GetEncodedLevel()}'
                     );
             ";
         }
 
-        static string GetSelectSaveCommand(long levelId, long userId) {
+        static string GetSelectLevelCommand(long levelId) {
             return $@"
-                select * from save
+                select * from level
                 where
-                    level_id = {levelId} and
-                    user_id = {userId}
+                    level_id = {levelId}
             ";
         }
 
@@ -65,25 +55,23 @@ namespace Db {
             Debug.Log($"Db {DBName} initialized");
         }
 
-        public static void PersistSave(SaveEntity saveEntity) {
+        public static void PersistLevel(LevelEntity levelEntity) {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();
-            command.CommandText = GetDeletePreviousSaveCommand(saveEntity);
-            command.ExecuteNonQuery();
-            command.CommandText = GetPersistSaveCommand(saveEntity);
+            command.CommandText = GetPersistLevelCommand(levelEntity);
             command.ExecuteNonQuery();
         }
 
-        public static SaveEntity GetSave(long levelId = -1, long userId = -1) {
+        public static LevelEntity GetLevel(long levelId = -1) {
             using var connection = new SqliteConnection(DBName);
             connection.Open();
             using var command = connection.CreateCommand();
-            command.CommandText = GetSelectSaveCommand(levelId, userId);
+            command.CommandText = GetSelectLevelCommand(levelId);
             using var reader = command.ExecuteReader();
-            var result = default(SaveEntity);
+            var result = default(LevelEntity);
             if (reader.Read()) {
-                result = SaveParser(reader);
+                result = LevelParser(reader);
             }
             if (reader.Read()) {
                 throw new DataException("Multiple rows returned from query");
@@ -92,11 +80,10 @@ namespace Db {
             return result;
         }
 
-        static SaveEntity SaveParser(IDataRecord reader) {
-            return SaveEntity.MakeSaveFromData(
+        static LevelEntity LevelParser(IDataRecord reader) {
+            return LevelEntity.MakeLevelFromData(
                 levelId: (long)reader[LevelIdDbFiled],
-                userId: (long)reader[UserIdDbField],
-                fieldState: (string)reader[FieldSateDbField]
+                level: (string)reader[LevelDbField]
             );
         }
     }
