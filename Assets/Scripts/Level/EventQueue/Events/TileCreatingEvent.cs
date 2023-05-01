@@ -5,7 +5,7 @@ namespace Level.EventQueue.Events {
     public class TileCreatingEvent : LevelEvent, IGameEvent {
         public Tile Tile;
         public TilePersistData TileData;
-        public new float Delay = 0.1f;
+        public new float Delay = 0.05f;
 
         public TileCreatingEvent(Tile tile, TilePersistData tileData) {
             base.Delay = Delay;
@@ -21,7 +21,7 @@ namespace Level.EventQueue.Events {
             if (TileData.TileColor == TileColor.None) {
                 var colorIndex = Random.Range(0, colors.Length);
                 Tile.SetColor(colors[colorIndex]);
-                while (Tile.HaveCombinations()) {
+                while (Tile.HaveCombinations(fieldController.Tiles)) {
                     colorIndex = (colorIndex + 1) % colors.Length;
                     Tile.SetColor(colors[colorIndex]);
                 }

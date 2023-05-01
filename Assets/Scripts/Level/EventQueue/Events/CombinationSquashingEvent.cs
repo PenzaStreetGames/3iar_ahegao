@@ -25,7 +25,7 @@ namespace Level.EventQueue {
                 if (tile.tileType == TileType.Open && tile.tileColor != TileColor.None) {
                     tile.SetColor(TileColor.None);
                 }
-                if (!tile.InTopLayer()) {
+                if (!tile.InTopLayer(fieldController.Tiles)) {
                     var tileAbove = fieldController.Tiles[x - 1, y];
                     if (tileAbove.tileType == TileType.Open && tileAbove.tileColor != TileColor.None) {
                         var tileFallingEvent = new TileFallingEvent(tileAbove);

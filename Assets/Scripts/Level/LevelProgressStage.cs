@@ -3,6 +3,7 @@
         Win = 0,
         NoCombinationsLeftLose = 1,
         NoTurnsLeftLose = 2,
-        StillPlaying = 3
+        StillPlaying = 3,
+        UnstableField = 4,
     }
 }
