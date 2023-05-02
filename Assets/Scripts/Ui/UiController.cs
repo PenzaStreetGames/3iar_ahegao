@@ -17,13 +17,15 @@ namespace UI {
                     break;
                 case UiEventType.MusicToggleClick:
                     break;
-                case UiEventType.QuitButtonClick:
+                case UiEventType.QuitLevelButtonClick:
                     break;
                 case UiEventType.RestartButtonClick:
                     break;
                 case UiEventType.SoundToggleClick:
                     break;
                 case UiEventType.NextLevelButtonClick:
+                    break;
+                case UiEventType.QuitGameButtonClick:
                     break;
             }
 
