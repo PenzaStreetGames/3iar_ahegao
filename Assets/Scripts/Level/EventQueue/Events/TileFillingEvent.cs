@@ -1,3 +1,4 @@
+using Level.EventQueue.Events;
 using Level.TileEntity;
 using Utils;
 
@@ -22,6 +23,8 @@ namespace Level.EventQueue {
             if (tileUnder.tileType == TileType.Open && tileUnder.tileColor == TileColor.None) {
                 var tileFallingEvent = new TileFallingEvent(tile);
                 levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
+                var tileMovingEvent = new TileMovingEvent(tile, tileUnder, fieldController.movingTilePrefab);
+                levelEventQueue.Enqueue(tileMovingEvent, 0f);
             }
         }
 

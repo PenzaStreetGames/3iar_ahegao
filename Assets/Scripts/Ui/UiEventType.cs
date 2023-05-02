@@ -1,5 +1,5 @@
 namespace UI {
-    public enum UiEventType {
+    public enum UiEventType : int {
         WinButtonClick = 0,
         LoseButtonClick = 1,
         RestartButtonClick = 2,

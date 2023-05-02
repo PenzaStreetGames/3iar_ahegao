@@ -587,6 +587,7 @@ MonoBehaviour:
   releaseSound: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
   fallSound: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
+  movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b, type: 3}
   tileStep: 1.1
   levelController: {fileID: 866402120}
   levelEventQueue: {fileID: 866402124}
@@ -4663,7 +4664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.205, y: 0.9}
   m_AnchorMax: {x: 0.34, y: 0.97}
-  m_AnchoredPosition: {x: 0.0014953613, y: 0}
+  m_AnchoredPosition: {x: 0.0015258789, y: 0}
   m_SizeDelta: {x: -0.0029907, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2101178587
