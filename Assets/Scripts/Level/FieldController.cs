@@ -6,7 +6,6 @@ using Level.EventQueue;
 using Level.EventQueue.Events;
 using Level.TileEntity;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 
 namespace Level {
@@ -28,6 +27,8 @@ namespace Level {
 
         public static FieldController Instance;
 
+        static bool FirstTimeAfterStable = true;
+
         // Start is called before the first frame update
         void Start() {
             if (Instance == null)
@@ -39,10 +40,15 @@ namespace Level {
         // Update is called once per frame
         void Update() {
             if (levelEventQueue.IsFieldStable()) {
+                if (FirstTimeAfterStable) {
+                    SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(Tiles));
+                    FirstTimeAfterStable = false;
+                }
                 var combinations = FindAllCombinations();
                 foreach (var combination in combinations) {
                     DeleteCombination(combination);
                 }
+                SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(Tiles));
             }
         }
 
@@ -167,6 +173,7 @@ namespace Level {
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(Tiles, tile)) {
                     audioSource.PlayOneShot(swapSound);
+                    FirstTimeAfterStable = true;
                     SwapTileColors(chosenTile, tile);
                     DeletePossibleCombinationsWith(tile);
                     DeletePossibleCombinationsWith(chosenTile);
@@ -175,8 +182,6 @@ namespace Level {
                     tile.SetViewState(TileViewState.Active);
                     chosenTile.SetViewState(TileViewState.Active);
                     chosenTile = null;
-
-                    SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(Tiles));
                     return;
                 }
                 chosenTile.SetViewState(TileViewState.Active);

@@ -24,9 +24,12 @@ public class LevelController : MonoBehaviour {
             Instance = this;
         }
 
-        var level = LevelRepository.GetLevel();
-        var save = SaveEntity.MakeSaveFromLevel(level);
-        SaveRepository.PersistSave(save);
+        var save = SaveRepository.GetSave();
+        if (save == default(SaveEntity)) {
+            var level = LevelRepository.GetLevel();
+            save = SaveEntity.MakeSaveFromLevel(level);
+            SaveRepository.PersistSave(save);
+        }
 
         fieldController.Init(save);
     }
@@ -67,9 +70,6 @@ public class LevelController : MonoBehaviour {
         );
         Debug.Log("Reload Level. Resetting game state");
         ResetState();
-
-        Debug.Log("Making new save");
-        SaveRepository.PersistSave(SaveEntity.MakeSaveFromData(fieldController.Tiles));
     }
 
     void ResetState() {
