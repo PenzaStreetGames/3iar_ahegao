@@ -12,6 +12,7 @@ namespace Level.TileEntity {
         public IntPair position;
 
         public Color[] colors = new Color[Enum.GetValues(typeof(TileColor)).Length];
+        public Sprite[] sprites = new Sprite[Enum.GetValues(typeof(TileColor)).Length];
         public TileViewState tileViewState;
         public float chosenShadowSharpness;
         public float chosenScale;
@@ -19,7 +20,6 @@ namespace Level.TileEntity {
 
         // Start is called before the first frame update
         void Start() {
-            spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         }
 
         // Update is called once per frame
@@ -69,6 +69,7 @@ namespace Level.TileEntity {
             tileColor = color;
             CalculateEffects();
         }
+
 
         public void SetTileType(TileType type) {
             tileType = type;
@@ -208,9 +209,10 @@ namespace Level.TileEntity {
         }
 
         void CalculateEffects() {
-            var baseColor = colors[(int)tileColor];
+            var baseColor = Color.white;
             var color = baseColor;
-            var localScale = new Vector3(1, 1, 1);
+            var sprite = sprites[(int)tileColor];
+            //var localScale = new Vector3(1, 1, 1);
             switch (tileViewState) {
                 case TileViewState.Active:
                     break;
@@ -229,7 +231,7 @@ namespace Level.TileEntity {
                         baseColor.b * chosenShadowSharpness,
                         1.0f
                     );
-                    localScale = new Vector3(chosenScale, chosenScale, chosenScale);
+                    //localScale = new Vector3(chosenScale, chosenScale, chosenScale);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -240,7 +242,8 @@ namespace Level.TileEntity {
             }
 
             spriteRenderer.color = color;
-            transform.localScale = localScale;
+            spriteRenderer.sprite = sprite;
+            //transform.localScale = localScale;
         }
 
         public void SetFromTilePersistData(TilePersistData data) {

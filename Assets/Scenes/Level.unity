@@ -477,7 +477,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   tileStep: 1.1
   levelController: {fileID: 866402120}
-  levelEventQueue: {fileID: 0}
+  levelEventQueue: {fileID: 866402124}
   chosenTile: {fileID: 0}
 --- !u!1 &130477403
 GameObject:
@@ -4230,7 +4230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1460558277
 MonoBehaviour:
   m_ObjectHideFlags: 0

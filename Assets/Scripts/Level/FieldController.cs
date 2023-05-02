@@ -102,7 +102,8 @@ namespace Level {
         }
 
         Tile CreateTile(int i, int j, Vector3 point) {
-            var tileObject = Instantiate(tilePrefab, point, Quaternion.identity);
+            var tileObject = Instantiate(tilePrefab, point, Quaternion.identity, transform);
+            //var tileObject = Instantiate(tilePrefab, transform, true);
             tileObject.transform.parent = gameObject.transform;
             tileObject.name = $"Tile {i}-{j}";
             var tile = tileObject.GetComponent<Tile>();
