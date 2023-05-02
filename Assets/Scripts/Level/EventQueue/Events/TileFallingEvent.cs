@@ -14,6 +14,9 @@ namespace Level.EventQueue {
         public new void Release() {
             FieldController fieldController = FieldController.Instance;
             LevelEventQueue levelEventQueue = LevelEventQueue.Instance;
+
+            fieldController.audioSource.PlayOneShot(fieldController.fallSound);
+
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];
             fieldController.ShiftTileDown(tile);

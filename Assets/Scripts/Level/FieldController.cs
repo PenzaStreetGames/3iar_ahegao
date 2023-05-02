@@ -6,6 +6,7 @@ using Level.EventQueue;
 using Level.EventQueue.Events;
 using Level.TileEntity;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Level {
@@ -13,7 +14,8 @@ namespace Level {
         public AudioSource audioSource;
         public AudioClip clickSound;
         public AudioClip swapSound;
-        public AudioClip releaseSong;
+        public AudioClip releaseSound;
+        public AudioClip fallSound;
 
         public IntPair FieldSize;
         public GameObject tilePrefab;
