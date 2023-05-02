@@ -1,10 +1,11 @@
 namespace UI {
     public enum UiEventType {
-        WinButtonClick = 0,
-        LoseButtonClick = 1,
+        NextLevelButtonClick = 0,
+        QuitLevelButtonClick = 1,
         RestartButtonClick = 2,
         MusicToggleClick = 3,
         SoundToggleClick = 4,
-        ExitButtonClick = 5,
+        HintButtonClick = 5,
+        QuitGameButtonClick = 6
     }
 }
