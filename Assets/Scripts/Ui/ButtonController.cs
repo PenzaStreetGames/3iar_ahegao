@@ -18,7 +18,7 @@ public class ButtonController : MonoBehaviour {
 
     }
 
-    void SendUiMessage() {
+    public void SendUiMessage() {
         UiController.HandleUiEvent(UiEventType);
     }
 }
