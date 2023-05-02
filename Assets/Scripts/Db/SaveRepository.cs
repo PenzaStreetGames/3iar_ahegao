@@ -1,3 +1,5 @@
+#pragma warning disable CS0618
+
 using System.Data;
 using System.IO;
 using Db.Entity;

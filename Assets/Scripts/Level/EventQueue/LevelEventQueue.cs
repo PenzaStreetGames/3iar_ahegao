@@ -34,6 +34,10 @@ namespace Level.EventQueue {
             PlannedEvents.Add(levelEvent);
         }
 
+        public void Enqueue(IGameEvent levelEvent) {
+            Enqueue(levelEvent, levelEvent.GetDelay());
+        }
+
         public bool IsFieldStable() {
             foreach (var plannedEvent in PlannedEvents) {
                 switch (plannedEvent.GetType()) {
@@ -42,6 +46,8 @@ namespace Level.EventQueue {
                     case GameEventType.TileFilling:
                         return false;
                     case GameEventType.CombinationSquashing:
+                        return false;
+                    case GameEventType.TileCreating:
                         return false;
                 }
             }
