@@ -2818,7 +2818,7 @@ RectTransform:
   m_Children:
   - {fileID: 1005730278}
   m_Father: {fileID: 1460558280}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.83, y: 0.04}
   m_AnchorMax: {x: 0.895, y: 0.16}
@@ -2940,7 +2940,7 @@ RectTransform:
   m_Children:
   - {fileID: 1234659986}
   m_Father: {fileID: 1460558280}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.925, y: 0.04}
   m_AnchorMax: {x: 0.985, y: 0.16}
@@ -3063,6 +3063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
   fieldController: {fileID: 117222792}
+  levelEventQueue: {fileID: 0}
   startTurnCount: 10
   turnCounter: 10
   destroyedTilesCounter: 0
@@ -3311,7 +3312,7 @@ RectTransform:
   - {fileID: 504363213}
   - {fileID: 1101943943}
   m_Father: {fileID: 1460558280}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.18}
   m_AnchorMax: {x: 0.77, y: 0.88}
@@ -4230,7 +4231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1460558277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4305,10 +4306,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 286664361}
-  - {fileID: 841086733}
-  - {fileID: 824810842}
   - {fileID: 971792701}
   - {fileID: 1791400601}
+  - {fileID: 841086733}
+  - {fileID: 824810842}
   - {fileID: 1213528048}
   - {fileID: 157069184}
   - {fileID: 273344560}
@@ -4641,7 +4642,7 @@ RectTransform:
   - {fileID: 80193064}
   - {fileID: 1138440447}
   m_Father: {fileID: 1460558280}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.23, y: 0.18}
   m_AnchorMax: {x: 0.77, y: 0.88}
