@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundSong: {fileID: 0}
+  releaseSong: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490,
     type: 3}
   tileStep: 1.1

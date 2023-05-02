@@ -18,6 +18,8 @@ namespace Level.EventQueue {
             FieldController fieldController = FieldController.Instance;
             LevelEventQueue levelEventQueue = LevelEventQueue.Instance;
 
+            fieldController.audioSource.PlayOneShot(fieldController.releaseSong);
+
             levelController.IncreaseScoreForCombination(Tiles.Count);
             levelController.IncreaseDestroyedTilesCounter(Tiles.Count);
             foreach (var tile in Tiles) {

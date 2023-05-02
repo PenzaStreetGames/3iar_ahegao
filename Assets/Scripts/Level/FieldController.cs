@@ -13,7 +13,7 @@ namespace Level {
         public AudioSource audioSource;
         public AudioClip clickSound;
         public AudioClip swapSound;
-        public AudioClip backgroundSong;
+        public AudioClip releaseSong;
 
         public IntPair FieldSize;
         public GameObject tilePrefab;
