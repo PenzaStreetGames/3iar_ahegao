@@ -4,5 +4,6 @@ namespace Level.EventQueue {
         public void Enqueue(float delay);
         public bool CanReleased();
         public void Release();
+        public float GetDelay();
     }
 }
