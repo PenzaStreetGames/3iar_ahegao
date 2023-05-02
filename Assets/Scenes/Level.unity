@@ -580,7 +580,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
+  backgroundSong: {fileID: 0}
+  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490,
+    type: 3}
   tileStep: 1.1
   levelController: {fileID: 866402120}
   levelEventQueue: {fileID: 866402124}
