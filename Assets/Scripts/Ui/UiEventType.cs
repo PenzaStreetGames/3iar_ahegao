@@ -8,6 +8,9 @@ namespace UI {
         MusicToggleClick = 6,
         SoundToggleClick = 7,
         HintButtonClick = 8,
-        QuitGameButtonClick = 9
+        QuitGameButtonClick = 9,
+        MainMenuPlayButtonClick = 10,
+        BackToMainMenuButtonClick = 11,
+        ChooseLevelButtonClick = 12
     }
 }
