@@ -1260,7 +1260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 1
+  UiEventType: 3
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -2123,7 +2123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 2
+  UiEventType: 5
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -2275,7 +2275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 0
+  UiEventType: 4
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -2446,7 +2446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 34.46}
+  m_AnchoredPosition: {x: 0, y: 34.45999}
   m_SizeDelta: {x: -122.28, y: -296.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &587782644
@@ -3229,7 +3229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 2
+  UiEventType: 5
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -3491,8 +3491,8 @@ MonoBehaviour:
   scoreField: {fileID: 603580476}
   turnsField: {fileID: 1652218010}
   destroyedTilesField: {fileID: 1305579286}
-  WinPanel: {fileID: 971792700}
-  LosePanel: {fileID: 1791400600}
+  WinPanel: {fileID: 0}
+  LosePanel: {fileID: 0}
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3506,6 +3506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 866402122}
+  sceneType: 0
 --- !u!114 &866402122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4191,7 +4192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 1
+  UiEventType: 3
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
