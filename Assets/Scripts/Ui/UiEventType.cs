@@ -5,6 +5,7 @@ namespace UI {
         RestartButtonClick = 2,
         MusicToggleClick = 3,
         SoundToggleClick = 4,
-        ExitButtonClick = 5,
+        HintButtonClick = 5,
+        QuitGameButtonClick = 6
     }
 }
