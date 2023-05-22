@@ -18,6 +18,7 @@ namespace Level {
 
         public IntPair FieldSize;
         public GameObject tilePrefab;
+        public GameObject movingTilePrefab;
         public float tileStep = 1f;
 
         public LevelController levelController;
@@ -70,7 +71,7 @@ namespace Level {
             var decodedLevel = saveEntity.GetDecodedFieldState();
             FieldSize = new IntPair(decodedLevel.GetLength(0), decodedLevel.GetLength(1));
             Tiles = new Tile[FieldSize.X, FieldSize.Y];
-            CreateTiles();
+            CreateTiles(Tiles);
             GenerateFieldWithGuaranteedCombination(saveEntity);
         }
 
@@ -94,7 +95,7 @@ namespace Level {
             }
         }
 
-        void CreateTiles() {
+        void CreateTiles(Tile[,] tiles) {
             var leftTopCorner = new Vector2(
                 -(FieldSize.X / 2f) * tileStep,
                 FieldSize.Y / 2f * tileStep
@@ -106,7 +107,7 @@ namespace Level {
                         leftTopCorner.y - (i + 0.5f) * tileStep,
                         0
                     );
-                    Tiles[i, j] = CreateTile(i, j, point);
+                    tiles[i, j] = CreateTile(i, j, point);
                 }
             }
         }

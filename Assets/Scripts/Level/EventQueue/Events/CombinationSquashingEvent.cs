@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Level.EventQueue.Events;
 using Level.TileEntity;
 using UnityEngine.UIElements;
 using Utils;
@@ -32,6 +33,8 @@ namespace Level.EventQueue {
                     if (tileAbove.tileType == TileType.Open && tileAbove.tileColor != TileColor.None) {
                         var tileFallingEvent = new TileFallingEvent(tileAbove);
                         levelEventQueue.Enqueue(tileFallingEvent, tileFallingEvent.Delay);
+                        var tileMovingEvent = new TileMovingEvent(tileAbove, tile, fieldController.movingTilePrefab);
+                        levelEventQueue.Enqueue(tileMovingEvent, 0f);
                     }
 
                 }

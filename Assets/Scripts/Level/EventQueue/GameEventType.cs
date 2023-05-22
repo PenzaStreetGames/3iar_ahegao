@@ -4,5 +4,6 @@ namespace Level.EventQueue {
         CombinationSquashing = 1,
         TileFilling = 2,
         TileCreating = 3,
+        TileMoving = 4,
     }
 }

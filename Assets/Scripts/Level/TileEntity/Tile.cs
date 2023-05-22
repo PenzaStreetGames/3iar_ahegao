@@ -118,6 +118,16 @@ namespace Level.TileEntity {
             return true;
         }
 
+        public bool InBottomLayer(Tile[,] tiles) {
+            var (x, y) = (position.X, position.Y);
+            for (int i = x; i < tiles.GetLength(0) - 1; i++) {
+                var tileUnder = tiles[i + 1, y];
+                if (tileUnder.tileType is TileType.Open or TileType.Blocked)
+                    return true;
+            }
+            return true;
+        }
+
         public bool MakesCombinationWhenSwappedWith(Tile[,] tiles, Tile other) {
             var flag = false;
             FieldController.SwapTileColors(this, other);
