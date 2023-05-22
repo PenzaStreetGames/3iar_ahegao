@@ -10,7 +10,8 @@ using Utils;
 
 namespace Level {
     public class FieldController : MonoBehaviour {
-        public AudioSource audioSource;
+        public AudioSource soundSource;
+        public AudioSource musicSource;
         public AudioClip clickSound;
         public AudioClip swapSound;
         public AudioClip releaseSound;
@@ -35,7 +36,7 @@ namespace Level {
             if (Instance == null)
                 Instance = this;
 
-            audioSource.Play();
+            musicSource.Play();
         }
 
         // Update is called once per frame
@@ -166,14 +167,14 @@ namespace Level {
         }
 
         public void HandleTileClick(Tile tile) {
-            audioSource.PlayOneShot(clickSound);
+            soundSource.PlayOneShot(clickSound);
 
             if (!levelEventQueue.IsFieldStable())
                 return;
             Debug.Log($"Click {tile.gameObject.name}");
             if (chosenTile != null) {
                 if (chosenTile.CanSwapWith(Tiles, tile)) {
-                    audioSource.PlayOneShot(swapSound);
+                    soundSource.PlayOneShot(swapSound);
                     FirstTimeAfterStable = true;
                     SwapTileColors(chosenTile, tile);
                     DeletePossibleCombinationsWith(tile);

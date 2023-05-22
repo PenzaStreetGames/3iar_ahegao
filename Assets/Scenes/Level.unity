@@ -548,6 +548,7 @@ GameObject:
   - component: {fileID: 117222791}
   - component: {fileID: 117222792}
   - component: {fileID: 117222793}
+  - component: {fileID: 117222794}
   m_Layer: 0
   m_Name: Field
   m_TagString: Untagged
@@ -582,7 +583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80da0fc6e58e4c3f95ef948d2b54f4ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 117222793}
+  soundSource: {fileID: 117222794}
+  musicSource: {fileID: 117222793}
   clickSound: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
   swapSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   releaseSound: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
@@ -604,6 +606,102 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f7b711c9ebbdf4ecd9cb332cb240e854, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &117222794
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117222790}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
@@ -1380,10 +1478,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 4
+  UiEventType: 7
   buttonState: 0
-  switchSprites: []
-  switchImage: {fileID: 0}
+  switchSprites:
+  - {fileID: 21300014, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  - {fileID: 21300016, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  switchImage: {fileID: 329355841}
 --- !u!1 &405454350
 GameObject:
   m_ObjectHideFlags: 0
@@ -2593,7 +2693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 1
+  UiEventType: 3
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -3456,6 +3556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29bbe3144feb43d18f3bd9e3915c6b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameController: {fileID: 866402122}
 --- !u!1 &888379787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4929,7 +5030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 5
+  UiEventType: 8
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -5608,10 +5709,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UiController: {fileID: 866402125}
-  UiEventType: 3
+  UiEventType: 6
   buttonState: 0
-  switchSprites: []
-  switchImage: {fileID: 0}
+  switchSprites:
+  - {fileID: 21300014, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  - {fileID: 21300016, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
+  switchImage: {fileID: 1831224570}
 --- !u!1 &2101178585
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace UI {
     public class UiController : MonoBehaviour {
+
+        public GameController gameController;
         public void Start() {
 
         }
@@ -16,14 +18,19 @@ namespace UI {
                 case UiEventType.HintButtonClick:
                     break;
                 case UiEventType.MusicToggleClick:
+                    gameController.MusicToggle();
                     break;
                 case UiEventType.QuitLevelButtonClick:
+                    gameController.QuitLevel();
                     break;
                 case UiEventType.RestartButtonClick:
+                    gameController.StartLevel();
                     break;
                 case UiEventType.SoundToggleClick:
+                    gameController.SoundToggle();
                     break;
                 case UiEventType.NextLevelButtonClick:
+                    gameController.StartLevel();
                     break;
                 case UiEventType.QuitGameButtonClick:
                     break;
