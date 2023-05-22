@@ -166,6 +166,6 @@ public class LevelController : MonoBehaviour {
 
     public void SetDestroyedTilesCount(int value) {
         destroyedTilesCounter = value;
-        // destroyedTilesField.SetValue(value.ToString());
+        destroyedTilesField.SetValue(value.ToString());
     }
 }
