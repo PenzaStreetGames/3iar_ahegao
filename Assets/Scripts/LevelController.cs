@@ -17,6 +17,9 @@ public class LevelController : MonoBehaviour {
     public int score = 0;
     [FormerlySerializedAs("levelStatus")] public LevelProgressStage levelProgressStage;
     public static LevelController Instance;
+    public TextFieldController scoreField;
+    public TextFieldController turnsField;
+    public TextFieldController destroyedTilesField;
 
     // Start is called before the first frame update
     void Start() {
@@ -32,6 +35,9 @@ public class LevelController : MonoBehaviour {
         }
 
         fieldController.Init(save);
+        SetScore(score);
+        SetTurns(turnCounter);
+        SetDestroyedTilesCount(destroyedTilesCounter);
     }
 
     // Update is called once per frame
@@ -73,9 +79,9 @@ public class LevelController : MonoBehaviour {
     }
 
     void ResetState() {
-        turnCounter = startTurnCount;
-        destroyedTilesCounter = 0;
-        score = 0;
+        SetDestroyedTilesCount(0);
+        SetTurns(startTurnCount);
+        SetScore(0);
         fieldController.ResetField(SaveEntity.MakeSaveFromLevel(LevelRepository.GetLevel()));
     }
 
@@ -105,12 +111,12 @@ public class LevelController : MonoBehaviour {
 
     public void DecrementTurnCounter() {
         if (turnCounter > 0) {
-            turnCounter--;
+            SetTurns(turnCounter - 1);
         }
     }
 
     public void IncreaseDestroyedTilesCounter(int count) {
-        destroyedTilesCounter += count;
+        SetDestroyedTilesCount(destroyedTilesCounter);
         Debug.Log($"Destroyed: {count}");
     }
 
@@ -141,6 +147,21 @@ public class LevelController : MonoBehaviour {
             6 => 270,
             _ => 500
         };
-        score += delta;
+        SetScore(score + delta);
+    }
+
+    public void SetScore(int value) {
+        score = value;
+        scoreField.SetValue(value.ToString());
+    }
+
+    public void SetTurns(int value) {
+        turnCounter = value;
+        turnsField.SetValue(value.ToString());
+    }
+
+    public void SetDestroyedTilesCount(int value) {
+        destroyedTilesCounter = value;
+        // destroyedTilesField.SetValue(value.ToString());
     }
 }
