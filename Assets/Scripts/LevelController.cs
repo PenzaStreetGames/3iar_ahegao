@@ -116,7 +116,7 @@ public class LevelController : MonoBehaviour {
     }
 
     public void IncreaseDestroyedTilesCounter(int count) {
-        SetDestroyedTilesCount(destroyedTilesCounter);
+        SetDestroyedTilesCount(destroyedTilesCounter + count);
         Debug.Log($"Destroyed: {count}");
     }
 
@@ -162,6 +162,6 @@ public class LevelController : MonoBehaviour {
 
     public void SetDestroyedTilesCount(int value) {
         destroyedTilesCounter = value;
-        // destroyedTilesField.SetValue(value.ToString());
+        destroyedTilesField.SetValue(value.ToString());
     }
 }
