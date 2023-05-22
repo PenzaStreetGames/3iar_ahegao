@@ -5,6 +5,7 @@ using Level.EventQueue;
 using Level.TileEntity;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour {
     public GameController gameController;
@@ -15,11 +16,13 @@ public class LevelController : MonoBehaviour {
     public int destroyedTilesCounter;
     public int targetDestroyedTilesCount;
     public int score = 0;
-    [FormerlySerializedAs("levelStatus")] public LevelProgressStage levelProgressStage;
+    public LevelProgressStage levelProgressStage;
     public static LevelController Instance;
     public TextFieldController scoreField;
     public TextFieldController turnsField;
     public TextFieldController destroyedTilesField;
+    public GameObject WinPanel;
+    public GameObject LosePanel;
 
     // Start is called before the first frame update
     void Start() {
@@ -90,7 +93,8 @@ public class LevelController : MonoBehaviour {
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
-                RestartLevel("Congratulations! You have passed the level!");
+                WinPanel.SetActive(true);
+                // RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelProgressStage.NoCombinationsLeftLose:
                 RestartLevel("You've lost! Combinations have run out on the field.");
@@ -116,7 +120,7 @@ public class LevelController : MonoBehaviour {
     }
 
     public void IncreaseDestroyedTilesCounter(int count) {
-        SetDestroyedTilesCount(destroyedTilesCounter);
+        SetDestroyedTilesCount(destroyedTilesCounter + count);
         Debug.Log($"Destroyed: {count}");
     }
 

@@ -3155,6 +3155,8 @@ MonoBehaviour:
   scoreField: {fileID: 603580476}
   turnsField: {fileID: 1652218010}
   destroyedTilesField: {fileID: 0}
+  WinPanel: {fileID: 971792700}
+  LosePanel: {fileID: 1791400600}
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0
