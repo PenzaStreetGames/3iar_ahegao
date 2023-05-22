@@ -16,7 +16,7 @@ namespace Level.EventQueue {
             FieldController fieldController = FieldController.Instance;
             LevelEventQueue levelEventQueue = LevelEventQueue.Instance;
 
-            fieldController.audioSource.PlayOneShot(fieldController.fallSound);
+            fieldController.soundSource.PlayOneShot(fieldController.fallSound);
 
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];

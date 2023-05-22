@@ -22,4 +22,23 @@ public class GameController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
     }
+
+    public void QuitLevel() {
+        Debug.Log("Level exit button was pressed");
+    }
+
+    public void StartLevel() {
+        Debug.Log("Start level button was pressed");
+    }
+
+    public void SoundToggle() {
+        levelController.fieldController.soundSource.volume =
+            levelController.fieldController.soundSource.volume != 0 ? 0 : (float)0.1;
+    }
+
+    public void MusicToggle() {
+        levelController.fieldController.musicSource.volume =
+            levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
+    }
+
 }
