@@ -19,7 +19,7 @@ namespace Level.EventQueue {
             FieldController fieldController = FieldController.Instance;
             LevelEventQueue levelEventQueue = LevelEventQueue.Instance;
 
-            fieldController.audioSource.PlayOneShot(fieldController.releaseSound);
+            fieldController.soundSource.PlayOneShot(fieldController.releaseSound);
 
             levelController.IncreaseScoreForCombination(Tiles.Count);
             levelController.IncreaseDestroyedTilesCounter(Tiles.Count);
