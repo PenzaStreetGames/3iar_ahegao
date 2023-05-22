@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour {
         Debug.Log("Level exit button was pressed");
     }
 
-    public void StartLevel() {
+    public void StartLevel(int levelNumber) {
         Debug.Log("Start level button was pressed");
     }
 
