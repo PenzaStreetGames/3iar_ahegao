@@ -135,10 +135,10 @@ MonoBehaviour:
   - {r: 1, g: 1, b: 0, a: 1}
   sprites:
   - {fileID: 0}
-  - {fileID: 21300000, guid: 55e29d9a03fe24caba914d7134c713c5, type: 3}
-  - {fileID: 21300000, guid: 26b4d8692c5e74d17bd9dc28bcbe961b, type: 3}
-  - {fileID: 21300000, guid: bfbf8b6c3b15547df885053bd2807cdd, type: 3}
-  - {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
+  - {fileID: 21300000, guid: d1306fc1f4213f34e90f46d674f96fce, type: 3}
+  - {fileID: 21300000, guid: ab28b0dab4b5aa341ad6e78ae4a35aee, type: 3}
+  - {fileID: 21300000, guid: 9a30294018168474db50be584a9d0f1b, type: 3}
+  - {fileID: 21300000, guid: c5cda9da1aacfb3489c623364ae2dc6c, type: 3}
   tileViewState: 0
   chosenShadowSharpness: 0.8
   chosenScale: 0.8
