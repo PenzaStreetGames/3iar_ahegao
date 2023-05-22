@@ -1381,10 +1381,8 @@ MonoBehaviour:
   UiController: {fileID: 866402125}
   UiEventType: 4
   buttonState: 0
-  switchSprites:
-  - {fileID: 21300014, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  - {fileID: 21300016, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  switchImage: {fileID: 329355841}
+  switchSprites: []
+  switchImage: {fileID: 0}
 --- !u!1 &405454350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,7 +1531,7 @@ GameObject:
   - component: {fileID: 426658260}
   - component: {fileID: 426658259}
   m_Layer: 5
-  m_Name: Points Image
+  m_Name: Score Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2345,7 +2343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 56.59999}
+  m_AnchoredPosition: {x: 0, y: 56.599976}
   m_SizeDelta: {x: -122.2804, y: -252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &587782644
@@ -2609,8 +2607,9 @@ GameObject:
   - component: {fileID: 603580473}
   - component: {fileID: 603580475}
   - component: {fileID: 603580474}
+  - component: {fileID: 603580476}
   m_Layer: 5
-  m_Name: Turn Count Text
+  m_Name: Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2633,7 +2632,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41, y: 0.21}
   m_AnchorMax: {x: 0.91, y: 0.72}
-  m_AnchoredPosition: {x: -3.9727, y: 1.5}
+  m_AnchoredPosition: {x: -3.972702, y: 1.5}
   m_SizeDelta: {x: 7.098, y: 0.5185}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &603580474
@@ -2683,15 +2682,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2733,6 +2732,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603580472}
   m_CullTransparentMesh: 1
+--- !u!114 &603580476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603580472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c412e7d9341d4998993d8aef97d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 603580474}
+  Value: 
 --- !u!1 &630279484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2844,7 +2857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 56.59999}
+  m_AnchoredPosition: {x: 0, y: 56.599976}
   m_SizeDelta: {x: -122.2804, y: -252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &675020956
@@ -3139,6 +3152,9 @@ MonoBehaviour:
   targetDestroyedTilesCount: 50
   score: 0
   levelProgressStage: 3
+  scoreField: {fileID: 603580476}
+  turnsField: {fileID: 1652218010}
+  destroyedTilesField: {fileID: 0}
 --- !u!114 &866402121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3398,7 +3414,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.73}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 4}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1101943944
@@ -3475,7 +3491,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.73}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 4}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1138440448
@@ -3627,7 +3643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2, y: 0.25}
   m_AnchorMax: {x: 0.8, y: 0.8}
-  m_AnchoredPosition: {x: 0, y: -0.10000801}
+  m_AnchoredPosition: {x: 0, y: -0.10000992}
   m_SizeDelta: {x: -1.0923996, y: 0.48320007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1210842034
@@ -4468,6 +4484,7 @@ GameObject:
   - component: {fileID: 1652218007}
   - component: {fileID: 1652218009}
   - component: {fileID: 1652218008}
+  - component: {fileID: 1652218010}
   m_Layer: 5
   m_Name: Turn Count Text
   m_TagString: Untagged
@@ -4542,15 +4559,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -4592,6 +4609,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652218006}
   m_CullTransparentMesh: 1
+--- !u!114 &1652218010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652218006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c412e7d9341d4998993d8aef97d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 1652218008}
+  Value: 
 --- !u!1 &1749486819
 GameObject:
   m_ObjectHideFlags: 0
@@ -5119,10 +5150,8 @@ MonoBehaviour:
   UiController: {fileID: 866402125}
   UiEventType: 3
   buttonState: 0
-  switchSprites:
-  - {fileID: 21300014, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  - {fileID: 21300016, guid: 1eaee135ce037439d925cee5e41ce026, type: 3}
-  switchImage: {fileID: 1831224570}
+  switchSprites: []
+  switchImage: {fileID: 0}
 --- !u!1 &2101178585
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,7 +5164,7 @@ GameObject:
   - component: {fileID: 2101178588}
   - component: {fileID: 2101178587}
   m_Layer: 5
-  m_Name: Points Count
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
