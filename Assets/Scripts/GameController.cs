@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour {
         sceneType = type;
     }
 
-    public void StartLevel() {
+    public void StartLevel(int levelNumber) {
         Debug.Log("Start level button was pressed");
     }
 

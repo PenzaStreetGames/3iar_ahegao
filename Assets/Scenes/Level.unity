@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  UiController: {fileID: 866402125}
   UiEventType: 7
   buttonState: 0
   switchSprites:
@@ -3456,6 +3456,10 @@ GameObject:
   m_Component:
   - component: {fileID: 866402123}
   - component: {fileID: 866402122}
+  - component: {fileID: 866402121}
+  - component: {fileID: 866402120}
+  - component: {fileID: 866402124}
+  - component: {fileID: 866402125}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -5049,7 +5053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  UiController: {fileID: 866402125}
   UiEventType: 8
   buttonState: 0
   switchSprites: []
@@ -5728,7 +5732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  UiController: {fileID: 866402125}
   UiEventType: 6
   buttonState: 0
   switchSprites:

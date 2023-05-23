@@ -29,13 +29,13 @@ namespace UI {
                     gameController.QuitLevel();
                     break;
                 case UiEventType.RestartButtonClick:
-                    gameController.StartLevel();
+                    gameController.StartLevel(1);
                     break;
                 case UiEventType.SoundToggleClick:
                     gameController.SoundToggle();
                     break;
                 case UiEventType.NextLevelButtonClick:
-                    gameController.StartLevel();
+                    gameController.StartLevel(1);
                     break;
                 case UiEventType.QuitGameButtonClick:
                     break;
