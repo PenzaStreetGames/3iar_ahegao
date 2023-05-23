@@ -2,7 +2,12 @@ using System;
 using UnityEngine;
 
 namespace UI {
-    public class UiController : MonoBehaviour {
+    public class LevelUiController : MonoBehaviour {
+        public TextFieldController scoreField;
+        public TextFieldController turnsField;
+        public TextFieldController destroyedTilesField;
+        public GameObject WinPanel;
+        public GameObject LosePanel;
 
         public GameController gameController;
         public void Start() {

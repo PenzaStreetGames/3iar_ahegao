@@ -1,5 +1,5 @@
 namespace Ui {
-    public enum MainMenuPage {
+    public enum MenuPage {
         MainMenu,
         LevelChoice
     }

@@ -1,5 +1,8 @@
 using Db;
+using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public enum SceneType {
     Menu = 0,
@@ -17,6 +20,7 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        SetSceneType(sceneType);
     }
 
     // Update is called once per frame
@@ -25,6 +29,10 @@ public class GameController : MonoBehaviour {
 
     public void QuitLevel() {
         Debug.Log("Level exit button was pressed");
+    }
+
+    public void SetSceneType(SceneType type) {
+        sceneType = type;
     }
 
     public void StartLevel() {
@@ -39,6 +47,14 @@ public class GameController : MonoBehaviour {
     public void MusicToggle() {
         levelController.fieldController.musicSource.volume =
             levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
+    }
+
+    public void LoadScene(SceneType type) {
+        if (type == SceneType.Menu && sceneType == SceneType.Level) {
+            SceneManager.LoadScene("Scenes/Level");
+        } else if (type == SceneType.Level && sceneType == SceneType.Menu) {
+            SceneManager.LoadScene("Scenes/Menu");
+        }
     }
 
 }

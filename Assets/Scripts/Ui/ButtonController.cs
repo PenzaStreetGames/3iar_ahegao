@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour {
-    public UiController UiController;
+    [FormerlySerializedAs("UiController")] public LevelUiController levelUiController;
     public UiEventType UiEventType;
 
     public int buttonState; //0 - unpressed, 1 - pressed
@@ -25,7 +26,7 @@ public class ButtonController : MonoBehaviour {
     }
 
     public void SendUiMessage() {
-        UiController.HandleUiEvent(UiEventType);
+        levelUiController.HandleUiEvent(UiEventType);
     }
 
     public void ChangeImageOnClick() {

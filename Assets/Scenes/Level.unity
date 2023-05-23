@@ -594,8 +594,8 @@ MonoBehaviour:
   tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
   movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b, type: 3}
   tileStep: 1.1
-  levelController: {fileID: 866402120}
-  levelEventQueue: {fileID: 866402124}
+  levelController: {fileID: 1049232377}
+  levelEventQueue: {fileID: 1049232376}
   chosenTile: {fileID: 0}
 --- !u!82 &117222793
 AudioSource:
@@ -1259,7 +1259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 1
   buttonState: 0
   switchSprites: []
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 7
   buttonState: 0
   switchSprites:
@@ -2122,7 +2122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 2
   buttonState: 0
   switchSprites: []
@@ -2274,7 +2274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 0
   buttonState: 0
   switchSprites: []
@@ -2446,7 +2446,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 34.46}
+  m_AnchoredPosition: {x: 0, y: 34.45999}
   m_SizeDelta: {x: -122.28, y: -296.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &587782644
@@ -2694,7 +2694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 3
   buttonState: 0
   switchSprites: []
@@ -3228,7 +3228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 2
   buttonState: 0
   switchSprites: []
@@ -3456,10 +3456,6 @@ GameObject:
   m_Component:
   - component: {fileID: 866402123}
   - component: {fileID: 866402122}
-  - component: {fileID: 866402121}
-  - component: {fileID: 866402120}
-  - component: {fileID: 866402124}
-  - component: {fileID: 866402125}
   m_Layer: 0
   m_Name: Main
   m_TagString: Untagged
@@ -3467,45 +3463,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &866402120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037f1e028a7160c4e81212228a61c52f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 866402122}
-  fieldController: {fileID: 117222792}
-  levelEventQueue: {fileID: 866402124}
-  startTurnCount: 10
-  turnCounter: 10
-  destroyedTilesCounter: 0
-  targetDestroyedTilesCount: 50
-  score: 0
-  levelProgressStage: 3
-  scoreField: {fileID: 603580476}
-  turnsField: {fileID: 1652218010}
-  destroyedTilesField: {fileID: 1305579286}
-  WinPanel: {fileID: 971792700}
-  LosePanel: {fileID: 1791400600}
---- !u!114 &866402121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1241f9fb41f456e41a9a44aaf1c474b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 866402122}
 --- !u!114 &866402122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3518,8 +3475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6433c9b72b9cd6c4fba82a6b37ba88e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelController: {fileID: 866402120}
-  menuController: {fileID: 866402121}
+  levelController: {fileID: 0}
+  menuController: {fileID: 0}
   sceneType: 1
 --- !u!4 &866402123
 Transform:
@@ -3536,31 +3493,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &866402124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2abfc043b50a4fae9dd3e2895772a7c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &866402125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29bbe3144feb43d18f3bd9e3915c6b0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameController: {fileID: 866402122}
 --- !u!1 &888379787
 GameObject:
   m_ObjectHideFlags: 0
@@ -3656,7 +3588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &971792701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3717,6 +3649,92 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971792700}
   m_CullTransparentMesh: 1
+--- !u!1 &1049232374
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049232378}
+  - component: {fileID: 1049232377}
+  - component: {fileID: 1049232376}
+  - component: {fileID: 1049232375}
+  m_Layer: 0
+  m_Name: LevelController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1049232375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049232374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29bbe3144feb43d18f3bd9e3915c6b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreField: {fileID: 603580476}
+  turnsField: {fileID: 1652218010}
+  destroyedTilesField: {fileID: 1305579286}
+  WinPanel: {fileID: 971792700}
+  LosePanel: {fileID: 1791400600}
+  gameController: {fileID: 866402122}
+--- !u!114 &1049232376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049232374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2abfc043b50a4fae9dd3e2895772a7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1049232377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049232374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037f1e028a7160c4e81212228a61c52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
+  fieldController: {fileID: 117222792}
+  levelEventQueue: {fileID: 1049232376}
+  startTurnCount: 10
+  turnCounter: 10
+  destroyedTilesCounter: 0
+  targetDestroyedTilesCount: 50
+  score: 0
+  levelProgressStage: 3
+  levelUiController: {fileID: 1049232375}
+--- !u!4 &1049232378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049232374}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095648174
 GameObject:
   m_ObjectHideFlags: 0
@@ -4190,7 +4208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 1
   buttonState: 0
   switchSprites: []
@@ -5031,7 +5049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 8
   buttonState: 0
   switchSprites: []
@@ -5710,7 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 0}
   UiEventType: 6
   buttonState: 0
   switchSprites:
