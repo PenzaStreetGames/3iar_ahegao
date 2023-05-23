@@ -3,6 +3,7 @@ using Db.Entity;
 using Level;
 using Level.EventQueue;
 using Level.TileEntity;
+using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -18,11 +19,13 @@ public class LevelController : MonoBehaviour {
     public int score = 0;
     public LevelProgressStage levelProgressStage;
     public static LevelController Instance;
-    public TextFieldController scoreField;
-    public TextFieldController turnsField;
-    public TextFieldController destroyedTilesField;
-    public GameObject WinPanel;
-    public GameObject LosePanel;
+    public LevelUiController levelUiController;
+
+    void Awake() {
+        GameObject main = GameObject.Find("Main");
+        gameController = main.GetComponent<GameController>();
+        gameController.levelController = this;
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -30,12 +33,15 @@ public class LevelController : MonoBehaviour {
             Instance = this;
         }
 
-        var save = SaveRepository.GetSave();
-        if (save == default(SaveEntity)) {
-            var level = LevelRepository.GetLevel();
-            save = SaveEntity.MakeSaveFromLevel(level);
-            SaveRepository.PersistSave(save);
-        }
+        // var save = SaveRepository.GetSave();
+        // if (save == default(SaveEntity)) {
+        //     var level = LevelRepository.GetLevel(gameController.levelNumber);
+        //     save = SaveEntity.MakeSaveFromLevel(level);
+        //     SaveRepository.PersistSave(save);
+        // }
+        var level = LevelRepository.GetLevel(gameController.levelNumber);
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        // SaveRepository.PersistSave(save);
 
         fieldController.Init(save);
         SetScore(score);
@@ -74,7 +80,7 @@ public class LevelController : MonoBehaviour {
 
         fieldController.GenerateFieldWithGuaranteedCombination(
             SaveEntity.MakeSaveFromLevel(
-                LevelRepository.GetLevel()
+                LevelRepository.GetLevel(gameController.levelNumber)
             )
         );
         Debug.Log("Reload Level. Resetting game state");
@@ -93,11 +99,11 @@ public class LevelController : MonoBehaviour {
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
-                WinPanel.SetActive(true);
+                levelUiController.WinPanel.SetActive(true);
                 // RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelProgressStage.NoCombinationsLeftLose:
-                LosePanel.SetActive(true);
+                levelUiController.LosePanel.SetActive(true);
                 // RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelProgressStage.NoTurnsLeftLose:
@@ -157,16 +163,16 @@ public class LevelController : MonoBehaviour {
 
     public void SetScore(int value) {
         score = value;
-        scoreField.SetValue(value.ToString());
+        levelUiController.scoreField.SetValue(value.ToString());
     }
 
     public void SetTurns(int value) {
         turnCounter = value;
-        turnsField.SetValue(value.ToString());
+        levelUiController.turnsField.SetValue(value.ToString());
     }
 
     public void SetDestroyedTilesCount(int value) {
         destroyedTilesCounter = value;
-        destroyedTilesField.SetValue(value.ToString());
+        levelUiController.destroyedTilesField.SetValue(value.ToString());
     }
 }

@@ -1,12 +1,19 @@
 using System;
+using Ui;
 using UnityEngine;
 
 namespace UI {
-    public class UiController : MonoBehaviour {
-
+    public class LevelUiController : MonoBehaviour, UiEventHandler {
+        public TextFieldController scoreField;
+        public TextFieldController turnsField;
+        public TextFieldController destroyedTilesField;
+        public GameObject WinPanel;
+        public GameObject LosePanel;
+        public LevelController levelController;
         public GameController gameController;
-        public void Start() {
 
+        public void Start() {
+            gameController = levelController.gameController;
         }
 
         public void Update() {
@@ -24,13 +31,14 @@ namespace UI {
                     gameController.QuitLevel();
                     break;
                 case UiEventType.RestartButtonClick:
-                    gameController.StartLevel(1);
+                    gameController.StartLevel(gameController.levelNumber);
                     break;
                 case UiEventType.SoundToggleClick:
                     gameController.SoundToggle();
                     break;
                 case UiEventType.NextLevelButtonClick:
-                    gameController.StartLevel(1);
+                    gameController.levelNumber += 1;
+                    gameController.StartLevel(gameController.levelNumber);
                     break;
                 case UiEventType.QuitGameButtonClick:
                     break;
