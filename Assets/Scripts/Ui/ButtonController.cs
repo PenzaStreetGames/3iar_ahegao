@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ui;
 using UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour {
-    [FormerlySerializedAs("UiController")] public LevelUiController levelUiController;
+    public LevelUiController levelUiController;
+    public MenuUiController menuUiController;
     public UiEventType UiEventType;
 
     public int buttonState; //0 - unpressed, 1 - pressed
@@ -26,7 +28,10 @@ public class ButtonController : MonoBehaviour {
     }
 
     public void SendUiMessage() {
-        levelUiController.HandleUiEvent(UiEventType);
+        if (levelUiController != null)
+            levelUiController.HandleUiEvent(UiEventType);
+        if (menuUiController != null)
+            menuUiController.HandleUiEvent(UiEventType);
     }
 
     public void ChangeImageOnClick() {

@@ -99,6 +99,9 @@ namespace Level {
         }
 
         void CreateTiles(Tile[,] tiles) {
+            while (transform.childCount > 0) {
+                DestroyImmediate(transform.GetChild(0).gameObject);
+            }
             var leftTopCorner = new Vector2(
                 -(FieldSize.X / 2f) * tileStep,
                 FieldSize.Y / 2f * tileStep

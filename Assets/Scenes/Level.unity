@@ -380,7 +380,7 @@ RectTransform:
   - {fileID: 971792701}
   - {fileID: 1791400601}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1007,7 +1007,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &242200432
 GameObject:
@@ -1260,6 +1260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUiController: {fileID: 0}
+  menuUiController: {fileID: 0}
   UiEventType: 1
   buttonState: 0
   switchSprites: []
@@ -1479,7 +1480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 1049232375}
+  menuUiController: {fileID: 0}
   UiEventType: 7
   buttonState: 0
   switchSprites:
@@ -2123,6 +2125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUiController: {fileID: 0}
+  menuUiController: {fileID: 0}
   UiEventType: 2
   buttonState: 0
   switchSprites: []
@@ -2275,6 +2278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUiController: {fileID: 0}
+  menuUiController: {fileID: 0}
   UiEventType: 0
   buttonState: 0
   switchSprites: []
@@ -2694,7 +2698,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
+  menuUiController: {fileID: 0}
   UiEventType: 3
   buttonState: 0
   switchSprites: []
@@ -2952,11 +2957,11 @@ RectTransform:
   m_GameObject: {fileID: 665839567}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1.000027}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1.000027}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 753830489}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17, y: 0.17}
   m_AnchorMax: {x: 0.269, y: 0.53}
@@ -3229,6 +3234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUiController: {fileID: 0}
+  menuUiController: {fileID: 0}
   UiEventType: 2
   buttonState: 0
   switchSprites: []
@@ -3316,11 +3322,11 @@ RectTransform:
   m_GameObject: {fileID: 692024915}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49975803, y: 0.49975803, z: 1.000027}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1.000027}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 753830489}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.162, y: 0.55}
   m_AnchorMax: {x: 0.26, y: 0.92}
@@ -3395,11 +3401,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2125592116}
   - {fileID: 1305579285}
-  - {fileID: 665839568}
   - {fileID: 692024916}
+  - {fileID: 2125592116}
   - {fileID: 1095648175}
+  - {fileID: 665839568}
   m_Father: {fileID: 107648421}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3446,57 +3452,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 753830488}
   m_CullTransparentMesh: 1
---- !u!1 &866402119
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 866402123}
-  - component: {fileID: 866402122}
-  - component: {fileID: 866402121}
-  - component: {fileID: 866402120}
-  - component: {fileID: 866402124}
-  - component: {fileID: 866402125}
-  m_Layer: 0
-  m_Name: Main
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &866402122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6433c9b72b9cd6c4fba82a6b37ba88e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelController: {fileID: 0}
-  menuController: {fileID: 0}
-  sceneType: 1
---- !u!4 &866402123
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 866402119}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &888379787
 GameObject:
   m_ObjectHideFlags: 0
@@ -3689,7 +3644,8 @@ MonoBehaviour:
   destroyedTilesField: {fileID: 1305579286}
   WinPanel: {fileID: 971792700}
   LosePanel: {fileID: 1791400600}
-  gameController: {fileID: 866402122}
+  levelController: {fileID: 1049232377}
+  gameController: {fileID: 0}
 --- !u!114 &1049232376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3737,7 +3693,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095648174
 GameObject:
@@ -3766,11 +3722,11 @@ RectTransform:
   m_GameObject: {fileID: 1095648174}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49975803, y: 0.49975803, z: 1.000027}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1.000027}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 753830489}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.25, y: 0.33}
   m_AnchorMax: {x: 0.352, y: 0.7}
@@ -4213,6 +4169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelUiController: {fileID: 0}
+  menuUiController: {fileID: 0}
   UiEventType: 1
   buttonState: 0
   switchSprites: []
@@ -4305,7 +4262,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 753830489}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.41, y: 0.21}
   m_AnchorMax: {x: 0.91, y: 0.72}
@@ -4823,7 +4780,7 @@ RectTransform:
   m_Children:
   - {fileID: 286664361}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5053,7 +5010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 1049232375}
+  menuUiController: {fileID: 0}
   UiEventType: 8
   buttonState: 0
   switchSprites: []
@@ -5732,7 +5690,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiController: {fileID: 866402125}
+  levelUiController: {fileID: 1049232375}
+  menuUiController: {fileID: 0}
   UiEventType: 6
   buttonState: 0
   switchSprites:
@@ -5844,11 +5803,11 @@ RectTransform:
   m_GameObject: {fileID: 2125592115}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 753830489}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.065, y: 0.35}
   m_AnchorMax: {x: 0.17, y: 0.73}

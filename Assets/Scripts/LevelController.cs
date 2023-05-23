@@ -33,12 +33,15 @@ public class LevelController : MonoBehaviour {
             Instance = this;
         }
 
-        var save = SaveRepository.GetSave();
-        if (save == default(SaveEntity)) {
-            var level = LevelRepository.GetLevel();
-            save = SaveEntity.MakeSaveFromLevel(level);
-            SaveRepository.PersistSave(save);
-        }
+        // var save = SaveRepository.GetSave();
+        // if (save == default(SaveEntity)) {
+        //     var level = LevelRepository.GetLevel(gameController.levelNumber);
+        //     save = SaveEntity.MakeSaveFromLevel(level);
+        //     SaveRepository.PersistSave(save);
+        // }
+        var level = LevelRepository.GetLevel(gameController.levelNumber);
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        // SaveRepository.PersistSave(save);
 
         fieldController.Init(save);
         SetScore(score);
@@ -77,7 +80,7 @@ public class LevelController : MonoBehaviour {
 
         fieldController.GenerateFieldWithGuaranteedCombination(
             SaveEntity.MakeSaveFromLevel(
-                LevelRepository.GetLevel()
+                LevelRepository.GetLevel(gameController.levelNumber)
             )
         );
         Debug.Log("Reload Level. Resetting game state");

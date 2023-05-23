@@ -13,8 +13,17 @@ public class GameController : MonoBehaviour {
     public LevelController levelController;
     public MenuController menuController;
     public SceneType sceneType = SceneType.Level;
+    public int levelNumber;
+    public int totalLevels;
+    public static GameController instance;
 
     void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+        else {
+            DestroyImmediate(gameObject);
+        }
         DontDestroyOnLoad(gameObject);
     }
 
@@ -28,6 +37,7 @@ public class GameController : MonoBehaviour {
     }
 
     public void QuitLevel() {
+        LoadScene(SceneType.Menu);
         Debug.Log("Level exit button was pressed");
     }
 
@@ -50,11 +60,14 @@ public class GameController : MonoBehaviour {
     }
 
     public void LoadScene(SceneType type) {
-        if (type == SceneType.Menu && sceneType == SceneType.Level) {
+        if (type == SceneType.Level && sceneType == SceneType.Menu) {
+            Debug.Log("Loading Level");
+            sceneType = type;
             SceneManager.LoadScene("Scenes/Level");
-        } else if (type == SceneType.Level && sceneType == SceneType.Menu) {
+        } else if (type == SceneType.Menu && sceneType == SceneType.Level) {
+            Debug.Log("Loading Menu");
+            sceneType = type;
             SceneManager.LoadScene("Scenes/Menu");
         }
     }
-
 }
