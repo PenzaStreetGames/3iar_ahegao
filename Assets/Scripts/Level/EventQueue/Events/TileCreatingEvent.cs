@@ -18,6 +18,10 @@ namespace Level.EventQueue.Events {
             var (i, j) = (Tile.position.X, Tile.position.Y);
             var fieldController = Tile.fieldController;
             fieldController.Tiles[i, j].SetTileType(TileData.TileType);
+
+            fieldController.soundSource.Stop();
+            fieldController.soundSource.PlayOneShot(fieldController.createSound);
+
             if (TileData.TileColor == TileColor.None) {
                 var colorIndex = Random.Range(0, colors.Length);
                 Tile.SetColor(colors[colorIndex]);

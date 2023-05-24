@@ -11,6 +11,8 @@ public class MenuUiController : MonoBehaviour, UiEventHandler {
     public GameObject mainMenuPanel;
     public GameObject chooseLevelPanel;
     public LevelButtonsGenerator levelButtonsGenerator;
+    public AudioSource soundSource;
+    public AudioClip clickSound;
 
     // Start is called before the first frame update
     void Start() {
@@ -48,6 +50,8 @@ public class MenuUiController : MonoBehaviour, UiEventHandler {
                 Application.Quit(0);
                 break;
         }
+
+        soundSource.PlayOneShot(clickSound);
 
         Debug.Log(uiEventType);
     }

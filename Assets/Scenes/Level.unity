@@ -590,8 +590,12 @@ MonoBehaviour:
   swapSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   releaseSound: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
   fallSound: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
-  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
-  movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b, type: 3}
+  fillSound: {fileID: 8300000, guid: cf6c0e7fbef9449c98a0cdb5ea0c4d9f, type: 3}
+  createSound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490,
+    type: 3}
+  movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b,
+    type: 3}
   tileStep: 1.1
   levelController: {fileID: 1049232377}
   levelEventQueue: {fileID: 1049232376}
@@ -3740,6 +3744,7 @@ GameObject:
   - component: {fileID: 1049232377}
   - component: {fileID: 1049232376}
   - component: {fileID: 1049232375}
+  - component: {fileID: 1049232379}
   m_Layer: 0
   m_Name: LevelController
   m_TagString: Untagged
@@ -3769,6 +3774,8 @@ MonoBehaviour:
   winPanelTextField: {fileID: 587782646}
   losePanelLabelField: {fileID: 405454354}
   losePanelTextField: {fileID: 675020958}
+  soundSource: {fileID: 1049232379}
+  clickSound: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
 --- !u!114 &1049232376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3818,6 +3825,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1049232379
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049232374}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1095648174
 GameObject:
   m_ObjectHideFlags: 0
