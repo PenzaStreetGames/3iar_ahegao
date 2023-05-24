@@ -51,13 +51,25 @@ public class GameController : MonoBehaviour {
     }
 
     public void SoundToggle() {
-        levelController.fieldController.soundSource.volume =
-            levelController.fieldController.soundSource.volume != 0 ? 0 : (float)0.1;
+        if (sceneType == SceneType.Level) {
+            levelController.fieldController.soundSource.volume =
+                levelController.fieldController.soundSource.volume != 0 ? 0 : (float)0.1;
+        }
+        else if (sceneType == SceneType.Menu) {
+            menuController.menuUiController.soundSource.volume =
+                menuController.menuUiController.soundSource.volume != 0 ? 0 : (float)0.1;
+        }
     }
 
     public void MusicToggle() {
-        levelController.fieldController.musicSource.volume =
-            levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
+        if (sceneType == SceneType.Level) {
+            levelController.fieldController.musicSource.volume =
+                levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
+        }
+        else if (sceneType == SceneType.Menu) {
+            menuController.menuUiController.musicSource.volume =
+                menuController.menuUiController.musicSource.volume != 0 ? 0 : (float)0.1;
+        }
     }
 
     public void IncreaseLevelNumber() {
