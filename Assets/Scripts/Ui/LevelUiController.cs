@@ -50,8 +50,14 @@ namespace UI {
             Debug.Log(uiEventType);
         }
 
-        public void EnableWinPanel() {
+        public void ShowWinPanel(int score) {
+            WinPanel.SetActive(true);
+            winPanelTextField.SetValue($"Набрано {score} очков");
+        }
 
+        public void ShowLosePanel(string reason) {
+            LosePanel.SetActive(true);
+            losePanelLabelField.SetValue(reason);
         }
     }
 }

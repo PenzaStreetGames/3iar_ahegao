@@ -3798,7 +3798,7 @@ MonoBehaviour:
   fieldController: {fileID: 117222792}
   levelEventQueue: {fileID: 1049232376}
   startTurnCount: 10
-  turnCounter: 10
+  turnCounter: 3
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 50
   score: 0
