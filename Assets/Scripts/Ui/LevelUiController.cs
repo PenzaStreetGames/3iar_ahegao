@@ -11,6 +11,9 @@ namespace UI {
         public GameObject LosePanel;
         public LevelController levelController;
         public GameController gameController;
+        public TextFieldController winPanelTextField;
+        public TextFieldController losePanelLabelField;
+        public TextFieldController losePanelTextField;
 
         public void Start() {
             gameController = levelController.gameController;
@@ -45,6 +48,10 @@ namespace UI {
             }
 
             Debug.Log(uiEventType);
+        }
+
+        public void EnableWinPanel() {
+
         }
     }
 }

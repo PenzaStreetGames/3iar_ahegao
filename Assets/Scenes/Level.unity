@@ -1197,7 +1197,7 @@ RectTransform:
   m_GameObject: {fileID: 290613290}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1788583178}
@@ -1259,9 +1259,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
   menuUiController: {fileID: 0}
-  UiEventType: 1
+  UiEventType: 3
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -1499,6 +1499,7 @@ GameObject:
   - component: {fileID: 405454351}
   - component: {fileID: 405454353}
   - component: {fileID: 405454352}
+  - component: {fileID: 405454354}
   m_Layer: 5
   m_Name: Lose Text Message
   m_TagString: Untagged
@@ -1624,6 +1625,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405454350}
   m_CullTransparentMesh: 1
+--- !u!114 &405454354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405454350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c412e7d9341d4998993d8aef97d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 405454352}
+  Value: 
 --- !u!1 &426658257
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,7 +2077,7 @@ RectTransform:
   m_GameObject: {fileID: 520248408}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1467133693}
@@ -2124,9 +2139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
   menuUiController: {fileID: 0}
-  UiEventType: 2
+  UiEventType: 5
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -2215,7 +2230,7 @@ RectTransform:
   m_GameObject: {fileID: 524470767}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 130477404}
@@ -2277,9 +2292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
   menuUiController: {fileID: 0}
-  UiEventType: 0
+  UiEventType: 4
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -2426,6 +2441,7 @@ GameObject:
   - component: {fileID: 587782643}
   - component: {fileID: 587782645}
   - component: {fileID: 587782644}
+  - component: {fileID: 587782646}
   m_Layer: 5
   m_Name: Point Amount
   m_TagString: Untagged
@@ -2509,7 +2525,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2551,6 +2567,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587782642}
   m_CullTransparentMesh: 1
+--- !u!114 &587782646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587782642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c412e7d9341d4998993d8aef97d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 587782644}
+  Value: 
 --- !u!1 &593494949
 GameObject:
   m_ObjectHideFlags: 0
@@ -3017,6 +3047,7 @@ GameObject:
   - component: {fileID: 675020955}
   - component: {fileID: 675020957}
   - component: {fileID: 675020956}
+  - component: {fileID: 675020958}
   m_Layer: 5
   m_Name: Point Amount
   m_TagString: Untagged
@@ -3099,8 +3130,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3142,6 +3173,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675020954}
   m_CullTransparentMesh: 1
+--- !u!114 &675020958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675020954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c412e7d9341d4998993d8aef97d91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text: {fileID: 675020956}
+  Value: 
 --- !u!1 &675961625
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,7 +3216,7 @@ RectTransform:
   m_GameObject: {fileID: 675961625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 558818159}
@@ -3233,9 +3278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
   menuUiController: {fileID: 0}
-  UiEventType: 2
+  UiEventType: 5
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
@@ -3547,7 +3592,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &971792701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3722,6 +3767,9 @@ MonoBehaviour:
   LosePanel: {fileID: 1791400600}
   levelController: {fileID: 1049232377}
   gameController: {fileID: 0}
+  winPanelTextField: {fileID: 0}
+  losePanelLabelField: {fileID: 0}
+  losePanelTextField: {fileID: 0}
 --- !u!114 &1049232376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4182,7 +4230,7 @@ RectTransform:
   m_GameObject: {fileID: 1299473252}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6518697}
