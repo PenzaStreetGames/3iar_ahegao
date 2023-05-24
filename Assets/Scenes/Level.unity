@@ -373,7 +373,6 @@ RectTransform:
   - {fileID: 1339640279}
   - {fileID: 329355839}
   - {fileID: 1831224568}
-  - {fileID: 1503235423}
   - {fileID: 593494950}
   - {fileID: 2101178586}
   - {fileID: 753830489}
@@ -591,10 +590,8 @@ MonoBehaviour:
   swapSound: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
   releaseSound: {fileID: 8300000, guid: 7e9ee6dc04a5d40d1a5dfc4beb9865e7, type: 3}
   fallSound: {fileID: 8300000, guid: 724131bc8a7f34041bb9f1701f0cb58d, type: 3}
-  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490,
-    type: 3}
-  movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b,
-    type: 3}
+  tilePrefab: {fileID: 2598635712237314176, guid: fabd8aab24991a94a9cedd9df69b5490, type: 3}
+  movingTilePrefab: {fileID: 1603415827684789940, guid: 2f53f5286ded0f1438d56f7e420a6a5b, type: 3}
   tileStep: 1.1
   levelController: {fileID: 1049232377}
   levelEventQueue: {fileID: 1049232376}
@@ -3802,7 +3799,7 @@ MonoBehaviour:
   startTurnCount: 10
   turnCounter: 10
   destroyedTilesCounter: 0
-  targetDestroyedTilesCount: 50
+  targetDestroyedTilesCount: 30
   score: 0
   levelProgressStage: 3
   levelUiController: {fileID: 1049232375}

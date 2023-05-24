@@ -68,6 +68,11 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    public void MarkLevelAsCompleted(int number) {
+        if (number > levelsCompleted)
+            levelsCompleted = number;
+    }
+
     public void LoadScene(SceneType type) {
         if (type == SceneType.Level && sceneType == SceneType.Menu) {
             Debug.Log("Loading Level");

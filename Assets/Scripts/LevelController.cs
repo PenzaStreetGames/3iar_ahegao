@@ -99,6 +99,7 @@ public class LevelController : MonoBehaviour {
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
+                gameController.MarkLevelAsCompleted(gameController.levelNumber);
                 levelUiController.ShowWinPanel(score);
                 // RestartLevel("Congratulations! You have passed the level!");
                 break;
