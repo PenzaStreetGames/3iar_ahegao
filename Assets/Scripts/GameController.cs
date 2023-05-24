@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
     public MenuController menuController;
     public SceneType sceneType = SceneType.Level;
     public int levelNumber;
+    public int levelsCompleted;
     public int totalLevels;
     public static GameController instance;
 
