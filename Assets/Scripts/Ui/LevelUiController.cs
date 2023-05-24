@@ -14,6 +14,8 @@ namespace UI {
         public TextFieldController winPanelTextField;
         public TextFieldController losePanelLabelField;
         public TextFieldController losePanelTextField;
+        public AudioSource soundSource;
+        public AudioClip clickSound;
 
         public void Start() {
             gameController = levelController.gameController;
@@ -46,6 +48,8 @@ namespace UI {
                 case UiEventType.QuitGameButtonClick:
                     break;
             }
+
+            soundSource.PlayOneShot(clickSound);
 
             Debug.Log(uiEventType);
         }

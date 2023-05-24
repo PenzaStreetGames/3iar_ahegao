@@ -7,6 +7,7 @@ using Level.EventQueue;
 using Level.EventQueue.Events;
 using Level.TileEntity;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 using Random = UnityEngine.Random;
 
@@ -18,6 +19,8 @@ namespace Level {
         public AudioClip swapSound;
         public AudioClip releaseSound;
         public AudioClip fallSound;
+        public AudioClip fillSound;
+        public AudioClip createSound;
 
         public IntPair FieldSize;
         public GameObject tilePrefab;

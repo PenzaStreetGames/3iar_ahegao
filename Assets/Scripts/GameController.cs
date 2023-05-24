@@ -21,11 +21,11 @@ public class GameController : MonoBehaviour {
     void Awake() {
         if (instance == null) {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else {
             DestroyImmediate(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
