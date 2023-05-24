@@ -77,12 +77,9 @@ public class LevelController : MonoBehaviour {
     //Message - a message that will be displayed to the player at the end of the game in the future
     public void RestartLevel() {
         // Debug.LogWarning(message);
-
-        fieldController.GenerateFieldWithGuaranteedCombination(
-            SaveEntity.MakeSaveFromLevel(
-                LevelRepository.GetLevel(gameController.levelNumber)
-            )
-        );
+        var level = LevelRepository.GetLevel(gameController.levelNumber);
+        var save = SaveEntity.MakeSaveFromLevel(level);
+        fieldController.Init(save);
         Debug.Log("Reload Level. Resetting game state");
         ResetState();
     }

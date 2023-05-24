@@ -880,7 +880,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 660916916}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 660916918}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: SendUiMessage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &660916916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1890,7 +1902,7 @@ MonoBehaviour:
   sceneType: 0
   levelNumber: 0
   levelsCompleted: 0
-  totalLevels: 0
+  totalLevels: 12
 --- !u!1 &1466968535
 GameObject:
   m_ObjectHideFlags: 0

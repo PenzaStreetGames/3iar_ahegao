@@ -1,5 +1,4 @@
 using Level.TileEntity;
-using UnityEditor.SceneTemplate;
 using UnityEngine;
 
 namespace Level.EventQueue.Events {
