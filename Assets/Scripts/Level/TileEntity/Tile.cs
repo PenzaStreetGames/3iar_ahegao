@@ -17,6 +17,7 @@ namespace Level.TileEntity {
         public float chosenShadowSharpness;
         public float chosenScale;
         public SpriteRenderer spriteRenderer;
+        public Sprite blockSprite;
 
         // Start is called before the first frame update
         void Start() {
@@ -35,6 +36,8 @@ namespace Level.TileEntity {
         }
 
         void OnMouseEnter() {
+            if (fieldController.levelController.levelProgressStage != LevelProgressStage.StillPlaying)
+                return;
             if (tileType != TileType.Open) {
                 return;
             }
@@ -246,7 +249,8 @@ namespace Level.TileEntity {
             }
 
             if (tileType == TileType.Border) {
-                color = new Color(0, 0, 0, 0);
+                sprite = blockSprite;
+                //color = new Color(0, 0, 0, 0);
             }
 
             spriteRenderer.color = color;

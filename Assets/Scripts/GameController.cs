@@ -60,6 +60,14 @@ public class GameController : MonoBehaviour {
             levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
     }
 
+    public void IncreaseLevelNumber() {
+        if (levelNumber < totalLevels) {
+            levelNumber += 1;
+            if (levelNumber > levelsCompleted)
+                levelsCompleted = levelNumber;
+        }
+    }
+
     public void LoadScene(SceneType type) {
         if (type == SceneType.Level && sceneType == SceneType.Menu) {
             Debug.Log("Loading Level");
