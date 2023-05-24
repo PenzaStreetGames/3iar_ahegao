@@ -143,3 +143,4 @@ MonoBehaviour:
   chosenShadowSharpness: 0.8
   chosenScale: 0.8
   spriteRenderer: {fileID: 3479161811006478610}
+  blockSprite: {fileID: 21300000, guid: 3bdb573142b779348bdb73864a309ee7, type: 3}
