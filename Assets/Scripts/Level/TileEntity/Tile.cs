@@ -118,14 +118,13 @@ namespace Level.TileEntity {
             return true;
         }
 
-        public bool InBottomLayer(Tile[,] tiles) {
-            var (x, y) = (position.X, position.Y);
-            for (int i = x; i < tiles.GetLength(0) - 1; i++) {
-                var tileUnder = tiles[i + 1, y];
-                if (tileUnder.tileType is TileType.Open or TileType.Blocked)
-                    return true;
-            }
-            return true;
+        public bool UnderBorder(Tile[,] tiles) {
+            if (position.X == 0)
+                return true;
+            Tile above = tiles[position.X - 1, position.Y];
+            if (above.tileType == TileType.Border)
+                return true;
+            return false;
         }
 
         public bool MakesCombinationWhenSwappedWith(Tile[,] tiles, Tile other) {

@@ -1,5 +1,6 @@
 using Level.EventQueue.Events;
 using Level.TileEntity;
+using UnityEngine;
 using Utils;
 
 namespace Level.EventQueue {
@@ -33,7 +34,7 @@ namespace Level.EventQueue {
                 }
             }
 
-            if (!Tile.InTopLayer(fieldController.Tiles)) {
+            if (!Tile.UnderBorder(fieldController.Tiles)) {
                 var tileAbove = fieldController.Tiles[x - 1, y];
                 var nextFallingEvent = new TileFallingEvent(tileAbove);
                 levelEventQueue.Enqueue(nextFallingEvent, Delay);
