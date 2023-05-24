@@ -35,6 +35,8 @@ namespace Level.TileEntity {
         }
 
         void OnMouseEnter() {
+            if (fieldController.levelController.levelProgressStage != LevelProgressStage.StillPlaying)
+                return;
             if (tileType != TileType.Open) {
                 return;
             }

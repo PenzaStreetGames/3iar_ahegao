@@ -21,11 +21,11 @@ public class GameController : MonoBehaviour {
     void Awake() {
         if (instance == null) {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else {
             DestroyImmediate(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     // Start is called before the first frame update
@@ -58,6 +58,14 @@ public class GameController : MonoBehaviour {
     public void MusicToggle() {
         levelController.fieldController.musicSource.volume =
             levelController.fieldController.musicSource.volume != 0 ? 0 : (float)0.1;
+    }
+
+    public void IncreaseLevelNumber() {
+        if (levelNumber < totalLevels) {
+            levelNumber += 1;
+            if (levelNumber > levelsCompleted)
+                levelsCompleted = levelNumber;
+        }
     }
 
     public void LoadScene(SceneType type) {

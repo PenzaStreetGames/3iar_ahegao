@@ -3767,9 +3767,9 @@ MonoBehaviour:
   LosePanel: {fileID: 1791400600}
   levelController: {fileID: 1049232377}
   gameController: {fileID: 0}
-  winPanelTextField: {fileID: 0}
-  losePanelLabelField: {fileID: 0}
-  losePanelTextField: {fileID: 0}
+  winPanelTextField: {fileID: 587782646}
+  losePanelLabelField: {fileID: 405454354}
+  losePanelTextField: {fileID: 675020958}
 --- !u!114 &1049232376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3798,7 +3798,7 @@ MonoBehaviour:
   fieldController: {fileID: 117222792}
   levelEventQueue: {fileID: 1049232376}
   startTurnCount: 10
-  turnCounter: 3
+  turnCounter: 10
   destroyedTilesCounter: 0
   targetDestroyedTilesCount: 50
   score: 0
@@ -4292,9 +4292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b347e24b08adbe949988680d19d3675d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelUiController: {fileID: 0}
+  levelUiController: {fileID: 1049232375}
   menuUiController: {fileID: 0}
-  UiEventType: 1
+  UiEventType: 3
   buttonState: 0
   switchSprites: []
   switchImage: {fileID: 0}
