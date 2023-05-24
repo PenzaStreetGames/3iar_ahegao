@@ -75,8 +75,8 @@ public class LevelController : MonoBehaviour {
 
     //Level restart function (in theory, in the future it should launch a dialog box with the Restart - Exit menu option).
     //Message - a message that will be displayed to the player at the end of the game in the future
-    public void RestartLevel(string message) {
-        Debug.LogWarning(message);
+    public void RestartLevel() {
+        // Debug.LogWarning(message);
 
         fieldController.GenerateFieldWithGuaranteedCombination(
             SaveEntity.MakeSaveFromLevel(
@@ -88,7 +88,7 @@ public class LevelController : MonoBehaviour {
     }
 
     void ResetState() {
-        SetDestroyedTilesCount(targetDestroyedTilesCount);
+        SetDestroyedTilesCount(0);
         SetTurns(startTurnCount);
         SetScore(0);
         fieldController.ResetField(SaveEntity.MakeSaveFromLevel(LevelRepository.GetLevel()));
@@ -99,16 +99,15 @@ public class LevelController : MonoBehaviour {
         levelProgressStage = GetLevelStatus();
         switch (levelProgressStage) {
             case LevelProgressStage.Win:
-                levelUiController.WinPanel.SetActive(true);
+                levelUiController.ShowWinPanel(score);
                 // RestartLevel("Congratulations! You have passed the level!");
                 break;
             case LevelProgressStage.NoCombinationsLeftLose:
-                levelUiController.LosePanel.SetActive(true);
+                levelUiController.ShowLosePanel(LevelProgressStage.NoCombinationsLeftLose);
                 // RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelProgressStage.NoTurnsLeftLose:
-                levelUiController.LosePanel.SetActive(true);
-
+                levelUiController.ShowLosePanel(LevelProgressStage.NoTurnsLeftLose);
                 // RestartLevel("You've lost! You don't have turns left.");
                 break;
             case LevelProgressStage.StillPlaying:

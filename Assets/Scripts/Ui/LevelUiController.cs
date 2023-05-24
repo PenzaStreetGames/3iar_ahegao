@@ -1,4 +1,5 @@
 using System;
+using Level;
 using Ui;
 using UnityEngine;
 
@@ -34,14 +35,18 @@ namespace UI {
                     gameController.QuitLevel();
                     break;
                 case UiEventType.RestartButtonClick:
-                    gameController.StartLevel(gameController.levelNumber);
+                    HideLosePanel();
+                    HideWinPanel();
+                    levelController.RestartLevel();
                     break;
                 case UiEventType.SoundToggleClick:
                     gameController.SoundToggle();
                     break;
                 case UiEventType.NextLevelButtonClick:
-                    gameController.levelNumber += 1;
-                    gameController.StartLevel(gameController.levelNumber);
+                    gameController.IncreaseLevelNumber();
+                    HideLosePanel();
+                    HideWinPanel();
+                    levelController.RestartLevel();
                     break;
                 case UiEventType.QuitGameButtonClick:
                     break;
@@ -55,9 +60,32 @@ namespace UI {
             winPanelTextField.SetValue($"Набрано {score} очков");
         }
 
-        public void ShowLosePanel(string reason) {
+        public void ShowLosePanel(LevelProgressStage stage) {
             LosePanel.SetActive(true);
-            losePanelLabelField.SetValue(reason);
+            (var label, var text) = ("", "");
+            switch (stage) {
+                case LevelProgressStage.NoTurnsLeftLose:
+                    label = "Закончились ходы";
+                    text = "Ходы закончились. Не расстраивайтесь! Попробуйте ещё раз";
+                    break;
+                case LevelProgressStage.NoCombinationsLeftLose:
+                    label = "Нет комбинаций";
+                    text = "На поле не осталось ходов. Это чистая случайность. Попробуйте снова";
+                    break;
+                default:
+                    Debug.LogError($"Unexpected stage for lose handling {stage}");
+                    break;
+            }
+            losePanelLabelField.SetValue(label);
+            losePanelTextField.SetValue(text);
+        }
+
+        public void HideWinPanel() {
+            WinPanel.SetActive(false);
+        }
+
+        public void HideLosePanel() {
+            LosePanel.SetActive(false);
         }
     }
 }
