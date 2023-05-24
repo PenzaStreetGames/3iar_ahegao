@@ -54,7 +54,7 @@ public class MenuUiController : MonoBehaviour, UiEventHandler {
                 gameController.SoundToggle();
                 break;
             case UiEventType.QuitGameButtonClick:
-                Application.Quit(0);
+                Application.Quit();
                 break;
         }
 

@@ -101,7 +101,7 @@ namespace Level {
             }
         }
 
-        void CreateTiles(Tile[,] tiles) {
+        public void CreateTiles(Tile[,] tiles) {
             while (transform.childCount > 0) {
                 DestroyImmediate(transform.GetChild(0).gameObject);
             }
