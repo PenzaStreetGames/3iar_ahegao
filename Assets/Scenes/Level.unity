@@ -373,7 +373,6 @@ RectTransform:
   - {fileID: 1339640279}
   - {fileID: 329355839}
   - {fileID: 1831224568}
-  - {fileID: 1503235423}
   - {fileID: 593494950}
   - {fileID: 2101178586}
   - {fileID: 753830489}
@@ -3807,7 +3806,7 @@ MonoBehaviour:
   startTurnCount: 10
   turnCounter: 10
   destroyedTilesCounter: 0
-  targetDestroyedTilesCount: 50
+  targetDestroyedTilesCount: 30
   score: 0
   levelProgressStage: 3
   levelUiController: {fileID: 1049232375}

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Ui {
     public class LevelButtonsGenerator : MonoBehaviour {
@@ -39,6 +40,8 @@ namespace Ui {
                 chooseLevelButtonController.gameController = menuController.gameController;
                 ButtonController buttonController = levelButton.GetComponent<ButtonController>();
                 buttonController.menuUiController = menuController.menuUiController;
+                Button button = levelButton.GetComponent<Button>();
+                button.interactable = menuController.gameController.levelsCompleted >= i - 1;
                 TMP_Text label = levelButton.transform.GetChild(0).GetComponent<TMP_Text>();
                 label.SetText(i.ToString());
             }
