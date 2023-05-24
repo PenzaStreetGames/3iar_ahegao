@@ -19,6 +19,8 @@ namespace Level.EventQueue {
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];
             fieldController.RandomFillEmptyTile(tile);
+            if (x + 1 >= fieldController.Tiles.GetLength(0))
+                return;
             var tileUnder = fieldController.Tiles[x + 1, y];
             if (tileUnder.tileType == TileType.Open && tileUnder.tileColor == TileColor.None) {
                 var tileFallingEvent = new TileFallingEvent(tile);
