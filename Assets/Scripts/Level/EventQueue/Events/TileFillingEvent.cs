@@ -16,6 +16,9 @@ namespace Level.EventQueue {
             FieldController fieldController = FieldController.Instance;
             LevelEventQueue levelEventQueue = LevelEventQueue.Instance;
 
+            fieldController.soundSource.Stop();
+            fieldController.soundSource.PlayOneShot(fieldController.fillSound);
+
             var (x, y) = (Tile.position.X, Tile.position.Y);
             var tile = fieldController.Tiles[x, y];
             fieldController.RandomFillEmptyTile(tile);
