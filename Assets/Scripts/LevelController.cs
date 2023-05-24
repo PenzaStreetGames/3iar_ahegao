@@ -107,7 +107,9 @@ public class LevelController : MonoBehaviour {
                 // RestartLevel("You've lost! Combinations have run out on the field.");
                 break;
             case LevelProgressStage.NoTurnsLeftLose:
-                RestartLevel("You've lost! You don't have turns left.");
+                levelUiController.LosePanel.SetActive(true);
+
+                // RestartLevel("You've lost! You don't have turns left.");
                 break;
             case LevelProgressStage.StillPlaying:
             case LevelProgressStage.UnstableField:
