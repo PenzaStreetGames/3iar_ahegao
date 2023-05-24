@@ -88,7 +88,7 @@ public class LevelController : MonoBehaviour {
     }
 
     void ResetState() {
-        SetDestroyedTilesCount(0);
+        SetDestroyedTilesCount(targetDestroyedTilesCount);
         SetTurns(startTurnCount);
         SetScore(0);
         fieldController.ResetField(SaveEntity.MakeSaveFromLevel(LevelRepository.GetLevel()));
@@ -173,6 +173,7 @@ public class LevelController : MonoBehaviour {
 
     public void SetDestroyedTilesCount(int value) {
         destroyedTilesCounter = value;
-        levelUiController.destroyedTilesField.SetValue(value.ToString());
+        var tilesLeft = targetDestroyedTilesCount - destroyedTilesCounter >= 0 ? targetDestroyedTilesCount - destroyedTilesCounter : 0;
+        levelUiController.destroyedTilesField.SetValue(tilesLeft.ToString());
     }
 }
